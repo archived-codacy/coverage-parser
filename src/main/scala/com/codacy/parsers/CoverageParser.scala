@@ -27,16 +27,22 @@ trait XMLCoverageParser extends CoverageParser {
 
 }
 
-class CoverageParserFactory(language: Language.Value, rootProject: File) {
+object CoverageParserFactory {
 
-  def create(reportFiles: Seq[File]): Option[CoverageParser] = {
-    val implementations = reportFiles.flatMap {
-      reportFile =>
-        Seq(
-          new CoberturaParser(language, rootProject, reportFile),
-          new JacocoParser(language, rootProject, reportFile)
-        )
+  def withCoverageReport[A](language: Language.Value, rootProject: File, reportFile: File)(block: CoverageReport => A): Option[A] = {
+    create(language, rootProject, reportFile).map {
+      parser =>
+        val report = parser.generateReport()
+        block(report)
     }
+  }
+
+  private def create(language: Language.Value, rootProject: File, reportFile: File): Option[CoverageParser] = {
+    val implementations =
+      Seq(
+        new CoberturaParser(language, rootProject, reportFile),
+        new JacocoParser(language, rootProject, reportFile)
+      )
 
     implementations.collectFirst {
       case implementation if implementation.isValidReport =>
