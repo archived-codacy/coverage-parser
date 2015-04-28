@@ -23,6 +23,12 @@ libraryDependencies ++= Seq(
   scalaTest
 )
 
+mappings in(Compile, packageBin) ~= {
+  _.filterNot {
+    case (file, _) => file.getName == "logback-test.xml"
+  }
+}
+
 organization := "com.codacy"
 
 organizationName := "Codacy"

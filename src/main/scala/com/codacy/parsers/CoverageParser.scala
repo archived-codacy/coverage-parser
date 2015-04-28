@@ -29,11 +29,13 @@ trait XMLCoverageParser extends CoverageParser {
 
 object CoverageParserFactory {
 
-  def withCoverageReport[A](language: Language.Value, rootProject: File, reportFile: File)(block: CoverageReport => A): Option[A] = {
+  def withCoverageReport[A](language: Language.Value, rootProject: File, reportFile: File)(block: CoverageReport => A): Either[String, A] = {
     create(language, rootProject, reportFile).map {
       parser =>
         val report = parser.generateReport()
-        block(report)
+        Right(block(report))
+    }.getOrElse {
+      Left(s"no parser for $language")
     }
   }
 
