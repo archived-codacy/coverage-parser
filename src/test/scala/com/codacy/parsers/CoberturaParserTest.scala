@@ -11,19 +11,19 @@ class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
   "CoberturaParser" should {
 
     "identify if report is invalid" in {
-      val reader = new CoberturaParser(Language.Scala, new File(""), new File("src/test/resources/test_jacoco.xml"))
+      val reader = new CoberturaParser(Language.Scala, new File("."), new File("src/test/resources/test_jacoco.xml"))
 
       reader.isValidReport shouldBe false
     }
 
     "identify if report is valid" in {
-      val reader = new CoberturaParser(Language.Scala, new File(""), new File("src/test/resources/test_cobertura.xml"))
+      val reader = new CoberturaParser(Language.Scala, new File("."), new File("src/test/resources/test_cobertura.xml"))
 
       reader.isValidReport shouldBe true
     }
 
     "return a valid report" in {
-      val reader = new CoberturaParser(Language.Scala, new File(""), new File("src/test/resources/test_cobertura.xml"))
+      val reader = new CoberturaParser(Language.Scala, new File("."), new File("src/test/resources/test_cobertura.xml"))
 
       val testReport = CoverageReport(Language.Scala, 87, List(
         CoverageFileReport("src/test/resources/TestSourceFile.scala", 87,

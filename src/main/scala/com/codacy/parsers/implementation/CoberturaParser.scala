@@ -4,12 +4,19 @@ import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport, Language}
 import com.codacy.parsers.XMLCoverageParser
+import com.codacy.parsers.util.LanguageUtils
 
 import scala.xml.Node
 
 class CoberturaParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
   val rootProjectDir = rootProject.getAbsolutePath + File.separator
+  lazy val allFiles = recursiveListFiles(rootProject)(f => f.getName.endsWith(LanguageUtils.getExtension(language)))
+
+  private def recursiveListFiles(root: File)(filter: File => Boolean): Array[File] = {
+    val these = root.listFiles
+    these.filter(filter) ++ these.filter(_.isDirectory).flatMap(d => recursiveListFiles(d)(filter))
+  }
 
   override def isValidReport: Boolean = {
     (xml \\ "coverage").nonEmpty
@@ -23,15 +30,15 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
 
     val files = (xml \\ "class" \\ "@filename").map(_.text).toSet
 
-    val filesCoverage = files.map {
+    val filesCoverage = files.flatMap {
       file =>
         lineCoverage(file)
-    }.toSeq
+    }
 
-    CoverageReport(language, total, filesCoverage)
+    CoverageReport(language, total, filesCoverage.toSeq)
   }
 
-  private def lineCoverage(sourceFilename: String): CoverageFileReport = {
+  private def lineCoverage(sourceFilename: String): Option[CoverageFileReport] = {
     val file = (xml \\ "class").filter {
       n: Node =>
         (n \\ "@filename").text == sourceFilename
@@ -44,18 +51,21 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
 
     val fileHit = classHit.sum / classHit.length
 
-    val lineHitMap = file.map {
+    val lineHitMap = file.flatMap {
       n =>
         (n \\ "line").map {
           line =>
             (line \ "@number").text.toInt -> (line \ "@hits").text.toInt
         }
-    }.flatten.toMap.collect {
+    }.toMap.collect {
       case (key, value) if value > 0 =>
         key -> value
     }
 
-    CoverageFileReport(sanitiseFilename(sourceFilename), fileHit, lineHitMap)
+    allFiles.find(f => f.getAbsolutePath.endsWith(sourceFilename)).map {
+      filename =>
+        CoverageFileReport(sanitiseFilename(filename.getAbsolutePath), fileHit, lineHitMap)
+    }
   }
 
   private def sanitiseFilename(filename: String): String = {
