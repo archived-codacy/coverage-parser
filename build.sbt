@@ -2,7 +2,7 @@ import Dependencies._
 
 name := "coverage-parser"
 
-version := "1.1.0"
+version := "1.1.1"
 
 scalaVersion := "2.11.6"
 
