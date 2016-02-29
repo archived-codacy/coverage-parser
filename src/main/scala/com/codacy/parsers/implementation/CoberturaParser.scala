@@ -69,7 +69,9 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
   }
 
   private def sanitiseFilename(filename: String): String = {
-    filename.stripPrefix(rootProjectDir).replaceAll( """\\/""", "/")
+    filename.stripPrefix(rootProjectDir)
+      .replaceAll("""\\/""", "/") // Fix for paths with \/
+      .replace("\\", "/") // Fix for paths with \\
   }
 
 }
