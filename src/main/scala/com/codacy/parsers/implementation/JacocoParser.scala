@@ -29,7 +29,7 @@ class JacocoParser(val language: Language.Value, val rootProject: File, val cove
         (`package` \\ "sourcefile").map {
           file =>
             val filename = (file \ "@name").text
-            lineCoverage(packageName + File.separator + filename, file)
+            lineCoverage(packageName + "/" + filename, file)
         }
     }
 
