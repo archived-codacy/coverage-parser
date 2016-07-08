@@ -88,7 +88,7 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
   private def sanitiseFilename(filename: String): String = {
     filename
       .replaceAll("""\\/""", "/") // Fix for paths with \/
-      .replace("\\", "/") // Fix for paths with \\
+      .replace("\\", "/") // Fix for paths with \
   }
 
   private def stripRoot(filename: String): String = {
