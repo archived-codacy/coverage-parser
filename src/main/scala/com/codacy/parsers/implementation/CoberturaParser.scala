@@ -13,7 +13,7 @@ import scala.util.Try
 
 class CoberturaParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
-  val rootProjectDir = rootProject.getAbsolutePath + File.separator
+  val rootProjectDir = sanitiseFilename(rootProject.getAbsolutePath + File.separator)
   lazy val allFiles = recursiveListFiles(rootProject)(f => f.getName.endsWith(LanguageUtils.getExtension(language)))
 
   private[this] def convertToFloat(str: String): Try[Float] = {
@@ -79,16 +79,20 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
         key -> value
     }
 
-    allFiles.find(f => f.getAbsolutePath.endsWith(sourceFilename)).map {
+    allFiles.map(f => sanitiseFilename(f.getAbsolutePath)).find(f => f.endsWith(sourceFilename)).map {
       filename =>
-        CoverageFileReport(sanitiseFilename(filename.getAbsolutePath), fileHit, lineHitMap)
+        CoverageFileReport(stripRoot(filename), fileHit, lineHitMap)
     }
   }
 
   private def sanitiseFilename(filename: String): String = {
-    filename.stripPrefix(rootProjectDir)
+    filename
       .replaceAll("""\\/""", "/") // Fix for paths with \/
-      .replace("\\", "/") // Fix for paths with \\
+      .replace("\\", "/") // Fix for paths with \
+  }
+
+  private def stripRoot(filename: String): String = {
+    filename.stripPrefix(rootProjectDir)
   }
 
 }
