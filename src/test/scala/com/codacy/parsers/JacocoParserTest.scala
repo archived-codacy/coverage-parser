@@ -22,6 +22,15 @@ class JacocoParserTest extends WordSpec with BeforeAndAfterAll with Matchers {
       reader.isValidReport shouldBe true
     }
 
+    "another identify if report is valid" in {
+      val reader = new JacocoParser(Language.Java, new File("."), new File("src/test/resources/test_jacoco2.xml"))
+
+      val reportParsed = reader.generateReport()
+
+      reader.isValidReport shouldBe true
+      assert(reportParsed.total > 0)
+    }
+
     "return a valid report" in {
       val reader = new JacocoParser(Language.Java, new File("."), new File("src/test/resources/test_jacoco.xml"))
 

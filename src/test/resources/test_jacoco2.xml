@@ -1,0 +1,1452 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN"
+        "report.dtd">
+<report name="Code Coverage">
+    <sessioninfo id="Theo-XPS-d2d771d9" start="1472581625698" dump="1472581626199"/>
+    <sessioninfo id="Theo-XPS-3fbed8bb" start="1472581626387" dump="1472581626812"/>
+    <package name="io/theo/json/testObjects">
+        <class name="io/theo/json/testObjects/PerformanceTester">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="getOpsPerSecond" desc="(IILjava/lang/Runnable;)D">
+                <counter type="INSTRUCTION" missed="38" covered="0"/>
+                <counter type="BRANCH" missed="4" covered="0"/>
+                <counter type="COMPLEXITY" missed="3" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="41" covered="0"/>
+            <counter type="BRANCH" missed="4" covered="0"/>
+            <counter type="COMPLEXITY" missed="4" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleStringArrayValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="([Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="9" covered="0"/>
+            <counter type="COMPLEXITY" missed="2" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SerializableObject">
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="0" covered="6"/>
+            <counter type="COMPLEXITY" missed="0" covered="1"/>
+            <counter type="METHOD" missed="0" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/NumericTypesObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(IJFD)V">
+                <counter type="INSTRUCTION" missed="0" covered="15"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="3" covered="15"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleEnumValueObject">
+            <method name="&lt;init&gt;" desc="(Lio/theo/json/testObjects/SampleEnum;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="0" covered="6"/>
+            <counter type="COMPLEXITY" missed="0" covered="1"/>
+            <counter type="METHOD" missed="0" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/IntegerArrayValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="7" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="([I[Ljava/lang/Integer;)V">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="7" covered="9"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/CustomObjListValueObject">
+            <method name="&lt;init&gt;" desc="([Lio/theo/json/testObjects/NumericTypesObject;)V">
+                <counter type="INSTRUCTION" missed="7" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="7" covered="0"/>
+            <counter type="COMPLEXITY" missed="1" covered="0"/>
+            <counter type="METHOD" missed="1" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleIntegerValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(II)V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="3" covered="10"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/StringByteArrayMapValueObject">
+            <method name="&lt;init&gt;" desc="(Ljava/util/Map;)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="6" covered="0"/>
+            <counter type="COMPLEXITY" missed="1" covered="0"/>
+            <counter type="METHOD" missed="1" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleByteArrayValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="([B)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="9" covered="0"/>
+            <counter type="COMPLEXITY" missed="2" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/ParentClass">
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="6" covered="0"/>
+            <counter type="COMPLEXITY" missed="1" covered="0"/>
+            <counter type="METHOD" missed="1" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/ChildClass">
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="7" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="7" covered="0"/>
+            <counter type="COMPLEXITY" missed="1" covered="0"/>
+            <counter type="METHOD" missed="1" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/ExceptionAssert">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="assertThrows" desc="(Ljava/lang/reflect/Type;Ljava/lang/Runnable;)V">
+                <counter type="INSTRUCTION" missed="29" covered="11"/>
+                <counter type="BRANCH" missed="2" covered="2"/>
+                <counter type="COMPLEXITY" missed="2" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getException" desc="(Ljava/lang/reflect/Type;Ljava/lang/Runnable;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="45" covered="0"/>
+                <counter type="BRANCH" missed="4" covered="0"/>
+                <counter type="COMPLEXITY" missed="3" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="77" covered="11"/>
+            <counter type="BRANCH" missed="6" covered="2"/>
+            <counter type="COMPLEXITY" missed="6" covered="1"/>
+            <counter type="METHOD" missed="2" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimplePrivateFieldClass">
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getValue" desc="()Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="0" covered="9"/>
+            <counter type="COMPLEXITY" missed="0" covered="2"/>
+            <counter type="METHOD" missed="0" covered="2"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleFloatValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(FF)V">
+                <counter type="INSTRUCTION" missed="10" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="13" covered="0"/>
+            <counter type="COMPLEXITY" missed="2" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleStringValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="3" covered="6"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleSubObjectValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(Lio/theo/json/testObjects/SimpleIntegerValueObject;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="3" covered="6"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleStringMapValueObject">
+            <method name="&lt;init&gt;" desc="(Ljava/util/Map;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="0" covered="6"/>
+            <counter type="COMPLEXITY" missed="0" covered="1"/>
+            <counter type="METHOD" missed="0" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleStringListValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(Ljava/util/List;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="3" covered="6"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/GenericKeyValueObject">
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="0" covered="9"/>
+            <counter type="COMPLEXITY" missed="0" covered="1"/>
+            <counter type="METHOD" missed="0" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleDoubleArrayValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="([D)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="9" covered="0"/>
+            <counter type="COMPLEXITY" missed="2" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleImmutableObject">
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="6" covered="0"/>
+            <counter type="COMPLEXITY" missed="1" covered="0"/>
+            <counter type="METHOD" missed="1" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/TwoCollectionValueObject">
+            <method name="&lt;init&gt;" desc="(Ljava/util/List;Ljava/util/List;)V">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="0" covered="9"/>
+            <counter type="COMPLEXITY" missed="0" covered="1"/>
+            <counter type="METHOD" missed="0" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleLongArrayValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="([J)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="9" covered="0"/>
+            <counter type="COMPLEXITY" missed="2" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleDoubleValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(DD)V">
+                <counter type="INSTRUCTION" missed="10" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="13" covered="0"/>
+            <counter type="COMPLEXITY" missed="2" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/testObjects/SampleEnum">
+            <method name="values" desc="()[Lio/theo/json/testObjects/SampleEnum;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="valueOf" desc="(Ljava/lang/String;)Lio/theo/json/testObjects/SampleEnum;">
+                <counter type="INSTRUCTION" missed="5" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;I)V">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="&lt;clinit&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="34"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="5" covered="43"/>
+            <counter type="COMPLEXITY" missed="1" covered="3"/>
+            <counter type="METHOD" missed="1" covered="3"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleBooleanValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(ZZ)V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="3" covered="10"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/NestedListObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(Ljava/util/List;)V">
+                <counter type="INSTRUCTION" missed="32" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="getInnerValues" desc="()Ljava/util/List;">
+                <counter type="INSTRUCTION" missed="4" covered="15"/>
+                <counter type="BRANCH" missed="1" covered="1"/>
+                <counter type="COMPLEXITY" missed="1" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="39" covered="15"/>
+            <counter type="BRANCH" missed="1" covered="1"/>
+            <counter type="COMPLEXITY" missed="3" covered="1"/>
+            <counter type="METHOD" missed="2" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/testObjects/SimpleLocalDateTimeValueObject">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(Ljava/time/LocalDateTime;)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="9" covered="0"/>
+            <counter type="COMPLEXITY" missed="2" covered="0"/>
+            <counter type="METHOD" missed="2" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <counter type="INSTRUCTION" missed="290" covered="176"/>
+        <counter type="BRANCH" missed="11" covered="3"/>
+        <counter type="COMPLEXITY" missed="40" covered="19"/>
+        <counter type="METHOD" missed="33" covered="19"/>
+        <counter type="CLASS" missed="13" covered="16"/>
+    </package>
+    <package name="io/theo/json">
+        <class name="io/theo/json/JsonDeserializerTests">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_InputNull_ThrowsException" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_InputContainsNoElements_ThrowsException" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_InputContainsNoElementsMatchingObject_ThrowsException" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_GetElementValue_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_GetElementRawValue_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_MappingToObjWithImmutableConstructor_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_MappingCaseSensitiveFields_NonMatchingFieldValueNotSet" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_MappingPrivateField_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_MappingParentClassField_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_SingleValueBoolean_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_SingleValueDouble_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="11"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_SingleValueString_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_SingleValueArrayToJavaArray_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="30"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ToListOfStrings_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="18"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataBoolean_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="17"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataString_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataInteger_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="17"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataFloat_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="19"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataDouble_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="17"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataLocalDateTime_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="15"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataInnerJavaObject_SubObjectValuesCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="19"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataEnum_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataGeneric_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataEmptyList_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataListOfStrings_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="24"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataNestedListOfIntegers_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="34"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataListOfCustomObject_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="16"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataEmptyMap_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataMapString_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="18"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_DataMapStringBase64ByteArray_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="32"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_StringWrappedNumbers_DeserializedIntoNumericFields" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="26"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_NonWrappedString_CanBeDeserializedToString" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ArrayEmpty_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ArrayString_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="24"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ArrayInt_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="51"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ArrayByte_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="27"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ArrayBase64StringEncodedBytes_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="23"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ArrayDouble_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="20"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonDeserializer_ArrayLong_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="19"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$JsonDeserializer_DataListOfCustomObject_IsCorrect$3"
+                    desc="(Lio/theo/json/testObjects/NumericTypesObject;)V">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$JsonDeserializer_InputContainsNoElementsMatchingObject_ThrowsException$2" desc="()V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonDeserializer_InputContainsNoElements_ThrowsException$1" desc="()V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonDeserializer_InputNull_ThrowsException$0" desc="()V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="18" covered="664"/>
+            <counter type="COMPLEXITY" missed="3" covered="41"/>
+            <counter type="METHOD" missed="3" covered="41"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/Json">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="toJsonString" desc="(Ljava/lang/Object;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="7"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="toObj" desc="(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="isJsonObject" desc="(Ljava/lang/String;)Z">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="toList" desc="(Ljava/lang/Class;Ljava/lang/String;)Ljava/util/List;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getElementValue"
+                    desc="(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getElementRawValue" desc="(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getFields" desc="(Ljava/lang/Object;)Ljava/util/List;">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="cacheClassFields" desc="(Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="33"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$cacheClassFields$2" desc="(Ljava/util/Set;Ljava/lang/reflect/Field;)V">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$cacheClassFields$1" desc="(Ljava/lang/reflect/Field;)Z">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="BRANCH" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="3"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$cacheClassFields$0" desc="(Ljava/util/Set;Ljava/lang/reflect/Field;)V">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="&lt;clinit&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="3" covered="108"/>
+            <counter type="BRANCH" missed="0" covered="6"/>
+            <counter type="COMPLEXITY" missed="1" covered="15"/>
+            <counter type="METHOD" missed="1" covered="12"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/Json$JsonException">
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="&lt;init&gt;" desc="(Ljava/lang/String;Ljava/lang/Exception;)V">
+                <counter type="INSTRUCTION" missed="5" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="5" covered="4"/>
+            <counter type="COMPLEXITY" missed="1" covered="1"/>
+            <counter type="METHOD" missed="1" covered="1"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/JsonSerializerTests">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonNull_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonSingleValueBoolean_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonSingleValueNumeric_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonSingleValueString_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="7"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonSingleValueByteArray_EncodedAsBase64String" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="35"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonArrayFromJavaArray_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="28"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonArrayFromList_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="21"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonBooleanData_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="11"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonNumericData_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="13"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonStringData_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonEnumData_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonNestedObject_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonArrayFromInnerList_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="20"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonArrayFromInnerEmptyList_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonArrayFromInnerIntArray_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="34"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonGenericData_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonGenericDataCustomClass_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonPrivateFieldData_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonStaticFieldData_NotIncluded" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonMapDataSingleEntry_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonMapDataMultipleEntries_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="23"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="JsonSerializer_ToJsonTwoCollectionsWithOneEmpty_IsCorrect" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="0" covered="339"/>
+            <counter type="COMPLEXITY" missed="0" covered="23"/>
+            <counter type="METHOD" missed="0" covered="23"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/JsonPerformanceIntegrationTests">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="JsonSerializer_PerformanceTest_BetterThanTenThousandsOpsPerSecond" desc="()V">
+                <counter type="INSTRUCTION" missed="51" covered="0"/>
+                <counter type="BRANCH" missed="2" covered="0"/>
+                <counter type="COMPLEXITY" missed="2" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="JsonSerializer_PerformanceTestLargeList_BetterThanFiveThousandOpsPerSecond" desc="()V">
+                <counter type="INSTRUCTION" missed="38" covered="0"/>
+                <counter type="BRANCH" missed="2" covered="0"/>
+                <counter type="COMPLEXITY" missed="2" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="JsonSerializer_PerformanceTestLargeStringMap_BetterThanFiveThousandOpsPerSecond" desc="()V">
+                <counter type="INSTRUCTION" missed="38" covered="0"/>
+                <counter type="BRANCH" missed="2" covered="0"/>
+                <counter type="COMPLEXITY" missed="2" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="JsonDeserializer_PerformanceTest_FasterThanTenThousandOpsPerSecond" desc="()V">
+                <counter type="INSTRUCTION" missed="30" covered="0"/>
+                <counter type="BRANCH" missed="2" covered="0"/>
+                <counter type="COMPLEXITY" missed="2" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonDeserializer_PerformanceTest_FasterThanTenThousandOpsPerSecond$9"
+                    desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonSerializer_PerformanceTestLargeStringMap_BetterThanFiveThousandOpsPerSecond$8"
+                    desc="(Ljava/util/Map;)V">
+                <counter type="INSTRUCTION" missed="4" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonSerializer_PerformanceTestLargeStringMap_BetterThanFiveThousandOpsPerSecond$7"
+                    desc="(Ljava/util/Map;I)V">
+                <counter type="INSTRUCTION" missed="9" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonSerializer_PerformanceTestLargeList_BetterThanFiveThousandOpsPerSecond$6"
+                    desc="(Ljava/util/List;)V">
+                <counter type="INSTRUCTION" missed="4" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonSerializer_PerformanceTestLargeList_BetterThanFiveThousandOpsPerSecond$5"
+                    desc="(Ljava/util/List;I)V">
+                <counter type="INSTRUCTION" missed="6" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$JsonSerializer_PerformanceTest_BetterThanTenThousandsOpsPerSecond$4"
+                    desc="(Lio/theo/json/testObjects/SimpleStringListValueObject;)V">
+                <counter type="INSTRUCTION" missed="4" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <counter type="INSTRUCTION" missed="193" covered="0"/>
+            <counter type="BRANCH" missed="8" covered="0"/>
+            <counter type="COMPLEXITY" missed="15" covered="0"/>
+            <counter type="METHOD" missed="11" covered="0"/>
+            <counter type="CLASS" missed="1" covered="0"/>
+        </class>
+        <class name="io/theo/json/Json$JsonSerializer">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="writeJsonValue" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)Ljava/lang/StringBuilder;">
+                <counter type="INSTRUCTION" missed="0" covered="7"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getWriter" desc="(Ljava/lang/Object;)Ljava/util/function/BiConsumer;">
+                <counter type="INSTRUCTION" missed="0" covered="16"/>
+                <counter type="BRANCH" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="3"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="initWriter" desc="(Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="47"/>
+                <counter type="BRANCH" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="6"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getFields" desc="(Ljava/lang/Object;)Ljava/util/List;">
+                <counter type="INSTRUCTION" missed="0" covered="14"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="cacheClassFields" desc="(Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="33"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getFieldValue" desc="(Ljava/lang/reflect/Field;Ljava/lang/Object;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="16" covered="10"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="writeJsonObj" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="39"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="writeList" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="writeArray" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="writeMap" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="writeJsonArray" desc="(Ljava/lang/StringBuilder;Ljava/lang/Runnable;)V">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="removeExtraComma" desc="(Ljava/lang/StringBuilder;)Ljava/lang/StringBuilder;">
+                <counter type="INSTRUCTION" missed="0" covered="16"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$writeMap$40" desc="(Ljava/lang/Object;Ljava/lang/StringBuilder;)V">
+                <counter type="INSTRUCTION" missed="0" covered="31"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$writeArray$39" desc="(Ljava/lang/Object;Ljava/lang/StringBuilder;)V">
+                <counter type="INSTRUCTION" missed="0" covered="17"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$writeList$38" desc="(Ljava/lang/Object;Ljava/lang/StringBuilder;)V">
+                <counter type="INSTRUCTION" missed="0" covered="18"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$cacheClassFields$37" desc="(Ljava/util/Set;Ljava/lang/reflect/Field;)V">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$cacheClassFields$36" desc="(Ljava/lang/reflect/Field;)Z">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="BRANCH" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="3"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$cacheClassFields$35" desc="(Ljava/util/Set;Ljava/lang/reflect/Field;)V">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$initWriter$34" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$initWriter$33" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$initWriter$32" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$initWriter$31" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$getWriter$30" desc="(Ljava/lang/Class;Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$getWriter$29" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$28" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$27" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$26" desc="(Ljava/lang/StringBuilder;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="0" covered="6"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="&lt;clinit&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="84"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="19" covered="438"/>
+            <counter type="BRANCH" missed="0" covered="32"/>
+            <counter type="COMPLEXITY" missed="1" covered="44"/>
+            <counter type="METHOD" missed="1" covered="28"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <class name="io/theo/json/Json$JsonDeserializer">
+            <method name="&lt;init&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="3" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="getJsonObj" desc="(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="setValuesFromJsonString" desc="(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="44"/>
+                <counter type="BRANCH" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="3"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="validateJsonString" desc="(Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="17" covered="6"/>
+                <counter type="BRANCH" missed="2" covered="2"/>
+                <counter type="COMPLEXITY" missed="2" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getJsonElements" desc="(Ljava/lang/String;)Ljava/util/Map;">
+                <counter type="INSTRUCTION" missed="0" covered="11"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getUnwrappedElementKey" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getElementKey" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getElementValue" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getElements" desc="(Ljava/lang/String;)Ljava/util/List;">
+                <counter type="INSTRUCTION" missed="0" covered="84"/>
+                <counter type="BRANCH" missed="1" covered="29"/>
+                <counter type="COMPLEXITY" missed="1" covered="15"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="isObjectOpener" desc="(C)Z">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="BRANCH" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="3"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="isObjectCloser" desc="(C)Z">
+                <counter type="INSTRUCTION" missed="0" covered="10"/>
+                <counter type="BRANCH" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="3"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getObjectValue" desc="(Ljava/lang/reflect/Field;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="31"/>
+                <counter type="BRANCH" missed="2" covered="6"/>
+                <counter type="COMPLEXITY" missed="2" covered="3"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getObjectValue" desc="(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="2" covered="49"/>
+                <counter type="BRANCH" missed="2" covered="12"/>
+                <counter type="COMPLEXITY" missed="2" covered="6"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getBase64Bytes" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getJsonStringValue" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="1" covered="7"/>
+                <counter type="BRANCH" missed="1" covered="1"/>
+                <counter type="COMPLEXITY" missed="1" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getUnwrappedString" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="isJsonString" desc="(Ljava/lang/String;)Z">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getCanonicalName" desc="(Ljava/lang/Class;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="15"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getParameterizedType" desc="(Ljava/lang/reflect/Field;)Ljava/lang/reflect/ParameterizedType;">
+                <counter type="INSTRUCTION" missed="0" covered="16"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="createNewInstance" desc="(Ljava/lang/Class;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="7" covered="25"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getJsonObj" desc="(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="16" covered="17"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="setFieldValue" desc="(Ljava/lang/Object;Ljava/lang/reflect/Field;Ljava/lang/String;)V">
+                <counter type="INSTRUCTION" missed="2" covered="10"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="setFieldValue" desc="(Ljava/lang/Object;Ljava/lang/reflect/Field;Ljava/lang/Object;)V">
+                <counter type="INSTRUCTION" missed="16" covered="15"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="isWrappedWith" desc="(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z">
+                <counter type="INSTRUCTION" missed="0" covered="15"/>
+                <counter type="BRANCH" missed="1" covered="3"/>
+                <counter type="COMPLEXITY" missed="1" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="unwrap" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="12"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="isJsonArray" desc="(Ljava/lang/String;)Z">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getArrayItemType" desc="(Ljava/lang/Class;)Ljava/lang/Class;">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="BRANCH" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="toObjectMap"
+                    desc="(Ljava/lang/reflect/ParameterizedType;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="27"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="getRawJsonElements" desc="(Ljava/lang/String;)Ljava/util/Map;">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="putItem" desc="(Ljava/util/Map$Entry;Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;)V">
+                <counter type="INSTRUCTION" missed="0" covered="18"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="toObjectList"
+                    desc="(Ljava/lang/reflect/ParameterizedType;Ljava/lang/String;)Ljava/util/List;">
+                <counter type="INSTRUCTION" missed="4" covered="23"/>
+                <counter type="BRANCH" missed="1" covered="3"/>
+                <counter type="COMPLEXITY" missed="1" covered="2"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="toObjectList" desc="(Ljava/lang/Class;Ljava/lang/String;)Ljava/util/List;">
+                <counter type="INSTRUCTION" missed="0" covered="13"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="toArray" desc="(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="20" covered="123"/>
+                <counter type="BRANCH" missed="3" covered="17"/>
+                <counter type="COMPLEXITY" missed="2" covered="9"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$toObjectList$25" desc="(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$getRawJsonElements$24" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$getRawJsonElements$23" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$toObjectMap$22"
+                    desc="(Ljava/util/Map;Ljava/lang/reflect/Type;Ljava/lang/reflect/Type;Ljava/util/Map$Entry;)V">
+                <counter type="INSTRUCTION" missed="0" covered="8"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$getJsonElements$21" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$getJsonElements$20" desc="(Ljava/lang/String;)Ljava/lang/String;">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$setValuesFromJsonString$19"
+                    desc="(Ljava/lang/Object;Ljava/util/Map;Ljava/lang/reflect/Field;)V">
+                <counter type="INSTRUCTION" missed="0" covered="9"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$setValuesFromJsonString$18" desc="(Ljava/util/Map;Ljava/lang/reflect/Field;)Z">
+                <counter type="INSTRUCTION" missed="0" covered="5"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$17" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="2"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$16" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$15" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="3"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$14" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$13" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$12" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$11" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$10" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="4" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$static$9" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$8" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$7" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$6" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$5" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="lambda$static$4" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="4" covered="0"/>
+                <counter type="COMPLEXITY" missed="1" covered="0"/>
+                <counter type="METHOD" missed="1" covered="0"/>
+            </method>
+            <method name="lambda$static$3" desc="(Ljava/lang/String;)Ljava/lang/Object;">
+                <counter type="INSTRUCTION" missed="0" covered="4"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <method name="&lt;clinit&gt;" desc="()V">
+                <counter type="INSTRUCTION" missed="0" covered="96"/>
+                <counter type="COMPLEXITY" missed="0" covered="1"/>
+                <counter type="METHOD" missed="0" covered="1"/>
+            </method>
+            <counter type="INSTRUCTION" missed="96" covered="828"/>
+            <counter type="BRANCH" missed="13" covered="97"/>
+            <counter type="COMPLEXITY" missed="15" covered="97"/>
+            <counter type="METHOD" missed="3" covered="54"/>
+            <counter type="CLASS" missed="0" covered="1"/>
+        </class>
+        <counter type="INSTRUCTION" missed="334" covered="2381"/>
+        <counter type="BRANCH" missed="21" covered="135"/>
+        <counter type="COMPLEXITY" missed="36" covered="221"/>
+        <counter type="METHOD" missed="20" covered="159"/>
+        <counter type="CLASS" missed="1" covered="6"/>
+    </package>
+    <counter type="INSTRUCTION" missed="624" covered="2557"/>
+    <counter type="BRANCH" missed="32" covered="138"/>
+    <counter type="COMPLEXITY" missed="76" covered="240"/>
+    <counter type="METHOD" missed="53" covered="178"/>
+    <counter type="CLASS" missed="14" covered="22"/>
+</report>
