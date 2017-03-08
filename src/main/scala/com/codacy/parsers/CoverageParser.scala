@@ -1,11 +1,9 @@
 package com.codacy.parsers
 
-import java.io.File
-
 import com.codacy.api.{CoverageReport, Language}
-import com.codacy.parsers.implementation.{JacocoParser, CoberturaParser}
+import com.codacy.parsers.implementation.{CoberturaParser, JacocoParser}
 import com.codacy.parsers.util.XML
-
+import java.io.File
 import scala.util.Try
 import scala.xml.Elem
 
@@ -30,12 +28,21 @@ trait XMLCoverageParser extends CoverageParser {
 object CoverageParserFactory {
 
   def withCoverageReport[A](language: Language.Value, rootProject: File, reportFile: File)(block: CoverageReport => A): Either[String, A] = {
-    create(language, rootProject, reportFile).map {
-      parser =>
-        val report = parser.generateReport()
-        Right(block(report))
-    }.getOrElse {
-      Left(s"no parser for $language")
+    val isEmptyReport = {
+      // just starting by detecting the simplest case: a single report file
+      Try(reportFile.isFile && reportFile.length() == 0).getOrElse(false)
+    }
+
+    if (isEmptyReport) {
+      Left(s"report file is empty: ${reportFile.getAbsolutePath}")
+    } else {
+      create(language, rootProject, reportFile).map {
+        parser =>
+          val report = parser.generateReport()
+          Right(block(report))
+      }.getOrElse {
+        Left(s"no parser for $language")
+      }
     }
   }
 
