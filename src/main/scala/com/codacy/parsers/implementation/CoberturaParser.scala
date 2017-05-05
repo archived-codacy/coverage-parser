@@ -51,7 +51,7 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
         lineCoverage(file)
     }
 
-    CoverageReport(language, total, filesCoverage.toSeq)
+    CoverageReport(total, filesCoverage.toSeq)
   }
 
   private def lineCoverage(sourceFilename: String): Option[CoverageFileReport] = {

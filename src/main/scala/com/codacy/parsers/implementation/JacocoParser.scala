@@ -33,7 +33,7 @@ class JacocoParser(val language: Language.Value, val rootProject: File, val cove
         }
     }
 
-    CoverageReport(language, total, filesCoverage)
+    CoverageReport(total, filesCoverage)
   }
 
   private def lineCoverage(sourceFilename: String, file: Node): CoverageFileReport = {
