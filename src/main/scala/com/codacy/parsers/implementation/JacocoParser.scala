@@ -33,7 +33,7 @@ class JacocoParser(val language: Language.Value, val rootProject: File, val cove
         }
     }
 
-    CoverageReport(language, total, filesCoverage)
+    CoverageReport(total, filesCoverage)
   }
 
   private def lineCoverage(sourceFilename: String, file: Node): CoverageFileReport = {
@@ -44,7 +44,7 @@ class JacocoParser(val language: Language.Value, val rootProject: File, val cove
         ((covered / (covered + missed)) * 100).toInt
     }
 
-    val fileHit = classHit.sum / classHit.length
+    val fileHit = if (classHit.sum > 0) classHit.sum / classHit.length else 0
 
     val lineHitMap = (file \\ "line").map {
       line =>

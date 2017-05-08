@@ -1,20 +1,23 @@
 package com.codacy.parsers.implementation
 
 import java.io.File
-import java.util.Locale
 import java.text.NumberFormat
+import java.util.Locale
 
 import com.codacy.api.{CoverageFileReport, CoverageReport, Language}
 import com.codacy.parsers.XMLCoverageParser
 import com.codacy.parsers.util.LanguageUtils
 
-import scala.xml.Node
 import scala.util.Try
+import scala.xml.Node
 
 class CoberturaParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
   val rootProjectDir = sanitiseFilename(rootProject.getAbsolutePath + File.separator)
-  lazy val allFiles = recursiveListFiles(rootProject)(f => f.getName.endsWith(LanguageUtils.getExtension(language)))
+
+  lazy val allFiles = recursiveListFiles(rootProject) { file =>
+    LanguageUtils.getExtension(language).fold(true)(file.getName.endsWith(_))
+  }.map(file => sanitiseFilename(file.getAbsolutePath))
 
   private[this] def convertToFloat(str: String): Try[Float] = {
     Try(str.toFloat).recoverWith {
@@ -51,7 +54,7 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
         lineCoverage(file)
     }
 
-    CoverageReport(language, total, filesCoverage.toSeq)
+    CoverageReport(total, filesCoverage.toSeq)
   }
 
   private def lineCoverage(sourceFilename: String): Option[CoverageFileReport] = {
@@ -79,7 +82,7 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
         key -> value
     }
 
-    allFiles.map(f => sanitiseFilename(f.getAbsolutePath)).find(f => f.endsWith(sourceFilename)).map {
+    allFiles.find(f => f.endsWith(sourceFilename)).map {
       filename =>
         CoverageFileReport(stripRoot(filename), fileHit, lineHitMap)
     }
