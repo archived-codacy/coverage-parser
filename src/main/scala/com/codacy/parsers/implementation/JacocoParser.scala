@@ -7,6 +7,8 @@ import com.codacy.parsers.XMLCoverageParser
 
 import scala.xml.Node
 
+private case class LineCoverage(missedInstructions: Int, coveredInstructions: Int)
+
 class JacocoParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
   val rootProjectDir = rootProject.getAbsolutePath + File.separator
@@ -48,10 +50,11 @@ class JacocoParser(val language: Language.Value, val rootProject: File, val cove
 
     val lineHitMap = (file \\ "line").map {
       line =>
-        (line \ "@nr").text.toInt -> (line \ "@ci").text.toInt
+        (line \ "@nr").text.toInt -> LineCoverage((line \ "@mi").text.toInt, (line \ "@ci").text.toInt)
     }.toMap.collect {
-      case (key, value) if value > 0 =>
-        key -> 1
+      case (key, lineCoverage) if lineCoverage.missedInstructions+ lineCoverage.coveredInstructions > 0 =>
+
+        key -> (if(lineCoverage.coveredInstructions > 0) 1 else 0)
     }
 
     CoverageFileReport(sourceFilename.stripPrefix(rootProjectDir), fileHit, lineHitMap)
