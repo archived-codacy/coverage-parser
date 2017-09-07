@@ -5,6 +5,7 @@
                 <class line-rate="0.87" name="TestSourceFile" filename="src/test/resources/TestSourceFile.scala">
                     <methods/>
                     <lines>
+                        <line number="3" hits="0"/>
                         <line number="4" hits="1"/>
                         <line number="5" hits="1"/>
                         <line number="6" hits="2"/>

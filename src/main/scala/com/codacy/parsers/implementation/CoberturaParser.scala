@@ -78,7 +78,7 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
             (line \ "@number").text.toInt -> (line \ "@hits").text.toInt
         }
     }.toMap.collect {
-      case (key, value) if value > 0 =>
+      case (key, value) =>
         key -> value
     }
 

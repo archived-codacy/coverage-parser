@@ -13,7 +13,8 @@
                 <class line-rate="0,87" name="TestSourceFile" filename="src/test/resources/TestSourceFile.scala">
                     <methods/>
                     <lines>
-                        <line number="9" hits="1"/>
+                        <line number="8" hits="1"/>
+                        <line number="9" hits="0"/>
                         <line number="10" hits="1"/>
                     </lines>
                 </class>
