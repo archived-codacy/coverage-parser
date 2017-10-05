@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
 
-  lazy val codacyScalaApi = "com.codacy" %% "codacy-api-scala" % "3.0.1"
-  lazy val scalaTest = "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+  val codacyScalaApi = "com.codacy" %% "codacy-api-scala" % "3.0.2"
+  val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 
 }

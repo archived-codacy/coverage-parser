@@ -4,9 +4,9 @@ name := "coverage-parser"
 
 version := "1.1.1"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.11"
 
-crossScalaVersions := Seq("2.10.5", "2.11.6")
+crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.3")
 
 scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint", "-Xfatal-warnings")
 
