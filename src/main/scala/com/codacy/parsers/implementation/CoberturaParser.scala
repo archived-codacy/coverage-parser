@@ -5,11 +5,16 @@ import java.text.NumberFormat
 import java.util.Locale
 
 import com.codacy.api.{CoverageFileReport, CoverageReport, Language}
-import com.codacy.parsers.XMLCoverageParser
 import com.codacy.parsers.util.LanguageUtils
+import com.codacy.parsers.{CoverageParser, CoverageParserFactory, XMLCoverageParser}
 
 import scala.util.Try
 import scala.xml.Node
+
+object CoberturaParser extends CoverageParserFactory {
+  override def apply(language: Language.Value, rootProject: File, reportFile: File): CoverageParser =
+    new CoberturaParser(language, rootProject, reportFile)
+}
 
 class CoberturaParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
