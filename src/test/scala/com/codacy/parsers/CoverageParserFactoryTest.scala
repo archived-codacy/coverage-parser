@@ -28,6 +28,10 @@ class CoverageParserFactoryTest extends WordSpec with BeforeAndAfterAll with Mat
       runForFile("src/test/resources/test_jacoco.xml", Some(JacocoParser)) shouldEqual Right(expectedReport)
     }
 
+    "fail to get invalid report" in {
+      runForFile("invalid_report.xml", None) shouldEqual
+        Left("could not parse report, unrecognized report format")
+    }
 
     "fail to get report with wrong parser" in {
       runForFile("src/test/resources/test_jacoco.xml", Some(CoberturaParser)) shouldEqual
