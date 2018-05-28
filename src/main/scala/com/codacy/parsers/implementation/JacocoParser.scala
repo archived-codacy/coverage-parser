@@ -3,11 +3,16 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api._
-import com.codacy.parsers.XMLCoverageParser
+import com.codacy.parsers.{CoverageParser, CoverageParserFactory, XMLCoverageParser}
 
 import scala.xml.Node
 
 private case class LineCoverage(missedInstructions: Int, coveredInstructions: Int)
+
+object JacocoParser extends CoverageParserFactory {
+  override def apply(language: Language.Value, rootProject: File, reportFile: File): CoverageParser =
+    new JacocoParser(language, rootProject, reportFile)
+}
 
 class JacocoParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
@@ -52,9 +57,9 @@ class JacocoParser(val language: Language.Value, val rootProject: File, val cove
       line =>
         (line \ "@nr").text.toInt -> LineCoverage((line \ "@mi").text.toInt, (line \ "@ci").text.toInt)
     }.toMap.collect {
-      case (key, lineCoverage) if lineCoverage.missedInstructions+ lineCoverage.coveredInstructions > 0 =>
+      case (key, lineCoverage) if lineCoverage.missedInstructions + lineCoverage.coveredInstructions > 0 =>
 
-        key -> (if(lineCoverage.coveredInstructions > 0) 1 else 0)
+        key -> (if (lineCoverage.coveredInstructions > 0) 1 else 0)
     }
 
     CoverageFileReport(sourceFilename.stripPrefix(rootProjectDir), fileHit, lineHitMap)
