@@ -16,6 +16,8 @@ object JacocoParser extends CoverageParserFactory {
 
 class JacocoParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
+  override val name = "Jacoco"
+
   val rootProjectDir = rootProject.getAbsolutePath + File.separator
 
   override def isValidReport: Boolean = {
