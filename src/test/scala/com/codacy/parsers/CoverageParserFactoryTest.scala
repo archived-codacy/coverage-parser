@@ -30,7 +30,7 @@ class CoverageParserFactoryTest extends WordSpec with BeforeAndAfterAll with Mat
 
     "fail to get invalid report" in {
       runForFile("invalid_report.xml", None) shouldEqual
-        Left("could not parse report, unrecognized report format")
+        Left("could not parse report, unrecognized report format (tried: Cobertura, Jacoco)")
     }
 
     "fail to get report with wrong parser" in {

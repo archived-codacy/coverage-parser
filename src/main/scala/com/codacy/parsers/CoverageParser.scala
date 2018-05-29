@@ -19,6 +19,7 @@ trait CoverageParser {
 
   def generateReport(): CoverageReport
 
+  def name: String
 }
 
 trait XMLCoverageParser extends CoverageParser {
@@ -48,7 +49,9 @@ object CoverageParserFactory {
     } else {
       parserFactory.fold[Either[String, A]] {
         val parsers = allParsers(language, rootProject, reportFile)
-        withReport(parsers)(s"could not parse report, unrecognized report format")(block)
+        val parsersNames = parsers.map(_.name).mkString(", ")
+
+        withReport(parsers)(s"could not parse report, unrecognized report format (tried: $parsersNames)")(block)
       } { parserFactory =>
         val parser = parserFactory(language, rootProject, reportFile)
         withReport(Seq(parser))("could not parse report with the provided parser")(block)

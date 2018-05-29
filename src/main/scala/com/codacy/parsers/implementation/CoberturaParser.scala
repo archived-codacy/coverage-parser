@@ -18,6 +18,8 @@ object CoberturaParser extends CoverageParserFactory {
 
 class CoberturaParser(val language: Language.Value, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
 
+  override val name = "Cobertura"
+
   val rootProjectDir = sanitiseFilename(rootProject.getAbsolutePath + File.separator)
 
   lazy val allFiles = recursiveListFiles(rootProject) { file =>
