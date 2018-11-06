@@ -89,7 +89,7 @@ class CoberturaParser(val language: Language.Value, val rootProject: File, val c
         key -> value
     }
 
-    allFiles.find(f => f.endsWith(sourceFilename)).map {
+    allFiles.find(f => f.endsWith(sanitiseFilename(sourceFilename))).map {
       filename =>
         CoverageFileReport(stripRoot(filename), fileHit, lineHitMap)
     }
