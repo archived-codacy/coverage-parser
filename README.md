@@ -14,7 +14,7 @@ Both [CoberturaParser](https://github.com/codacy/coverage-parser/blob/master/src
 Usage:
 
 ```
-val reader = new CoberturaParser(Language.Scala, rootProjectDir, coberturaFile)
+val reader = new CoberturaParser(Scala, rootProjectDir, coberturaFile)
 val report = reader.generateReport()
 ```
 
