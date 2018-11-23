@@ -2,8 +2,9 @@ package com.codacy.parsers
 
 import java.io.File
 
-import com.codacy.api.{CoverageFileReport, CoverageReport, Language}
+import com.codacy.api.{CoverageFileReport, CoverageReport}
 import com.codacy.parsers.implementation.{CoberturaParser, JacocoParser}
+import com.codacy.plugins.api.languages.Languages.Scala
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
 
 class CoverageParserFactoryTest extends WordSpec with BeforeAndAfterAll with Matchers {
@@ -41,7 +42,7 @@ class CoverageParserFactoryTest extends WordSpec with BeforeAndAfterAll with Mat
 
   private def runForFile(file: String, parser: Option[CoverageParserFactory]) = {
     CoverageParserFactory.withCoverageReport(
-      Language.Scala,
+      Scala,
       new File("."),
       new File(file),
       parser

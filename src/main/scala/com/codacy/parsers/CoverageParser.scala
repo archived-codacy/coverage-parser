@@ -2,9 +2,10 @@ package com.codacy.parsers
 
 import java.io.File
 
-import com.codacy.api.{CoverageReport, Language}
+import com.codacy.api.CoverageReport
 import com.codacy.parsers.implementation.{CoberturaParser, JacocoParser}
 import com.codacy.parsers.util.XML
+import com.codacy.plugins.api.languages.Language
 
 import scala.util.Try
 import scala.xml.Elem
@@ -12,7 +13,7 @@ import scala.xml.Elem
 trait CoverageParser {
 
   val coverageReport: File
-  val language: Language.Value
+  val language: Language
   val rootProject: File
 
   def isValidReport: Boolean
@@ -29,12 +30,12 @@ trait XMLCoverageParser extends CoverageParser {
 }
 
 trait CoverageParserFactory {
-  def apply(language: Language.Value, rootProject: File, reportFile: File): CoverageParser
+  def apply(language: Language, rootProject: File, reportFile: File): CoverageParser
 }
 
 object CoverageParserFactory {
 
-  def withCoverageReport[A](language: Language.Value,
+  def withCoverageReport[A](language: Language,
                             rootProject: File,
                             reportFile: File,
                             parserFactory: Option[CoverageParserFactory] = None
@@ -59,7 +60,7 @@ object CoverageParserFactory {
     }
   }
 
-  private def allParsers(language: Language.Value, rootProject: File, reportFile: File): Seq[CoverageParser] = {
+  private def allParsers(language: Language, rootProject: File, reportFile: File): Seq[CoverageParser] = {
     Seq(
       new CoberturaParser(language, rootProject, reportFile),
       new JacocoParser(language, rootProject, reportFile)

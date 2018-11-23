@@ -6,7 +6,7 @@ version := "1.1.1-SNAPSHOT"
 
 scalaVersion := "2.11.11"
 
-crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.3")
+crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.7")
 
 scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint", "-Xfatal-warnings")
 
@@ -19,9 +19,10 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  codacyScalaApi,
+  Codacy.scalaApi,
+  Codacy.pluginsApi,
   scalaTest
-)
+) ++ scalaXml(scalaVersion.value)
 
 mappings in(Compile, packageBin) ~= {
   _.filterNot {

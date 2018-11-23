@@ -1,14 +1,16 @@
 package com.codacy.parsers.util
 
-import com.codacy.api.Language
+import com.codacy.plugins.api.languages.Language
+import com.codacy.plugins.api.languages.Languages.{Java, Python, Scala}
+
 
 object LanguageUtils {
 
-  def getExtension(language: Language.Value): Option[String] = {
+  def getExtension(language: Language): Option[String] = {
     Option(language).collect {
-      case Language.Java => ".java"
-      case Language.Python => ".py"
-      case Language.Scala => ".scala"
+      case Java => ".java"
+      case Python => ".py"
+      case Scala => ".scala"
     }
   }
 
