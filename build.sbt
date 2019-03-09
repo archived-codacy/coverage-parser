@@ -8,13 +8,10 @@ scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-a
 
 resolvers ++= Seq("Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases/")
 
-libraryDependencies ++= Seq(
-  Dependencies.Codacy.scalaApi,
-  Dependencies.Codacy.pluginsApi,
-  Dependencies.scalaTest
-) ++ Dependencies.scalaXml(scalaVersion.value)
+libraryDependencies ++= Seq(Dependencies.Codacy.scalaApi, Dependencies.Codacy.pluginsApi, Dependencies.scalaTest) ++ Dependencies
+  .scalaXml(scalaVersion.value)
 
-mappings in(Compile, packageBin) ~= {
+mappings in (Compile, packageBin) ~= {
   _.filterNot {
     case (file, _) => file.getName == "logback-test.xml"
   }

@@ -17,7 +17,8 @@ object CoberturaParser extends CoverageParserFactory {
     new CoberturaParser(language, rootProject, reportFile)
 }
 
-class CoberturaParser(val language: Language, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
+class CoberturaParser(val language: Language, val rootProject: File, val coverageReport: File)
+    extends XMLCoverageParser {
 
   override val name = "Cobertura"
 
@@ -49,50 +50,48 @@ class CoberturaParser(val language: Language, val rootProject: File, val coverag
   }
 
   def generateReport(): CoverageReport = {
-    val total = (xml \\ "coverage" \ "@line-rate").headOption.map {
-      total =>
+    val total = (xml \\ "coverage" \ "@line-rate").headOption
+      .map { total =>
         val totalValue = convertToFloat(total.text)
         (totalValue.getOrElse(0.0f) * 100).toInt
-    }.getOrElse(0)
+      }
+      .getOrElse(0)
 
     val files = (xml \\ "class" \\ "@filename").map(_.text).toSet
 
-    val filesCoverage = files.flatMap {
-      file =>
-        lineCoverage(file)
+    val filesCoverage = files.flatMap { file =>
+      lineCoverage(file)
     }
 
     CoverageReport(total, filesCoverage.toSeq)
   }
 
   private def lineCoverage(sourceFilename: String): Option[CoverageFileReport] = {
-    val file = (xml \\ "class").filter {
-      n: Node =>
-        (n \\ "@filename").text == sourceFilename
+    val file = (xml \\ "class").filter { n: Node =>
+      (n \\ "@filename").text == sourceFilename
     }
 
-    val classHit = (file \\ "@line-rate").map {
-      total =>
-        val totalValue = convertToFloat(total.text)
-        (totalValue.getOrElse(0.0f) * 100).toInt
+    val classHit = (file \\ "@line-rate").map { total =>
+      val totalValue = convertToFloat(total.text)
+      (totalValue.getOrElse(0.0f) * 100).toInt
     }
 
     val fileHit = classHit.sum / classHit.length
 
-    val lineHitMap = file.flatMap {
-      n =>
-        (n \\ "line").map {
-          line =>
-            (line \ "@number").text.toInt -> (line \ "@hits").text.toInt
+    val lineHitMap = file
+      .flatMap { n =>
+        (n \\ "line").map { line =>
+          (line \ "@number").text.toInt -> (line \ "@hits").text.toInt
         }
-    }.toMap.collect {
-      case (key, value) =>
-        key -> value
-    }
+      }
+      .toMap
+      .collect {
+        case (key, value) =>
+          key -> value
+      }
 
-    allFiles.find(f => f.endsWith(sanitiseFilename(sourceFilename))).map {
-      filename =>
-        CoverageFileReport(stripRoot(filename), fileHit, lineHitMap)
+    allFiles.find(f => f.endsWith(sanitiseFilename(sourceFilename))).map { filename =>
+      CoverageFileReport(stripRoot(filename), fileHit, lineHitMap)
     }
   }
 
