@@ -1,3 +1,5 @@
+resolvers += "Era7 maven releases" at "https://s3-eu-west-1.amazonaws.com/releases.era7.com"
+
 addSbtPlugin("com.codacy" % "codacy-sbt-plugin" % "14.0.1")
 
 // Updates
