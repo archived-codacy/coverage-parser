@@ -1,28 +1,18 @@
-import Dependencies._
-
 name := "coverage-parser"
 
-version := "1.1.1-SNAPSHOT"
-
-scalaVersion := "2.11.11"
+scalaVersion := "2.11.12"
 
 crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.7")
 
 scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint", "-Xfatal-warnings")
 
-resolvers ++= Seq(
-  DefaultMavenRepository,
-  "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
-  "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
-  Classpaths.typesafeReleases,
-  Classpaths.sbtPluginReleases
-)
+resolvers ++= Seq("Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases/")
 
 libraryDependencies ++= Seq(
-  Codacy.scalaApi,
-  Codacy.pluginsApi,
-  scalaTest
-) ++ scalaXml(scalaVersion.value)
+  Dependencies.Codacy.scalaApi,
+  Dependencies.Codacy.pluginsApi,
+  Dependencies.scalaTest
+) ++ Dependencies.scalaXml(scalaVersion.value)
 
 mappings in(Compile, packageBin) ~= {
   _.filterNot {
@@ -30,25 +20,13 @@ mappings in(Compile, packageBin) ~= {
   }
 }
 
+publicMvnPublish
+
 organization := "com.codacy"
 
 organizationName := "Codacy"
 
 organizationHomepage := Some(new URL("https://www.codacy.com"))
-
-publishMavenStyle := true
-
-publishArtifact in Test := false
-
-pomIncludeRepository := { _ => false}
-
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  if (version.value.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
 
 startYear := Some(2015)
 
