@@ -28,20 +28,9 @@ description := "Library for parsing coverage reports"
 
 homepage := Some(url("http://www.github.com/codacy/coverage-parser/"))
 
-pomExtra :=
-  <scm>
-    <url>https://github.com/codacy/coverage-parser</url>
-    <connection>scm:git:git@github.com:codacy/coverage-parser.git</connection>
-    <developerConnection>scm:git:https://github.com/codacy/coverage-parser.git</developerConnection>
-  </scm>
-    <developers>
-      <developer>
-        <id>mrfyda</id>
-        <name>Rafael</name>
-        <email>rafael [at] codacy.com</email>
-        <url>https://github.com/mrfyda</url>
-      </developer>
-    </developers>
+scmInfo := Some(
+  ScmInfo(url("https://github.com/codacy/coverage-parser"), "scm:git:git@github.com:codacy/coverage-parser.git")
+)
 
 fork in Test := true
 cancelable in Global := true
