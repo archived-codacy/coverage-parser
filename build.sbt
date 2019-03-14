@@ -1,12 +1,12 @@
-name := "coverage-parser"
+import codacy.libs._
 
-scalaVersion := "2.11.12"
+name := "coverage-parser"
 
 crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.7")
 
 scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint", "-Xfatal-warnings")
 
-libraryDependencies ++= Seq(Dependencies.Codacy.scalaApi, Dependencies.Codacy.pluginsApi, Dependencies.scalaTest) ++ Dependencies
+libraryDependencies ++= Seq(Dependencies.Codacy.scalaApi, Dependencies.Codacy.pluginsApi, scalatest) ++ Dependencies
   .scalaXml(scalaVersion.value)
 
 mappings in (Compile, packageBin) ~= {
@@ -15,24 +15,16 @@ mappings in (Compile, packageBin) ~= {
   }
 }
 
+resolvers ~= { _.filterNot(_.name.toLowerCase.contains("codacy")) }
+
 // this setting is not picked up properly from the plugin
 pgpPassphrase := Option(System.getenv("SONATYPE_GPG_PASSPHRASE")).map(_.toCharArray)
 
-resolvers ~= { _.filterNot(_.name.toLowerCase.contains("codacy")) }
-
 publicMvnPublish
-
-organization := "com.codacy"
-
-organizationName := "Codacy"
-
-organizationHomepage := Some(new URL("https://www.codacy.com"))
 
 startYear := Some(2015)
 
 description := "Library for parsing coverage reports"
-
-licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
 homepage := Some(url("http://www.github.com/codacy/coverage-parser/"))
 

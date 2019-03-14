@@ -1,4 +1,4 @@
-resolvers += "Era7 maven releases" at "https://s3-eu-west-1.amazonaws.com/releases.era7.com"
+resolvers := Seq(DefaultMavenRepository, Resolver.jcenterRepo, Resolver.sonatypeRepo("releases"))
 
 addSbtPlugin("com.codacy" % "codacy-sbt-plugin" % "14.0.1")
 

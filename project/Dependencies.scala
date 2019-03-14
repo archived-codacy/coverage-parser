@@ -11,7 +11,5 @@ object Dependencies {
     case "2.10.7" => Seq.empty
     case _ => Seq("org.scala-lang.modules" %% "scala-xml" % "1.1.1")
   }
-  
-  val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 
 }
