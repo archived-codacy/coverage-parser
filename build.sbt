@@ -1,60 +1,30 @@
-import Dependencies._
+import codacy.libs._
 
 name := "coverage-parser"
-
-version := "1.1.1-SNAPSHOT"
-
-scalaVersion := "2.11.11"
 
 crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.7")
 
 scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint", "-Xfatal-warnings")
 
-resolvers ++= Seq(
-  DefaultMavenRepository,
-  "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
-  "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
-  Classpaths.typesafeReleases,
-  Classpaths.sbtPluginReleases
-)
+libraryDependencies ++= Seq(Dependencies.Codacy.scalaApi, Dependencies.Codacy.pluginsApi, scalatest) ++ Dependencies
+  .scalaXml(scalaVersion.value)
 
-libraryDependencies ++= Seq(
-  Codacy.scalaApi,
-  Codacy.pluginsApi,
-  scalaTest
-) ++ scalaXml(scalaVersion.value)
-
-mappings in(Compile, packageBin) ~= {
+mappings in (Compile, packageBin) ~= {
   _.filterNot {
     case (file, _) => file.getName == "logback-test.xml"
   }
 }
 
-organization := "com.codacy"
+resolvers ~= { _.filterNot(_.name.toLowerCase.contains("codacy")) }
 
-organizationName := "Codacy"
+// this setting is not picked up properly from the plugin
+pgpPassphrase := Option(System.getenv("SONATYPE_GPG_PASSPHRASE")).map(_.toCharArray)
 
-organizationHomepage := Some(new URL("https://www.codacy.com"))
-
-publishMavenStyle := true
-
-publishArtifact in Test := false
-
-pomIncludeRepository := { _ => false}
-
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  if (version.value.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
+publicMvnPublish
 
 startYear := Some(2015)
 
 description := "Library for parsing coverage reports"
-
-licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
 homepage := Some(url("http://www.github.com/codacy/coverage-parser/"))
 
@@ -72,3 +42,6 @@ pomExtra :=
         <url>https://github.com/mrfyda</url>
       </developer>
     </developers>
+
+fork in Test := true
+cancelable in Global := true

@@ -26,21 +26,21 @@ class JacocoParser(val language: Language, val rootProject: File, val coverageRe
   }
 
   override def generateReport(): CoverageReport = {
-    val total = (xml \\ "report" \ "counter").collectFirst {
-      case counter if (counter \ "@type").text == "LINE" =>
-        val covered = (counter \ "@covered").text.toFloat
-        val missed = (counter \ "@missed").text.toFloat
-        ((covered / (covered + missed)) * 100).toInt
-    }.getOrElse(0)
+    val total = (xml \\ "report" \ "counter")
+      .collectFirst {
+        case counter if (counter \ "@type").text == "LINE" =>
+          val covered = (counter \ "@covered").text.toFloat
+          val missed = (counter \ "@missed").text.toFloat
+          ((covered / (covered + missed)) * 100).toInt
+      }
+      .getOrElse(0)
 
-    val filesCoverage = (xml \\ "package").flatMap {
-      `package` =>
-        val packageName = (`package` \ "@name").text
-        (`package` \\ "sourcefile").map {
-          file =>
-            val filename = (file \ "@name").text
-            lineCoverage(packageName + "/" + filename, file)
-        }
+    val filesCoverage = (xml \\ "package").flatMap { `package` =>
+      val packageName = (`package` \ "@name").text
+      (`package` \\ "sourcefile").map { file =>
+        val filename = (file \ "@name").text
+        lineCoverage(packageName + "/" + filename, file)
+      }
     }
 
     CoverageReport(total, filesCoverage)
@@ -56,14 +56,15 @@ class JacocoParser(val language: Language, val rootProject: File, val coverageRe
 
     val fileHit = if (classHit.sum > 0) classHit.sum / classHit.length else 0
 
-    val lineHitMap = (file \\ "line").map {
-      line =>
+    val lineHitMap = (file \\ "line")
+      .map { line =>
         (line \ "@nr").text.toInt -> LineCoverage((line \ "@mi").text.toInt, (line \ "@ci").text.toInt)
-    }.toMap.collect {
-      case (key, lineCoverage) if lineCoverage.missedInstructions + lineCoverage.coveredInstructions > 0 =>
-
-        key -> (if (lineCoverage.coveredInstructions > 0) 1 else 0)
-    }
+      }
+      .toMap
+      .collect {
+        case (key, lineCoverage) if lineCoverage.missedInstructions + lineCoverage.coveredInstructions > 0 =>
+          key -> (if (lineCoverage.coveredInstructions > 0) 1 else 0)
+      }
 
     CoverageFileReport(sourceFilename.stripPrefix(rootProjectDir), fileHit, lineHitMap)
   }

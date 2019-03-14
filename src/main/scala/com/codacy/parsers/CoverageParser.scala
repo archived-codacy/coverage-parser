@@ -35,11 +35,12 @@ trait CoverageParserFactory {
 
 object CoverageParserFactory {
 
-  def withCoverageReport[A](language: Language,
-                            rootProject: File,
-                            reportFile: File,
-                            parserFactory: Option[CoverageParserFactory] = None
-                           )(block: CoverageReport => A): Either[String, A] = {
+  def withCoverageReport[A](
+      language: Language,
+      rootProject: File,
+      reportFile: File,
+      parserFactory: Option[CoverageParserFactory] = None
+  )(block: CoverageReport => A): Either[String, A] = {
     val isEmptyReport = {
       // just starting by detecting the simplest case: a single report file
       Try(reportFile.isFile && reportFile.length() == 0).getOrElse(false)
@@ -61,13 +62,12 @@ object CoverageParserFactory {
   }
 
   private def allParsers(language: Language, rootProject: File, reportFile: File): Seq[CoverageParser] = {
-    Seq(
-      new CoberturaParser(language, rootProject, reportFile),
-      new JacocoParser(language, rootProject, reportFile)
-    )
+    Seq(new CoberturaParser(language, rootProject, reportFile), new JacocoParser(language, rootProject, reportFile))
   }
 
-  private def withReport[A](parsers: Seq[CoverageParser])(errorMessage: String)(block: CoverageReport => A): Either[String, A] = {
+  private def withReport[A](
+      parsers: Seq[CoverageParser]
+  )(errorMessage: String)(block: CoverageReport => A): Either[String, A] = {
     parsers
       .find(_.isValidReport)
       .fold[Either[String, A]](Left(errorMessage))(parser => Right(block(parser.generateReport())))

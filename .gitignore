@@ -1,6 +1,4 @@
-.*
-!.gitignore
-!.java-version
-!.travis.yml
 project/project
-target
+target/
+.idea//
+.metals/
