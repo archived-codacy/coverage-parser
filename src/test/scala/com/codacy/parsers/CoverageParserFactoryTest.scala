@@ -3,12 +3,12 @@ package com.codacy.parsers
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.implementation.{CoberturaParser, JacocoParser}
-import com.codacy.plugins.api.languages.Languages.Scala
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
 
 class CoverageParserFactoryTest extends WordSpec with BeforeAndAfterAll with Matchers {
+
   "CoverageParserFactory" should {
+
     "get report with unspecified parser" in {
       val expectedReport = CoverageReport(
         87,
@@ -22,7 +22,9 @@ class CoverageParserFactoryTest extends WordSpec with BeforeAndAfterAll with Mat
         )
       )
 
-      runForFile("src/test/resources/test_cobertura.xml", None) shouldEqual Right(expectedReport)
+      CoverageParser.parse(new File("."), new File("src/test/resources/test_cobertura.xml")) shouldEqual Right(
+        expectedReport
+      )
     }
 
     "get report with jacoco parser" in {
@@ -42,21 +44,17 @@ class CoverageParserFactoryTest extends WordSpec with BeforeAndAfterAll with Mat
         )
       )
 
-      runForFile("src/test/resources/test_jacoco.xml", Some(JacocoParser)) shouldEqual Right(expectedReport)
+      CoverageParser.parse(new File("."), new File("src/test/resources/test_jacoco.xml")) shouldEqual Right(
+        expectedReport
+      )
     }
 
     "fail to get invalid report" in {
-      runForFile("invalid_report.xml", None) shouldEqual
-        Left("could not parse report, unrecognized report format (tried: Cobertura, Jacoco)")
+      CoverageParser.parse(new File("."), new File("invalid_report.xml")) shouldEqual Left(
+        "Could not parse report, unrecognized report format (tried: Cobertura, Jacoco)"
+      )
     }
 
-    "fail to get report with wrong parser" in {
-      runForFile("src/test/resources/test_jacoco.xml", Some(CoberturaParser)) shouldEqual
-        Left("could not parse report with the provided parser")
-    }
   }
 
-  private def runForFile(file: String, parser: Option[CoverageParserFactory]) = {
-    CoverageParserFactory.withCoverageReport(Scala, new File("."), new File(file), parser)(identity)
-  }
 }

@@ -4,27 +4,24 @@ import java.io.File
 
 import com.codacy.api._
 import com.codacy.parsers.implementation.JacocoParser
-import com.codacy.plugins.api.languages.Languages.Java
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
+import org.scalatest.{BeforeAndAfterAll, EitherValues, Matchers, WordSpec}
 
-class JacocoParserTest extends WordSpec with BeforeAndAfterAll with Matchers {
+class JacocoParserTest extends WordSpec with BeforeAndAfterAll with Matchers with EitherValues {
 
   "JacocoParser" should {
 
     "identify if report is invalid" in {
-      val reader = new JacocoParser(Java, new File("."), new File("src/test/resources/test_cobertura.xml"))
-
-      reader.isValidReport shouldBe false
+      val reader = JacocoParser.parse(new File("."), new File("src/test/resources/test_cobertura.xml"))
+      reader.isLeft shouldBe true
     }
 
     "identify if report is valid" in {
-      val reader = new JacocoParser(Java, new File("."), new File("src/test/resources/test_jacoco.xml"))
-
-      reader.isValidReport shouldBe true
+      val reader = JacocoParser.parse(new File("."), new File("src/test/resources/test_jacoco.xml"))
+      reader.isRight shouldBe true
     }
 
     "return a valid report" in {
-      val reader = new JacocoParser(Java, new File("."), new File("src/test/resources/test_jacoco.xml"))
+      val reader = JacocoParser.parse(new File("."), new File("src/test/resources/test_jacoco.xml"))
 
       val testReport = CoverageReport(
         73,
@@ -42,7 +39,7 @@ class JacocoParserTest extends WordSpec with BeforeAndAfterAll with Matchers {
         )
       )
 
-      reader.generateReport() shouldEqual testReport
+      reader.right.value should equal(testReport)
     }
 
   }
