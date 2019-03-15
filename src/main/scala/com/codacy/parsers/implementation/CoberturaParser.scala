@@ -1,37 +1,42 @@
 package com.codacy.parsers.implementation
 
 import java.io.File
-import java.text.NumberFormat
-import java.util.Locale
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
 import com.codacy.parsers.CoverageParser
-import com.codacy.parsers.util.XML
+import com.codacy.parsers.util.{TextUtils, XMLoader}
 
-import scala.util.Try
-import scala.xml.{Elem, NodeSeq}
+import scala.util.{Failure, Success, Try}
+import scala.xml.NodeSeq
 
 object CoberturaParser extends CoverageParser {
 
   override val name: String = "Cobertura"
 
   def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
-    val projectRootStr: String = sanitiseFilename(projectRoot.getAbsolutePath)
+    val report = (Try(XMLoader.loadFile(reportFile)) match {
+      case Success(xml) if (xml \\ "coverage").nonEmpty =>
+        Right(xml \\ "coverage")
 
-    // TODO: Show parse errors
-    val xml: Elem = Try(XML.loadFile(reportFile)).toOption.getOrElse(<root></root>)
+      case Success(_) =>
+        Left("Invalid report. Could not find top level <coverage> tag.")
 
-    // TODO: Avoid return
-    if ((xml \\ "coverage").isEmpty) {
-      return Left("invalid report")
-    }
+      case Failure(ex) =>
+        Left(s"Unparseable report. ${ex.getMessage}")
+    })
 
-    val total = (asFloat((xml \\ "coverage" \ "@line-rate").text) * 100).toInt
+    report.right.flatMap(parse(projectRoot, _))
+  }
+
+  private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
+    val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
+
+    val total = (TextUtils.asFloat((report \\ "coverage" \ "@line-rate").text) * 100).toInt
 
     val fileReports: List[CoverageFileReport] = (for {
-      (filename, classes) <- (xml \\ "class").groupBy(c => (c \ "@filename").text)
+      (filename, classes) <- (report \\ "class").groupBy(c => (c \ "@filename").text)
     } yield {
-      val cleanFilename = sanitiseFilename(filename).stripPrefix(projectRootStr).stripPrefix("/")
+      val cleanFilename = TextUtils.sanitiseFilename(filename).stripPrefix(projectRootStr).stripPrefix("/")
       lineCoverage(cleanFilename, classes)
     })(collection.breakOut)
 
@@ -40,7 +45,7 @@ object CoberturaParser extends CoverageParser {
 
   private def lineCoverage(sourceFilename: String, classes: NodeSeq): CoverageFileReport = {
     val classHit = (classes \\ "@line-rate").map { total =>
-      val totalValue = asFloat(total.text)
+      val totalValue = TextUtils.asFloat(total.text)
       (totalValue * 100).toInt
     }
     val fileHit = classHit.sum / classHit.length
@@ -52,22 +57,6 @@ object CoberturaParser extends CoverageParser {
       } yield (line \ "@number").text.toInt -> (line \ "@hits").text.toInt)(collection.breakOut)
 
     CoverageFileReport(sourceFilename, fileHit, lineHitMap)
-  }
-
-  // TODO: Move to helper
-  private def asFloat(str: String): Float = {
-    Try(str.toFloat).getOrElse {
-      // The french locale uses the comma as a sep.
-      val instance = NumberFormat.getInstance(Locale.FRANCE)
-      val number = instance.parse(str)
-      number.floatValue()
-    }
-  }
-
-  private def sanitiseFilename(filename: String): String = {
-    filename
-      .replaceAll("""\\/""", "/") // Fix for paths with \/
-      .replace("\\", "/") // Fix for paths with \
   }
 
 }
