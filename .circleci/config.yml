@@ -157,7 +157,6 @@ workflows:
           branches:
             only:
             - master
-            - fixPublish
         context: CodacyAWS
         requires:
         - compile_and_test
