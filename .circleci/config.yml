@@ -100,10 +100,7 @@ jobs:
       - run:
           name: Coverage
           command: |
-            sbt clean compile coverage test
-            sbt coverageReport
-            sbt coverageAggregate
-            sbt codacyCoverage
+            sbt clean compile coverage test coverageReport coverageAggregate codacyCoverage
       - *clean_sbt_cache
       - *save_sbt_cache
 
