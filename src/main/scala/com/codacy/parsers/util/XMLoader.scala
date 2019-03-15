@@ -3,7 +3,8 @@ package com.codacy.parsers.util
 import scala.xml.factory.XMLLoader
 import scala.xml.{Elem, SAXParser}
 
-object XML extends XMLLoader[Elem] {
+object XMLoader extends XMLLoader[Elem] {
+
   override def parser: SAXParser = {
     val f = new com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl()
     f.setNamespaceAware(false)
@@ -14,4 +15,5 @@ object XML extends XMLLoader[Elem] {
     f.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
     f.newSAXParser()
   }
+
 }
