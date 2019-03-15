@@ -20,17 +20,13 @@ resolvers ~= { _.filterNot(_.name.toLowerCase.contains("codacy")) }
 // this setting is not picked up properly from the plugin
 pgpPassphrase := Option(System.getenv("SONATYPE_GPG_PASSPHRASE")).map(_.toCharArray)
 
-publicMvnPublish
-
-startYear := Some(2015)
-
 description := "Library for parsing coverage reports"
-
-homepage := Some(url("http://www.github.com/codacy/coverage-parser/"))
 
 scmInfo := Some(
   ScmInfo(url("https://github.com/codacy/coverage-parser"), "scm:git:git@github.com:codacy/coverage-parser.git")
 )
+
+publicMvnPublish
 
 fork in Test := true
 cancelable in Global := true
