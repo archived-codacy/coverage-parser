@@ -4,27 +4,24 @@ import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
 import com.codacy.parsers.implementation.CoberturaParser
-import com.codacy.plugins.api.languages.Languages.Scala
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
+import org.scalatest.{BeforeAndAfterAll, EitherValues, Matchers, WordSpec}
 
-class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers {
+class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers with EitherValues {
 
   "CoberturaParser" should {
 
     "identify if report is invalid" in {
-      val reader = new CoberturaParser(Scala, new File("."), new File("src/test/resources/test_jacoco.xml"))
-
-      reader.isValidReport shouldBe false
+      val reader = CoberturaParser.parse(new File("."), new File("src/test/resources/test_jacoco.xml"))
+      reader.isLeft shouldBe true
     }
 
     "identify if report is valid" in {
-      val reader = new CoberturaParser(Scala, new File("."), new File("src/test/resources/test_cobertura.xml"))
-
-      reader.isValidReport shouldBe true
+      val reader = CoberturaParser.parse(new File("."), new File("src/test/resources/test_cobertura.xml"))
+      reader.isRight shouldBe true
     }
 
     "return a valid report" in {
-      val reader = new CoberturaParser(Scala, new File("."), new File("src/test/resources/test_cobertura.xml"))
+      val reader = CoberturaParser.parse(new File("."), new File("src/test/resources/test_cobertura.xml"))
 
       val testReport = CoverageReport(
         87,
@@ -38,11 +35,11 @@ class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
         )
       )
 
-      reader.generateReport() shouldEqual testReport
+      reader.right.value should equal(testReport)
     }
 
     "no crash on thousands separators" in {
-      val reader = new CoberturaParser(Scala, new File("."), new File("src/test/resources/thousand_sep_cobertura.xml"))
+      val reader = CoberturaParser.parse(new File("."), new File("src/test/resources/thousand_sep_cobertura.xml"))
 
       val testReport = CoverageReport(
         87,
@@ -56,11 +53,11 @@ class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
         )
       )
 
-      reader.generateReport() shouldEqual testReport
+      reader.right.value should equal(testReport)
     }
 
     "return a valid report with windows file path separator" in {
-      val reader = new CoberturaParser(Scala, new File("."), new File("src/test/resources/windows_paths_cobertura.xml"))
+      val reader = CoberturaParser.parse(new File("."), new File("src/test/resources/windows_paths_cobertura.xml"))
 
       val testReport = CoverageReport(
         87,
@@ -74,7 +71,7 @@ class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
         )
       )
 
-      reader.generateReport() shouldEqual testReport
+      reader.right.value should equal(testReport)
     }
 
   }

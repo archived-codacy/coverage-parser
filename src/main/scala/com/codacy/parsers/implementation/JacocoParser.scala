@@ -3,70 +3,86 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api._
-import com.codacy.parsers.{CoverageParser, CoverageParserFactory, XMLCoverageParser}
-import com.codacy.plugins.api.languages.Language
+import com.codacy.parsers.CoverageParser
+import com.codacy.parsers.util.{TextUtils, XMLoader}
 
-import scala.xml.Node
+import scala.util.{Failure, Success, Try}
+import scala.xml.{Node, NodeSeq}
 
 private case class LineCoverage(missedInstructions: Int, coveredInstructions: Int)
 
-object JacocoParser extends CoverageParserFactory {
-  override def apply(language: Language, rootProject: File, reportFile: File): CoverageParser =
-    new JacocoParser(language, rootProject, reportFile)
-}
+object JacocoParser extends CoverageParser {
 
-class JacocoParser(val language: Language, val rootProject: File, val coverageReport: File) extends XMLCoverageParser {
+  override val name: String = "Jacoco"
 
-  override val name = "Jacoco"
+  def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
+    val report = (Try(XMLoader.loadFile(reportFile)) match {
+      case Success(xml) if (xml \\ "report").nonEmpty =>
+        Right(xml \\ "report")
 
-  val rootProjectDir = rootProject.getAbsolutePath + File.separator
+      case Success(_) =>
+        Left("Invalid report. Could not find top level <report> tag.")
 
-  override def isValidReport: Boolean = {
-    (xml \\ "report").nonEmpty
+      case Failure(ex) =>
+        Left(s"Unparseable report. ${ex.getMessage}")
+    })
+
+    report.right.flatMap(parse(projectRoot, _))
   }
 
-  override def generateReport(): CoverageReport = {
-    val total = (xml \\ "report" \ "counter")
+  private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
+    val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
+    totalPercentage(report).right.map { total =>
+      val filesCoverage = for {
+        pkg <- report \\ "package"
+        packageName = (pkg \ "@name").text
+        sourcefile <- pkg \\ "sourcefile"
+      } yield {
+        val filename =
+          TextUtils
+            .sanitiseFilename(s"$packageName/${(sourcefile \ "@name").text}")
+            .stripPrefix(projectRootStr)
+            .stripPrefix("/")
+        lineCoverage(filename, sourcefile)
+      }
+
+      CoverageReport(total, filesCoverage)
+    }
+  }
+
+  private def totalPercentage(report: NodeSeq): Either[String, Int] = {
+    (report \\ "report" \ "counter")
       .collectFirst {
         case counter if (counter \ "@type").text == "LINE" =>
-          val covered = (counter \ "@covered").text.toFloat
-          val missed = (counter \ "@missed").text.toFloat
-          ((covered / (covered + missed)) * 100).toInt
+          val covered = TextUtils.asFloat((counter \ "@covered").text)
+          val missed = TextUtils.asFloat((counter \ "@missed").text)
+          Right(((covered / (covered + missed)) * 100).toInt)
       }
-      .getOrElse(0)
-
-    val filesCoverage = (xml \\ "package").flatMap { `package` =>
-      val packageName = (`package` \ "@name").text
-      (`package` \\ "sourcefile").map { file =>
-        val filename = (file \ "@name").text
-        lineCoverage(packageName + "/" + filename, file)
+      .getOrElse {
+        Left("Could not retrieve total percentage of coverage.")
       }
-    }
-
-    CoverageReport(total, filesCoverage)
   }
 
-  private def lineCoverage(sourceFilename: String, file: Node): CoverageFileReport = {
-    val classHit = (file \\ "counter").collect {
+  private def lineCoverage(filename: String, fileNode: Node): CoverageFileReport = {
+    val lineHit = (fileNode \ "counter").collect {
       case counter if (counter \ "@type").text == "LINE" =>
-        val covered = (counter \ "@covered").text.toFloat
-        val missed = (counter \ "@missed").text.toFloat
+        val covered = TextUtils.asFloat((counter \ "@covered").text)
+        val missed = TextUtils.asFloat((counter \ "@missed").text)
         ((covered / (covered + missed)) * 100).toInt
     }
 
-    val fileHit = if (classHit.sum > 0) classHit.sum / classHit.length else 0
+    val fileHit = if (lineHit.sum > 0) { lineHit.sum / lineHit.length } else 0
 
-    val lineHitMap = (file \\ "line")
+    val lineHitMap: Map[Int, Int] = (fileNode \\ "line")
       .map { line =>
         (line \ "@nr").text.toInt -> LineCoverage((line \ "@mi").text.toInt, (line \ "@ci").text.toInt)
       }
-      .toMap
       .collect {
         case (key, lineCoverage) if lineCoverage.missedInstructions + lineCoverage.coveredInstructions > 0 =>
           key -> (if (lineCoverage.coveredInstructions > 0) 1 else 0)
-      }
+      }(collection.breakOut)
 
-    CoverageFileReport(sourceFilename.stripPrefix(rootProjectDir), fileHit, lineHitMap)
+    CoverageFileReport(filename, fileHit, lineHitMap)
   }
 
 }

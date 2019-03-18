@@ -3,8 +3,8 @@ import sbt._
 object Dependencies {
 
   object Codacy {
-    val scalaApi = "com.codacy" %% "codacy-api-scala" % "3.1.869"
-    val pluginsApi = "com.codacy" %% "codacy-plugins-api" % "3.0.276"
+    val scalaApi = "com.codacy" %% "codacy-api-scala" % "4.0.0"
+    val pluginsApi = "com.codacy" %% "codacy-plugins-api" % "3.0.293"
   }
 
   def scalaXml(scalaVersion: String): Seq[ModuleID] = scalaVersion match {

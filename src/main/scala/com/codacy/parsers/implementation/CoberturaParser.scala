@@ -1,108 +1,62 @@
 package com.codacy.parsers.implementation
 
 import java.io.File
-import java.text.NumberFormat
-import java.util.Locale
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.util.LanguageUtils
-import com.codacy.parsers.{CoverageParser, CoverageParserFactory, XMLCoverageParser}
-import com.codacy.plugins.api.languages.Language
+import com.codacy.parsers.CoverageParser
+import com.codacy.parsers.util.{TextUtils, XMLoader}
 
-import scala.util.Try
-import scala.xml.Node
+import scala.util.{Failure, Success, Try}
+import scala.xml.NodeSeq
 
-object CoberturaParser extends CoverageParserFactory {
-  override def apply(language: Language, rootProject: File, reportFile: File): CoverageParser =
-    new CoberturaParser(language, rootProject, reportFile)
-}
+object CoberturaParser extends CoverageParser {
 
-class CoberturaParser(val language: Language, val rootProject: File, val coverageReport: File)
-    extends XMLCoverageParser {
+  override val name: String = "Cobertura"
 
-  override val name = "Cobertura"
+  def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
+    val report = (Try(XMLoader.loadFile(reportFile)) match {
+      case Success(xml) if (xml \\ "coverage").nonEmpty =>
+        Right(xml \\ "coverage")
 
-  val rootProjectDir = sanitiseFilename(rootProject.getAbsolutePath + File.separator)
+      case Success(_) =>
+        Left("Invalid report. Could not find top level <coverage> tag.")
 
-  lazy val allFiles = recursiveListFiles(rootProject) { file =>
-    LanguageUtils.getExtension(language).fold(true)(file.getName.endsWith(_))
-  }.map(file => sanitiseFilename(file.getAbsolutePath))
+      case Failure(ex) =>
+        Left(s"Unparseable report. ${ex.getMessage}")
+    })
 
-  private[this] def convertToFloat(str: String): Try[Float] = {
-    Try(str.toFloat).recoverWith {
-      case ex =>
-        Try {
-          // The french locale uses the comma as a sep.
-          val instance = NumberFormat.getInstance(Locale.FRANCE)
-          val number = instance.parse(str)
-          number.floatValue()
-        }
-    }
+    report.right.flatMap(parse(projectRoot, _))
   }
 
-  private def recursiveListFiles(root: File)(filter: File => Boolean): Array[File] = {
-    val these = root.listFiles
-    these.filter(filter) ++ these.filter(_.isDirectory).flatMap(d => recursiveListFiles(d)(filter))
+  private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
+    val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
+
+    val total = (TextUtils.asFloat((report \\ "coverage" \ "@line-rate").text) * 100).toInt
+
+    val fileReports: List[CoverageFileReport] = (for {
+      (filename, classes) <- (report \\ "class").groupBy(c => (c \ "@filename").text)
+    } yield {
+      val cleanFilename = TextUtils.sanitiseFilename(filename).stripPrefix(projectRootStr).stripPrefix("/")
+      lineCoverage(cleanFilename, classes)
+    })(collection.breakOut)
+
+    Right(CoverageReport(total, fileReports))
   }
 
-  override def isValidReport: Boolean = {
-    (xml \\ "coverage").nonEmpty
-  }
-
-  def generateReport(): CoverageReport = {
-    val total = (xml \\ "coverage" \ "@line-rate").headOption
-      .map { total =>
-        val totalValue = convertToFloat(total.text)
-        (totalValue.getOrElse(0.0f) * 100).toInt
-      }
-      .getOrElse(0)
-
-    val files = (xml \\ "class" \\ "@filename").map(_.text).toSet
-
-    val filesCoverage = files.flatMap { file =>
-      lineCoverage(file)
+  private def lineCoverage(sourceFilename: String, classes: NodeSeq): CoverageFileReport = {
+    val classHit = (classes \\ "@line-rate").map { total =>
+      val totalValue = TextUtils.asFloat(total.text)
+      (totalValue * 100).toInt
     }
-
-    CoverageReport(total, filesCoverage.toSeq)
-  }
-
-  private def lineCoverage(sourceFilename: String): Option[CoverageFileReport] = {
-    val file = (xml \\ "class").filter { n: Node =>
-      (n \\ "@filename").text == sourceFilename
-    }
-
-    val classHit = (file \\ "@line-rate").map { total =>
-      val totalValue = convertToFloat(total.text)
-      (totalValue.getOrElse(0.0f) * 100).toInt
-    }
-
     val fileHit = classHit.sum / classHit.length
 
-    val lineHitMap = file
-      .flatMap { n =>
-        (n \\ "line").map { line =>
-          (line \ "@number").text.toInt -> (line \ "@hits").text.toInt
-        }
-      }
-      .toMap
-      .collect {
-        case (key, value) =>
-          key -> value
-      }
+    val lineHitMap: Map[Int, Int] =
+      (for {
+        xClass <- classes
+        line <- xClass \\ "line"
+      } yield (line \ "@number").text.toInt -> (line \ "@hits").text.toInt)(collection.breakOut)
 
-    allFiles.find(f => f.endsWith(sanitiseFilename(sourceFilename))).map { filename =>
-      CoverageFileReport(stripRoot(filename), fileHit, lineHitMap)
-    }
-  }
-
-  private def sanitiseFilename(filename: String): String = {
-    filename
-      .replaceAll("""\\/""", "/") // Fix for paths with \/
-      .replace("\\", "/") // Fix for paths with \
-  }
-
-  private def stripRoot(filename: String): String = {
-    filename.stripPrefix(rootProjectDir)
+    CoverageFileReport(sourceFilename, fileHit, lineHitMap)
   }
 
 }
