@@ -13,12 +13,6 @@ libraryDependencies ++= Seq(Dependencies.Codacy.scalaApi, Dependencies.Codacy.pl
 // Test dependencies
 libraryDependencies ++= Seq(scalatest).map(_ % "test")
 
-mappings in (Compile, packageBin) ~= {
-  _.filterNot {
-    case (file, _) => file.getName == "logback-test.xml"
-  }
-}
-
 // HACK: Since we are only using the public resolvers we need to remove the private for it to not fail
 resolvers ~= { _.filterNot(_.name.toLowerCase.contains("codacy")) }
 
