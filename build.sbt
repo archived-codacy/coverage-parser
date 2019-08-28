@@ -2,7 +2,7 @@ import codacy.libs._
 
 name := "coverage-parser"
 
-crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.7")
+crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.10")
 
 scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint", "-Xfatal-warnings")
 
