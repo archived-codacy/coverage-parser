@@ -9,7 +9,7 @@ Scala library for parsing coverage reports.
 
 Currently we support [Jacoco](http://eclemma.org/jacoco/) and [Cobertura](http://cobertura.github.io/cobertura/) reports.
 
-Both [CoberturaParser](https://github.com/codacy/coverage-parser/blob/master/src/main/scala/com/codacy/parsers/implementation/CoberturaParser.scala) and [JacocoParser](https://github.com/codacy/coverage-parser/blob/master/src/main/scala/com/codacy/parsers/implementation/JacocoParser.scala) receive the language, the project root, and the file containing the coverage report, producing the [Codacy coverage format](http://docs.codacy.com/docs/coverage#api)
+Both [CoberturaParser](https://github.com/codacy/coverage-parser/blob/master/src/main/scala/com/codacy/parsers/implementation/CoberturaParser.scala) and [JacocoParser](https://github.com/codacy/coverage-parser/blob/master/src/main/scala/com/codacy/parsers/implementation/JacocoParser.scala) receive the language, the project root, and the file containing the coverage report, producing the [Codacy coverage format](https://support.codacy.com/hc/en-us/articles/207279819-Coverage)
 
 Usage:
 
