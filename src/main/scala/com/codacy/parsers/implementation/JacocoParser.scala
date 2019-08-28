@@ -68,10 +68,10 @@ object JacocoParser extends CoverageParser {
       case counter if (counter \ "@type").text == "LINE" =>
         val covered = TextUtils.asFloat((counter \ "@covered").text)
         val missed = TextUtils.asFloat((counter \ "@missed").text)
-        ((covered / (covered + missed)) * 100).toInt
+        (if ((covered + missed) > 0) (covered / (covered + missed)) * 100 else 0f).toInt
     }
 
-    val fileHit = if (lineHit.sum > 0) { lineHit.sum / lineHit.length } else 0
+    val fileHit = if (lineHit.sum != 0) { lineHit.sum / lineHit.length } else 0
 
     val lineHitMap: Map[Int, Int] = (fileNode \\ "line")
       .map { line =>
