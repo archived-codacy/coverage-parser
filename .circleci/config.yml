@@ -39,6 +39,7 @@ workflows:
           - check_fmt
     - codacy/sbt:
         name: publish
+        context: CodacyAWS
         cmd: sbt ";retrieveGPGKeys;+publishSigned;sonatypeReleaseAll"
         requires:
           - test_and_coverage
