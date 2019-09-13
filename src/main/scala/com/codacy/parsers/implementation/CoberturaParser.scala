@@ -48,7 +48,7 @@ object CoberturaParser extends CoverageParser {
       val totalValue = TextUtils.asFloat(total.text)
       (totalValue * 100).toInt
     }
-    val fileHit = classHit.sum / classHit.length
+    val fileHit = if (classHit.length != 0) { classHit.sum / classHit.length } else 0
 
     val lineHitMap: Map[Int, Int] =
       (for {
