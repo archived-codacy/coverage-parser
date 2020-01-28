@@ -7,7 +7,7 @@ import com.codacy.parsers.CoverageParser
 import com.codacy.parsers.util.{TextUtils, XMLoader}
 
 import scala.util.{Failure, Success, Try}
-import scala.xml.NodeSeq
+import scala.xml.{Elem, NodeSeq}
 
 object CoberturaParser extends CoverageParser {
 
@@ -15,7 +15,7 @@ object CoberturaParser extends CoverageParser {
 
   def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
     val report = (Try(XMLoader.loadFile(reportFile)) match {
-      case Success(xml) if (xml \\ "coverage").nonEmpty =>
+      case Success(xml) if hasCorrectSchema(xml) =>
         Right(xml \\ "coverage")
 
       case Success(_) =>
@@ -26,6 +26,10 @@ object CoberturaParser extends CoverageParser {
     })
 
     report.right.flatMap(parse(projectRoot, _))
+  }
+
+  private def hasCorrectSchema(xml: Elem) = {
+    (xml \\ "coverage" \ "@line-rate").nonEmpty
   }
 
   private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
