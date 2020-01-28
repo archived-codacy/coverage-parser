@@ -35,13 +35,15 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
       report.fileReports.length shouldBe 5
 
       // coverage percentage for file Parser.php
-      report.fileReports.head.total shouldBe 33
-      report.fileReports.head.filename shouldBe "src/Codacy/Coverage/Parser/Parser.php"
+      val firstFileReport = report.fileReports.headOption.getOrElse(fail("file reports list is empty"))
+      firstFileReport.total shouldBe 33
+      firstFileReport.filename shouldBe "src/Codacy/Coverage/Parser/Parser.php"
 
       // check only the CoverageReport.php
-      report.fileReports(1).total shouldBe 33
-      report.fileReports(1).filename shouldBe "src/Codacy/Coverage/Report/CoverageReport.php"
-      report.fileReports(1).coverage shouldBe Map(11 -> 1, 12 -> 1, 13 -> 1, 16 -> 1,
+      val secondFileReport = report.fileReports(1)
+      secondFileReport.total shouldBe 33
+      secondFileReport.filename shouldBe "src/Codacy/Coverage/Report/CoverageReport.php"
+      secondFileReport.coverage shouldBe Map(11 -> 1, 12 -> 1, 13 -> 1, 16 -> 1,
       19 -> 0, 30 -> 0, 31 -> 0, 32 -> 0, 33 -> 0, 36 -> 0, 39 -> 0, 42 -> 0)
     }
 
