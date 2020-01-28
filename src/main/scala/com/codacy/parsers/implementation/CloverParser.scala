@@ -9,7 +9,7 @@ import com.codacy.parsers.util.{TextUtils, XMLoader}
 import scala.util.{Failure, Success, Try}
 import scala.xml.{Elem, Node, NodeSeq}
 
-object CloverParser extends CoverageParser{
+object CloverParser extends CoverageParser {
   private val COVERAGE = "coverage"
   private val PROJECT = "project"
   private val METRICS = "metrics"
@@ -50,7 +50,7 @@ object CloverParser extends CoverageParser{
   private def getCoveragePercentage(metrics: NodeSeq) = {
     val totalStatements = TextUtils.asFloat((metrics \ "@statements").text)
     val coveredStatements = TextUtils.asFloat((metrics \ "@coveredstatements").text)
-    val totalCoverage = if(totalStatements != 0) (coveredStatements / totalStatements) * 100 else 0
+    val totalCoverage = if (totalStatements != 0) (coveredStatements / totalStatements) * 100 else 0
     scala.math.round(totalCoverage)
   }
 
@@ -61,11 +61,10 @@ object CloverParser extends CoverageParser{
     val metrics = fileNode \ METRICS
     val fileCoverage = getCoveragePercentage(metrics)
 
-    val lineCoverage: Map[Int, Int] = (fileNode \ "line").
-      filter(x => (x \ "@type").text == "stmt").
-      map { l =>
-        (l \ "@num").text.toInt -> (l \ "@count").text.toInt
-      }(collection.breakOut)
+    val lineCoverage = (for {
+      line <- fileNode \ "line"
+      if (line \ "@type").text == "stmt"
+    } yield (line \ "@num").text.toInt -> (line \ "@count").text.toInt).toMap
 
     CoverageFileReport(cleanFileName, fileCoverage, lineCoverage)
   }
