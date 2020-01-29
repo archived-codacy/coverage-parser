@@ -28,6 +28,8 @@ object CoberturaParser extends CoverageParser {
     report.right.flatMap(parse(projectRoot, _))
   }
 
+  // restricting the schema to <coverage line-rate=...>
+  // ensures this will not consider Clover reports which also have a <coverage> tag
   private def hasCorrectSchema(xml: Elem) = {
     (xml \\ "coverage" \ "@line-rate").nonEmpty
   }
