@@ -20,8 +20,8 @@ class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers
       reader.isLeft shouldBe true
     }
 
-    "verify if report refers to existing line coverage reports" in {
-      // this index contains a reference to a file which does not exist
+    "verify if report is invalid if it refers to non-existing line coverage reports" in {
+      // this index contains a reference to a file that includes references to inexsistent files
       val reader = PhpUnitXmlParser.parse(new File("."), new File("src/test/resources/phpunitxml/incorrect_index.xml"))
 
       reader.isLeft shouldBe true
