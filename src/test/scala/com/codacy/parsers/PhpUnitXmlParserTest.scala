@@ -2,7 +2,7 @@ package com.codacy.parsers
 
 import java.io.File
 
-import com.codacy.parsers.implementation.{CloverParser, PhpUnitXmlParser}
+import com.codacy.parsers.implementation.PhpUnitXmlParser
 import org.scalatest.{BeforeAndAfterAll, EitherValues, Matchers, WordSpec}
 
 class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers with EitherValues {
@@ -43,14 +43,20 @@ class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers
       report.total shouldBe 69
       report.fileReports.length shouldBe 10
 
-      val configFileReport = report.fileReports.find(_.filename.endsWith("Config.php")).get
-      configFileReport.total shouldBe 86
-      configFileReport.coverage shouldBe Map(24 -> 4, 25 -> 4, 26 -> 4, 27 -> 4, 28 -> 4, 29 -> 4)
-      configFileReport.filename shouldBe "src/Codacy/Coverage/Config.php"
+      report.fileReports.find(_.filename.endsWith("Config.php")) match {
+        case None => fail("Config.php file is not present in the list of file reports")
+        case Some(fileReport) =>
+          fileReport.total shouldBe 86
+          fileReport.coverage shouldBe Map(24 -> 4, 25 -> 4, 26 -> 4, 27 -> 4, 28 -> 4, 29 -> 4)
+          fileReport.filename shouldBe "src/Codacy/Coverage/Config.php"
+      }
 
-      val cloverParserFileReport = report.fileReports.find(_.filename.endsWith("CloverParser.php")).get
-      cloverParserFileReport.total shouldBe 95
-      cloverParserFileReport.filename shouldBe "src/Codacy/Coverage/Parser/CloverParser.php"
+      report.fileReports.find(_.filename.endsWith("CloverParser.php")) match {
+        case None => fail("CloverParser.php is not present in the list of file reports")
+        case Some(fileReport) =>
+          fileReport.total shouldBe 95
+          fileReport.filename shouldBe "src/Codacy/Coverage/Parser/CloverParser.php"
+      }
     }
   }
 }
