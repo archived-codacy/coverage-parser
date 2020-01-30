@@ -6,56 +6,111 @@ import com.codacy.parsers.implementation.PhpUnitXmlParser
 import org.scalatest.{BeforeAndAfterAll, EitherValues, Matchers, WordSpec}
 
 class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers with EitherValues {
-  "PhpUnitXmlParser" should {
-    "verify if report exists" in {
-      val reader = PhpUnitXmlParser.parse(new File("."), new File("src/test/resources/non_existent_file.xml"))
+  private val ROOT_PATH = "/home/codacy-php/"
+  private val VALID_REPORT = "src/test/resources/phpunitxml/index.xml"
+  private val INCORRECT_REPORT = "src/test/resources/phpunitxml/incorrect_index.xml"
+  private val COBERTURA_REPORT = "src/test/resources/test_cobertura.xml"
+  private val NON_EXISTENT_REPORT = "src/test/resources/non_existent_file.xml"
+  private val CONFIG_PHP_FILE = "Config.php"
 
-      reader.isLeft shouldBe true
-    }
+  "parse" should {
+    "return an invalid report" when {
+      "report file does not exist" in {
+        val reader = PhpUnitXmlParser.parse(new File("."), new File(NON_EXISTENT_REPORT))
 
-    "verify if report is invalid" in {
-      // use some coverage file that does not follow the PHPUnit xml format
-      val reader = PhpUnitXmlParser.parse(new File("."), new File("src/test/resources/test_cobertura.xml"))
+        reader shouldBe 'left
+      }
 
-      reader.isLeft shouldBe true
-    }
+      "report file has a different format" in {
+        // use some coverage file that does not follow the PHPUnit xml format
+        val reader = PhpUnitXmlParser.parse(new File("."), new File(COBERTURA_REPORT))
 
-    "verify if report is invalid if it refers to non-existing line coverage reports" in {
-      // this index contains a reference to a file that includes references to inexsistent files
-      val reader = PhpUnitXmlParser.parse(new File("."), new File("src/test/resources/phpunitxml/incorrect_index.xml"))
+        reader shouldBe 'left
+      }
 
-      reader.isLeft shouldBe true
+      "report refers to non-existent file coverage report" in {
+        // this index contains a reference to a file that includes references to non-existent files
+        val reader =
+          PhpUnitXmlParser.parse(new File("."), new File(INCORRECT_REPORT))
+
+        reader.isLeft shouldBe true
+      }
     }
 
     "verify if report is valid" in {
       val reader = PhpUnitXmlParser
-        .parse(new File("/home/codacy-php/"), new File("src/test/resources/phpunitxml/index.xml"))
+        .parse(new File(ROOT_PATH), new File(VALID_REPORT))
 
-      reader.isRight shouldBe true
+      reader shouldBe 'right
     }
 
-    "return a valid report" in {
-      val reader = PhpUnitXmlParser
-        .parse(new File("/home/codacy-php/"), new File("src/test/resources/phpunitxml/index.xml"))
-
-      val report = reader.right.value
+    "return a report with the expected total coverage" in {
+      val report = PhpUnitXmlParser
+        .parse(new File(ROOT_PATH), new File(VALID_REPORT))
+        .right
+        .value
 
       report.total shouldBe 69
-      report.fileReports.length shouldBe 10
+    }
 
-      report.fileReports.find(_.filename.endsWith("Config.php")) match {
-        case None => fail("Config.php file is not present in the list of file reports")
+    "return a report with the expected number of files" in {
+      val report = PhpUnitXmlParser
+        .parse(new File(ROOT_PATH), new File(VALID_REPORT))
+        .right
+        .value
+
+      report.fileReports.length shouldBe 10
+    }
+
+    "return a report with the expected file names" in {
+      val report = PhpUnitXmlParser
+        .parse(new File(ROOT_PATH), new File(VALID_REPORT))
+        .right
+        .value
+
+      report.fileReports.map(_.filename).sorted shouldBe Seq(
+        "src/Codacy/Coverage/Api/Api.php",
+        "src/Codacy/Coverage/CodacyPhpCoverage.php",
+        "src/Codacy/Coverage/Config.php",
+        "src/Codacy/Coverage/Git/GitClient.php",
+        "src/Codacy/Coverage/Parser/CloverParser.php",
+        "src/Codacy/Coverage/Parser/Parser.php",
+        "src/Codacy/Coverage/Parser/PhpUnitXmlParser.php",
+        "src/Codacy/Coverage/Report/CoverageReport.php",
+        "src/Codacy/Coverage/Report/FileReport.php",
+        "src/Codacy/Coverage/Report/JsonProducer.php"
+      ).sorted
+    }
+
+    "return a report with the expected file coverage" in {
+      val report = PhpUnitXmlParser
+        .parse(new File(ROOT_PATH), new File(VALID_REPORT))
+        .right
+        .value
+
+      report.fileReports.find(_.filename.endsWith(CONFIG_PHP_FILE)) match {
+        case None => fail(CONFIG_PHP_FILE + " file is not present in the list of file reports")
         case Some(fileReport) =>
           fileReport.total shouldBe 86
-          fileReport.coverage shouldBe Map(24 -> 4, 25 -> 4, 26 -> 4, 27 -> 4, 28 -> 4, 29 -> 4)
-          fileReport.filename shouldBe "src/Codacy/Coverage/Config.php"
       }
 
       report.fileReports.find(_.filename.endsWith("CloverParser.php")) match {
         case None => fail("CloverParser.php is not present in the list of file reports")
         case Some(fileReport) =>
           fileReport.total shouldBe 95
-          fileReport.filename shouldBe "src/Codacy/Coverage/Parser/CloverParser.php"
+      }
+    }
+
+    "return a report with the expected line coverage" in {
+      val report = PhpUnitXmlParser
+        .parse(new File(ROOT_PATH), new File(VALID_REPORT))
+        .right
+        .value
+
+      report.fileReports.find(_.filename.endsWith(CONFIG_PHP_FILE)) match {
+        case None => fail(CONFIG_PHP_FILE + " file is not present in the list of file reports")
+        case Some(fileReport) =>
+          fileReport.coverage shouldBe Map(24 -> 4, 25 -> 4, 26 -> 4, 27 -> 4, 28 -> 4, 29 -> 4)
       }
     }
   }
