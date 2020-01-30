@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <phpunit xmlns="http://schema.phpunit.de/coverage/1.0">
-  <project name="/home/codacy-php//src/Codacy/Coverage">
+  <project name="/home/codacy-php/src/Codacy/Coverage">
     <tests>
       <test name="GitClientTest::testGetHashOfLastCommit" result="0" status="PASSED"/>
       <test name="CloverParserTest::testThrowsExceptionOnWrongPath" result="0" status="PASSED"/>
@@ -10,7 +10,7 @@
       <test name="PhpUnitXmlParserTest::testCanParsePhpUnitXmlReport" result="0" status="PASSED"/>
       <test name="JsonProducerTest::testCanProduceCorrectJson" result="0" status="PASSED"/>
     </tests>
-    <directory name="/home/codacy-php//src/Codacy/Coverage">
+    <directory name="/home/codacy-php/src/Codacy/Coverage">
       <totals>
         <lines total="650" comments="249" code="401" executable="177" executed="122" percent="68.93%"/>
         <methods count="27" tested="21" percent="77.78%"/>
