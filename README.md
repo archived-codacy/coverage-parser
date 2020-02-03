@@ -13,7 +13,7 @@ As a result of the parse operation, it will produce a CoverageReport, a class th
 
 ## Supported formats
 
-Check the table for the formats we support and which coverage tools write to them:
+Check the table for the formats we support and which coverage tools generate them:
 
 | Language   | Coverage tools (examples) | Formats   |
 | ---        | ---                       | ---       |
