@@ -35,14 +35,12 @@ object DotcoverParser extends CoverageParser {
 
     val fileReports = for {
       (fileIndex, statements) <- statementsPerFile
+      filename = TextUtils.sanitiseFilename(fileIndices(fileIndex)).stripPrefix(projectRootStr).stripPrefix("/")
+      lineCoverage = getLineCoverage(statements)
+      totalLines = lineCoverage.keys.size
+      coveredLines = lineCoverage.values.count(_ > 0)
+      total = if (totalLines == 0) 0 else math.round((coveredLines.toFloat / totalLines) * 100)
     } yield {
-      val filename = TextUtils.sanitiseFilename(fileIndices(fileIndex)).stripPrefix(projectRootStr).stripPrefix("/")
-
-      val lineCoverage = getLineCoverage(statements)
-      val totalLines = lineCoverage.keys.size
-      val coveredLines = lineCoverage.values.count(_ > 0)
-      val total = if (totalLines == 0) 0 else math.round((coveredLines.toFloat / totalLines) * 100)
-
       CoverageFileReport(filename, total, lineCoverage)
     }
 
@@ -70,8 +68,8 @@ object DotcoverParser extends CoverageParser {
       node <- statementNodes
       // a statement can extend over several lines
       line <- (node \@ "Line").toInt to (node \@ "EndLine").toInt
+      coveredValue = if ((node \@ CoveredAttribute).toBoolean) 1 else 0
     } yield {
-      val coveredValue = if ((node \@ CoveredAttribute).toBoolean) 1 else 0
       (line, coveredValue)
     }
 
