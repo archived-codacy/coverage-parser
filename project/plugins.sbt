@@ -1,6 +1,6 @@
-resolvers := Seq(DefaultMavenRepository, Resolver.jcenterRepo, Resolver.sonatypeRepo("releases"))
+resolvers += Resolver.jcenterRepo
 
-addSbtPlugin("com.codacy" % "codacy-sbt-plugin" % "14.0.1")
+addSbtPlugin("com.codacy" % "codacy-sbt-plugin" % "18.0.0")
 
 // Updates
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.4.0")
