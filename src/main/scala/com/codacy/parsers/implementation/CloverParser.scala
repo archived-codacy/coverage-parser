@@ -28,13 +28,19 @@ object CloverParser extends CoverageParser {
         Left(s"Unparseable report. ${ex.getMessage}")
     }
 
-    report.right.map(parse(rootProject, _))
+    report.right.flatMap(
+      r =>
+        Try(parseReportNode(rootProject, r)) match {
+          case Success(coverageReport) => Right(coverageReport)
+          case Failure(ex) => Left(ex.getMessage)
+      }
+    )
   }
 
   private def hasCorrectSchema(xml: Elem) =
     (xml \\ CoverageTag \ ProjectTag \ MetricsTag).nonEmpty
 
-  private def parse(rootProject: File, report: NodeSeq): CoverageReport = {
+  private def parseReportNode(rootProject: File, report: NodeSeq): CoverageReport = {
     // global metrics
     val metrics = report \ ProjectTag \ MetricsTag
     val totalCoverage = getCoveragePercentage(metrics)
