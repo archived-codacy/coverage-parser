@@ -7,9 +7,9 @@ import org.scalatest.{BeforeAndAfterAll, EitherValues, Matchers, WordSpec}
 
 class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers with EitherValues {
   private val coberturaReportPath = "src/test/resources/test_cobertura.xml"
-  private val nonExistentReportPath = "src/test/resources/non-existent.xml"
   private val cloverReportPath = "src/test/resources/test_clover.xml"
   private val cloverWithoutPackagesFilePath = "src/test/resources/test_clover_without_packages.xml"
+  private val nonExistentReportPath = "src/test/resources/non-existent.xml"
   private val invalidCloverReportPath = "src/test/resources/test_invalid_clover.xml"
 
   "parse" should {
