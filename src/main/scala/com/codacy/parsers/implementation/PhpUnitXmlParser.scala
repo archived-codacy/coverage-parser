@@ -20,7 +20,12 @@ object PhpUnitXmlParser extends CoverageParser {
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
     val report = loadPhpUnitFile(reportFile)
 
-    report.right.flatMap(parse(rootProject, _, reportFile.getParent))
+    report.right.flatMap { r =>
+      Try(parse(rootProject, r, reportFile.getParent)) match {
+        case Success(reportEither) => reportEither
+        case Failure(ex) => Left(s"Failed to parse the report: ${ex.getMessage}")
+      }
+    }
   }
 
   private def parse(projectRoot: File, report: NodeSeq, reportRootPath: String): Either[String, CoverageReport] = {
