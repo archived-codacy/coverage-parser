@@ -9,8 +9,8 @@ import com.codacy.parsers.implementation.{
   DotcoverParser,
   JacocoParser,
   LCOVParser,
-  OpenCoverParser,
-  PhpUnitXmlParser
+  PhpUnitXmlParser,
+  OpenCoverParser
 }
 
 import scala.util.Try
