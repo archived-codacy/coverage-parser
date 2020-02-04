@@ -11,6 +11,7 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
   private val cloverReportPath = "src/test/resources/test_clover.xml"
   private val cloverWithoutPackagesFilePath = "src/test/resources/test_clover_without_packages.xml"
   private val invalidCloverReportPath = "src/test/resources/test_invalid_clover.xml"
+
   "parse" should {
     "identify report as invalid" when {
       "file does not follow the Cobertura format" in {
