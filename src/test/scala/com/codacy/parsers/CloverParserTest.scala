@@ -10,6 +10,7 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
   private val nonExistentReportPath = "src/test/resources/non-existent.xml"
   private val cloverReportPath = "src/test/resources/test_clover.xml"
   private val cloverWithoutPackagesFilePath = "src/test/resources/test_clover_without_packages.xml"
+  private val invalidCloverReportPath = "src/test/resources/test_invalid_clover.xml"
   "parse" should {
     "identify report as invalid" when {
       "file does not follow the Cobertura format" in {
@@ -22,6 +23,11 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
       "file does not exist" in {
         val reader = CloverParser.parse(new File("."), new File(nonExistentReportPath))
 
+        reader shouldBe 'left
+      }
+
+      "file does not follow the Clover schema" in {
+        val reader = CloverParser.parse(new File("."), new File(invalidCloverReportPath))
         reader shouldBe 'left
       }
     }
