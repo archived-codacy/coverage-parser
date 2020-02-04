@@ -32,7 +32,7 @@ object CloverParser extends CoverageParser {
       r =>
         Try(parseReportNode(rootProject, r)) match {
           case Success(coverageReport) => Right(coverageReport)
-          case Failure(ex) => Left(ex.getMessage)
+          case Failure(ex) => Left(s"Failed to parse the report: ${ex.getMessage}")
       }
     )
   }
