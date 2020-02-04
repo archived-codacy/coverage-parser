@@ -3,7 +3,7 @@ package com.codacy.parsers
 import java.io.File
 
 import com.codacy.api.CoverageReport
-import com.codacy.parsers.implementation.{CloverParser, CoberturaParser, JacocoParser, PhpUnitXmlParser, LCOVParser}
+import com.codacy.parsers.implementation.{CloverParser, CoberturaParser, JacocoParser, LCOVParser, PhpUnitXmlParser}
 
 import scala.util.Try
 
