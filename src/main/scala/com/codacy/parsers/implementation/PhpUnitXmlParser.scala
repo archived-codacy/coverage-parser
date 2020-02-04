@@ -21,14 +21,18 @@ object PhpUnitXmlParser extends CoverageParser {
     val report = loadPhpUnitFile(reportFile)
 
     report.right.flatMap { r =>
-      Try(parse(rootProject, r, reportFile.getParent)) match {
+      Try(parseReportNode(rootProject, r, reportFile.getParent)) match {
         case Success(reportEither) => reportEither
         case Failure(ex) => Left(s"Failed to parse the report: ${ex.getMessage}")
       }
     }
   }
 
-  private def parse(projectRoot: File, report: NodeSeq, reportRootPath: String): Either[String, CoverageReport] = {
+  private def parseReportNode(
+      projectRoot: File,
+      report: NodeSeq,
+      reportRootPath: String
+  ): Either[String, CoverageReport] = {
     val codeDirectory = report \ ProjectTag \ DirectoryTag \@ "name"
     val projectRootPath = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
 
