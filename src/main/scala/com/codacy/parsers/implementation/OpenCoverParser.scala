@@ -13,7 +13,7 @@ object OpenCoverParser extends CoverageParser {
   private val RootTag = "CoverageSession"
   private val IdAttribute = "uid"
   private val FileTag = "File"
-  private val FileRefTag = FileTag + "Ref"
+  private val FileRefTag = "FileRef"
   private val LineAttribute = "sl"
   private val VisitCounterAttribute = "vc"
   private val FilesTag = "Files"
