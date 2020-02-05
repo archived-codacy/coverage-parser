@@ -31,19 +31,19 @@ class OpenCoverParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
     "return the expected files" in {
       val reader = OpenCoverParser.parse(new File("."), new File(openCoverReportPath))
 
-      reader.value.fileReports.map(_.filename).sorted shouldBe Seq("bar.cs", "foo.cs", "foobar.cs").sorted
+      reader.right.value.fileReports.map(_.filename).sorted shouldBe Seq("bar.cs", "foo.cs", "foobar.cs").sorted
     }
 
     "return the expected total coverage" in {
       val reader = OpenCoverParser.parse(new File("."), new File(openCoverReportPath))
 
-      reader.value.total shouldBe 50
+      reader.right.value.total shouldBe 50
     }
 
     "return the expected report" in {
       val reader = OpenCoverParser.parse(new File("."), new File(openCoverReportPath))
 
-      reader.value shouldBe CoverageReport(
+      reader.right.value shouldBe CoverageReport(
         50,
         List(
           CoverageFileReport("bar.cs", 0, Map(10 -> 0)),

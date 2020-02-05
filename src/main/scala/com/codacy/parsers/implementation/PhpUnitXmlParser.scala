@@ -22,37 +22,27 @@ object PhpUnitXmlParser extends CoverageParser {
 
     report.flatMap { r =>
       Try(parseReportNode(rootProject, r, reportFile.getParent)) match {
-        case Success(reportEither) => reportEither
+        case Success(reportEither) => Right(reportEither)
         case Failure(ex) => Left(s"Failed to parse the report: ${ex.getMessage}")
       }
     }
   }
 
-  private def parseReportNode(
-      projectRoot: File,
-      report: NodeSeq,
-      reportRootPath: String
-  ): Either[String, CoverageReport] = {
+  private def parseReportNode(projectRoot: File, report: NodeSeq, reportRootPath: String): CoverageReport = {
     val codeDirectory = report \ ProjectTag \ DirectoryTag \@ "name"
     val projectRootPath = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
 
     val totalPercentage = getTotalsCoveragePercentage(report \ ProjectTag \ DirectoryTag \ TotalsTag)
 
-    val fileNodes = report \ ProjectTag \ DirectoryTag \ "file"
-    val fileReports: Either[String, Seq[CoverageFileReport]] =
-      fileNodes.foldLeft[Either[String, Seq[CoverageFileReport]]](Right(Seq.empty[CoverageFileReport])) { (accum, f) =>
-        accum.flatMap { reports =>
-          val reportFileName = f \@ "href"
-          val fileName = getSourceFileName(projectRootPath, codeDirectory, reportFileName)
-          val coveragePercentage = getTotalsCoveragePercentage(f \ TotalsTag)
+    val fileReports = for {
+      fileNode <- report \ ProjectTag \ DirectoryTag \ "file"
+      reportFileName = fileNode \@ "href"
+      fileName = getSourceFileName(projectRootPath, codeDirectory, reportFileName)
+      coveragePercentage = getTotalsCoveragePercentage(fileNode \ TotalsTag)
+      lineCoverage = getLineCoverage(reportRootPath, reportFileName).right.getOrElse(throw new Exception("ERROR!"))
+    } yield CoverageFileReport(fileName, coveragePercentage, lineCoverage)
 
-          val lineCoverage: Either[String, Map[Int, Int]] = getLineCoverage(reportRootPath, reportFileName)
-
-          lineCoverage.map(CoverageFileReport(fileName, coveragePercentage, _) +: reports)
-        }
-      }
-
-    fileReports.map(CoverageReport(totalPercentage, _))
+    CoverageReport(totalPercentage, fileReports)
   }
 
   private def loadPhpUnitFile(reportFile: File) = {
