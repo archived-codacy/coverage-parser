@@ -7,9 +7,10 @@
 
 Scala library for parsing coverage reports.
 
-The parsers in this project receive as input two parameters, the project root folder and the coverage report.
-As a result of the parse operation, it will produce a CoverageReport, a class that is compatible with the
-[Codacy coverage format](https://support.codacy.com/hc/en-us/articles/207279819-Coverage).
+The parsers in this project receive as input two parameters, the project root folder, and the coverage report file.
+As a result of the parse operation, it will produce either a CoverageReport, a class that is compatible with the
+[Codacy coverage format](https://support.codacy.com/hc/en-us/articles/207279819-Coverage) or a string describing the
+error parsing the coverage report file.
 
 ## Supported formats
 
@@ -24,8 +25,7 @@ Check the table for the formats we support and which coverage tools generate the
 | PHP        | [PHPUnit](https://phpunit.readthedocs.io/en/8.5/code-coverage-analysis.html) | PHPUnit XML <br> [Clover](https://confluence.atlassian.com/clover/using-clover-for-php-420973033.html) |
 | Ruby       | [SimpleCov](https://github.com/colszowka/simplecov) | [Cobertura](https://github.com/dashingrocket/simplecov-cobertura) <br> [LCOV](https://github.com/fortissimo1997/simplecov-lcov) |
 
-Even if you cannot find your language or coverage tool of choice in this table,
-you can still use this parser for the supported formats listed above.
+You can use this parser with any of the listed coverage formats, even if your language or coverage tool of choice is not in the table above.
 If your coverage reports are in a different format you can use a format converter, such as
 [ReportGenerator](https://danielpalme.github.io/ReportGenerator/), to generate a supported format.
 
