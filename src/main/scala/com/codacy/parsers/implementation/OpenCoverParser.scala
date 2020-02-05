@@ -41,7 +41,7 @@ object OpenCoverParser extends CoverageParser {
       sanitisedFileName = TextUtils.sanitiseFilename(filename).stripPrefix(projectRoot).stripPrefix("/")
       lineCoverage = getLineCoverage(methods, sanitisedFileName)
       totalLines = lineCoverage.size
-      coveredLines = lineCoverage.count(_._2 > 0)
+      coveredLines = lineCoverage.count { case (_, visitCount) => visitCount > 0 }
       coverage = computePercentage(coveredLines, totalLines)
     } yield {
       CoverageFileReport(sanitisedFileName, coverage, lineCoverage)
