@@ -24,6 +24,10 @@ Check the table for the formats we support and which coverage tools generate the
 | PHP        | [PHPUnit](https://phpunit.readthedocs.io/en/8.5/code-coverage-analysis.html) | PHPUnit XML <br> [Clover](https://confluence.atlassian.com/clover/using-clover-for-php-420973033.html) |
 | Ruby       | [SimpleCov](https://github.com/colszowka/simplecov) | [Cobertura](https://github.com/dashingrocket/simplecov-cobertura) <br> [LCOV](https://github.com/fortissimo1997/simplecov-lcov) |
 
+Even if you cannot find your language or coverage tool of choice in this table,
+you can still use this parser for the supported formats listed above.
+If your coverage reports are in a different format you can use a format converter, such as
+[ReportGenerator](https://danielpalme.github.io/ReportGenerator/), to generate a supported format.
 
 Usage:
 
