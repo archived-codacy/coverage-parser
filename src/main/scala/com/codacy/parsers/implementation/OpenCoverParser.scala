@@ -48,9 +48,7 @@ object OpenCoverParser extends CoverageParser {
       totalLines = lineCoverage.size
       coveredLines = lineCoverage.count { case (_, visitCount) => visitCount > 0 }
       coverage = computePercentage(coveredLines, totalLines)
-    } yield {
-      CoverageFileReport(sanitisedFileName, coverage, lineCoverage)
-    }).toSeq
+    } yield CoverageFileReport(sanitisedFileName, coverage, lineCoverage)).toSeq
 
     val totalCoverage = computeTotalCoverage(fileReports)
 
@@ -61,9 +59,7 @@ object OpenCoverParser extends CoverageParser {
     val lineCoverage = for {
       methodNode <- methodNodes
       sequencePoint <- methodNode \\ SequencePointTag
-    } yield {
-      (sequencePoint \@ LineAttribute).toInt -> (sequencePoint \@ VisitCounterAttribute).toInt
-    }
+    } yield (sequencePoint \@ LineAttribute).toInt -> (sequencePoint \@ VisitCounterAttribute).toInt
 
     lineCoverage.toMap
   }
