@@ -40,9 +40,7 @@ object DotcoverParser extends CoverageParser {
       totalLines = lineCoverage.keys.size
       coveredLines = lineCoverage.values.count(_ > 0)
       total = if (totalLines == 0) 0 else math.round((coveredLines.toFloat / totalLines) * 100)
-    } yield {
-      CoverageFileReport(filename, total, lineCoverage)
-    }
+    } yield CoverageFileReport(filename, total, lineCoverage)
 
     CoverageReport(totalCoverage, fileReports.toSeq)
   }
@@ -69,9 +67,7 @@ object DotcoverParser extends CoverageParser {
       // a statement can extend over several lines
       line <- (node \@ "Line").toInt to (node \@ "EndLine").toInt
       coveredValue = if ((node \@ CoveredAttribute).toBoolean) 1 else 0
-    } yield {
-      (line, coveredValue)
-    }
+    } yield (line, coveredValue)
 
     lines.toMap
   }
