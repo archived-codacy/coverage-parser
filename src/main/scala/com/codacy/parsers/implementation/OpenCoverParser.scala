@@ -12,9 +12,14 @@ import scala.xml.{Elem, NodeSeq}
 object OpenCoverParser extends CoverageParser {
   private val RootTag = "CoverageSession"
   private val IdAttribute = "uid"
-  private val FileRefTag = "FileRef"
+  private val FileTag = "File"
+  private val FileRefTag = FileTag + "Ref"
   private val LineAttribute = "sl"
   private val VisitCounterAttribute = "vc"
+  private val FilesTag = "Files"
+  private val FullPathAttribute = "fullPath"
+  private val MethodTag = "Method"
+  private val SequencePointTag = "SequencePoint"
 
   override val name: String = "OpenCover"
 
@@ -28,11 +33,11 @@ object OpenCoverParser extends CoverageParser {
   }
 
   private def parseReportNode(rootNode: NodeSeq, projectRoot: String): CoverageReport = {
-    val fileIndices: Map[Int, String] = (rootNode \\ "Files" \ "File").map { n =>
-      (n \@ IdAttribute).toInt -> n \@ "fullPath"
+    val fileIndices: Map[Int, String] = (rootNode \\ FilesTag \ FileTag).map { n =>
+      (n \@ IdAttribute).toInt -> n \@ FullPathAttribute
     }.toMap
 
-    val validMethods = (rootNode \\ "Method").filter(m => (m \ FileRefTag).nonEmpty)
+    val validMethods = (rootNode \\ MethodTag).filter(m => (m \ FileRefTag).nonEmpty)
 
     val fileReports = (for {
       (fileIndex, methods) <- validMethods.groupBy(m => (m \ FileRefTag \@ IdAttribute).toInt)
@@ -55,7 +60,7 @@ object OpenCoverParser extends CoverageParser {
   private def getLineCoverage(methodNodes: NodeSeq, filename: String) = {
     val lineCoverage = for {
       methodNode <- methodNodes
-      sequencePoint <- methodNode \\ "SequencePoint"
+      sequencePoint <- methodNode \\ SequencePointTag
     } yield {
       (sequencePoint \@ LineAttribute).toInt -> (sequencePoint \@ VisitCounterAttribute).toInt
     }
@@ -72,8 +77,7 @@ object OpenCoverParser extends CoverageParser {
           (total + totalLines, covered + coveredLines)
       }
 
-    val totalCoverage = computePercentage(coveredLines, totalLines)
-    totalCoverage
+    computePercentage(coveredLines, totalLines)
   }
 
   private def loadXml(reportFile: File) = {
