@@ -25,7 +25,7 @@ object CoberturaParser extends CoverageParser {
         Left(s"Unparseable report. ${ex.getMessage}")
     })
 
-    report.right.flatMap(parse(projectRoot, _))
+    report.flatMap(parse(projectRoot, _))
   }
 
   // restricting the schema to <coverage line-rate=...>

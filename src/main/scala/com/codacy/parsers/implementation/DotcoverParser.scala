@@ -19,7 +19,7 @@ object DotcoverParser extends CoverageParser {
   private val CoveredAttribute = "Covered"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
-    loadXml(reportFile).right.map(parse(rootProject, _))
+    loadXml(reportFile).map(parse(rootProject, _))
   }
 
   private def parse(rootProject: File, rootNode: NodeSeq): CoverageReport = {

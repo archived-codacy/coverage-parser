@@ -22,14 +22,14 @@ object LCOVParser extends CoverageParser {
         Left(s"Can't load report file. ${ex.getMessage}")
     }
 
-    report.right.flatMap(parse(reportFile, _))
+    report.flatMap(parse(reportFile, _))
   }
 
   private def parse(reportFile: File, lines: Iterator[String]): Either[String, CoverageReport] = {
     val coverageFileReports =
       lines.foldLeft[Either[String, Seq[CoverageFileReport]]](Right(Seq.empty[CoverageFileReport]))(
         (accum, next) =>
-          accum.right.flatMap {
+          accum.flatMap {
             case reports if next startsWith SF =>
               Right(CoverageFileReport(next stripPrefix SF, 0, Map()) +: reports)
             case reports if next startsWith DA =>
@@ -49,7 +49,7 @@ object LCOVParser extends CoverageParser {
               res
         }
       )
-    coverageFileReports.right.map { fileReports =>
+    coverageFileReports.map { fileReports =>
       val totalFileReport = fileReports.map { report =>
         CoverageFileReport(
           report.filename,

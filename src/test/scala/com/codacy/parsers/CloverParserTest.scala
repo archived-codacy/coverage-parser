@@ -59,19 +59,19 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
 
     "return a report with the expected number of files" in {
       val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
+        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).value
       report.fileReports should have length 5
     }
 
     "return a report with the expected total coverage" in {
       val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
+        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).value
       report.total shouldBe 38
     }
 
     "return a report with the expected file names" in {
       val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
+        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).value
       report.fileReports.map(_.filename).sorted shouldBe Seq(
         "src/Codacy/Coverage/Parser/Parser.php",
         "src/Codacy/Coverage/Report/CoverageReport.php",
@@ -83,7 +83,7 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
 
     "return a report with the expected file coverage" in {
       val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
+        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).value
       // coverage percentage for file Parser.php
       val firstFileReport = report.fileReports.headOption.getOrElse(fail("file reports list is empty"))
       firstFileReport.total shouldBe 33
@@ -95,7 +95,7 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
 
     "return a report with the expected file line coverage" in {
       val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
+        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).value
       report.fileReports(1).coverage shouldBe Map(
         11 -> 1,
         12 -> 1,

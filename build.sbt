@@ -2,6 +2,8 @@ import codacy.libs._
 
 name := "coverage-parser"
 
+scalaVersion := "2.12.10"
+
 scalacOptions := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint", "-Xfatal-warnings")
 
 // Runtime dependencies

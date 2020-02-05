@@ -39,7 +39,7 @@ class JacocoParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
         )
       )
 
-      reader.right.value should equal(testReport)
+      reader.value should equal(testReport)
     }
 
   }

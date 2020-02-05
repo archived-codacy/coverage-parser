@@ -31,7 +31,7 @@ class LCOVParserTest extends WordSpec with BeforeAndAfterAll with Matchers with 
         )
       )
 
-      reader.right.value should equal(testReport)
+      reader.value should equal(testReport)
     }
 
   }

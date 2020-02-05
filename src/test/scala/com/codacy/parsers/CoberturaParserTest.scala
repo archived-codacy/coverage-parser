@@ -35,7 +35,7 @@ class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
         )
       )
 
-      reader.right.value should equal(testReport)
+      reader.value should equal(testReport)
     }
 
     "no crash on thousands separators" in {
@@ -53,7 +53,7 @@ class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
         )
       )
 
-      reader.right.value should equal(testReport)
+      reader.value should equal(testReport)
     }
 
     "return a valid report with windows file path separator" in {
@@ -71,7 +71,7 @@ class CoberturaParserTest extends WordSpec with BeforeAndAfterAll with Matchers 
         )
       )
 
-      reader.right.value should equal(testReport)
+      reader.value should equal(testReport)
     }
 
   }

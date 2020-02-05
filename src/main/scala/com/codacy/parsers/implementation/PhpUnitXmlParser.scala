@@ -20,7 +20,7 @@ object PhpUnitXmlParser extends CoverageParser {
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
     val report = loadPhpUnitFile(reportFile)
 
-    report.right.flatMap { r =>
+    report.flatMap { r =>
       Try(parseReportNode(rootProject, r, reportFile.getParent)) match {
         case Success(reportEither) => reportEither
         case Failure(ex) => Left(s"Failed to parse the report: ${ex.getMessage}")
@@ -41,18 +41,18 @@ object PhpUnitXmlParser extends CoverageParser {
     val fileNodes = report \ ProjectTag \ DirectoryTag \ "file"
     val fileReports: Either[String, Seq[CoverageFileReport]] =
       fileNodes.foldLeft[Either[String, Seq[CoverageFileReport]]](Right(Seq.empty[CoverageFileReport])) { (accum, f) =>
-        accum.right.flatMap { reports =>
+        accum.flatMap { reports =>
           val reportFileName = f \@ "href"
           val fileName = getSourceFileName(projectRootPath, codeDirectory, reportFileName)
           val coveragePercentage = getTotalsCoveragePercentage(f \ TotalsTag)
 
           val lineCoverage: Either[String, Map[Int, Int]] = getLineCoverage(reportRootPath, reportFileName)
 
-          lineCoverage.right.map(CoverageFileReport(fileName, coveragePercentage, _) +: reports)
+          lineCoverage.map(CoverageFileReport(fileName, coveragePercentage, _) +: reports)
         }
       }
 
-    fileReports.right.map(CoverageReport(totalPercentage, _))
+    fileReports.map(CoverageReport(totalPercentage, _))
   }
 
   private def loadPhpUnitFile(reportFile: File) = {
@@ -72,7 +72,7 @@ object PhpUnitXmlParser extends CoverageParser {
     val coverageDetailFile = new File(reportRootPath, filename)
     val phpUnitNode = loadPhpUnitFile(coverageDetailFile)
 
-    val lineCoverage: Either[String, Map[Int, Int]] = phpUnitNode.right.map { node =>
+    val lineCoverage: Either[String, Map[Int, Int]] = phpUnitNode.map { node =>
       (node \\ "coverage" \\ "line").map { line =>
         (line \@ "nr").toInt -> (line \ "covered").length
       }.toMap

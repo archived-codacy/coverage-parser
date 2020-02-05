@@ -47,7 +47,7 @@ class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers
     "return a report with the expected total coverage" in {
       val report = PhpUnitXmlParser
         .parse(new File(rootPath), new File(validReport))
-        .right
+        
         .value
 
       report.total shouldBe 69
@@ -56,7 +56,7 @@ class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers
     "return a report with the expected number of files" in {
       val report = PhpUnitXmlParser
         .parse(new File(rootPath), new File(validReport))
-        .right
+        
         .value
 
       report.fileReports.length shouldBe 10
@@ -65,7 +65,7 @@ class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers
     "return a report with the expected file names" in {
       val report = PhpUnitXmlParser
         .parse(new File(rootPath), new File(validReport))
-        .right
+        
         .value
 
       report.fileReports.map(_.filename).sorted shouldBe Seq(
@@ -85,7 +85,7 @@ class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers
     "return a report with the expected file coverage" in {
       val report = PhpUnitXmlParser
         .parse(new File(rootPath), new File(validReport))
-        .right
+        
         .value
 
       report.fileReports.find(_.filename.endsWith(configPhpFile)) match {
@@ -104,7 +104,7 @@ class PhpUnitXmlParserTest extends WordSpec with BeforeAndAfterAll with Matchers
     "return a report with the expected line coverage" in {
       val report = PhpUnitXmlParser
         .parse(new File(rootPath), new File(validReport))
-        .right
+        
         .value
 
       report.fileReports.find(_.filename.endsWith(configPhpFile)) match {
