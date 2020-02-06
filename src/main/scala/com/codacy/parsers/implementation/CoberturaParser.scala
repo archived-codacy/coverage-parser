@@ -3,41 +3,34 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.CoverageParser
-import com.codacy.parsers.util.{TextUtils, XMLoader}
+import com.codacy.parsers.util.TextUtils
+import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
-import scala.util.{Failure, Success, Try}
 import scala.xml.{Elem, NodeSeq}
 
-object CoberturaParser extends CoverageParser {
+object CoberturaParser extends CoverageParser with XmlReportParser {
 
   override val name: String = "Cobertura"
 
+  private val CoverageTag = "coverage"
+  private val LineRateAttribute = "@line-rate"
+
   def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
-    val report = (Try(XMLoader.loadFile(reportFile)) match {
-      case Success(xml) if hasCorrectSchema(xml) =>
-        Right(xml \\ "coverage")
-
-      case Success(_) =>
-        Left("Invalid report. Could not find top level <coverage> tag.")
-
-      case Failure(ex) =>
-        Left(s"Unparseable report. ${ex.getMessage}")
-    })
-
-    report.flatMap(parse(projectRoot, _))
+    parseXmlReport(reportFile, s"Could not find top level <$CoverageTag> tag") {
+      parse(projectRoot, _)
+    }
   }
 
   // restricting the schema to <coverage line-rate=...>
   // ensures this will not consider Clover reports which also have a <coverage> tag
-  private def hasCorrectSchema(xml: Elem) = {
-    (xml \\ "coverage" \ "@line-rate").nonEmpty
-  }
+  override def validateSchema(xml: Elem): Boolean = (xml \\ CoverageTag \ LineRateAttribute).nonEmpty
 
-  private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
+  override def getRootNode(xml: Elem): NodeSeq = xml \\ CoverageTag
+
+  private def parse(projectRoot: File, report: NodeSeq) = {
     val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
 
-    val total = (TextUtils.asFloat((report \\ "coverage" \ "@line-rate").text) * 100).toInt
+    val total = (TextUtils.asFloat((report \\ CoverageTag \ LineRateAttribute).text) * 100).toInt
 
     val fileReports: List[CoverageFileReport] = (for {
       (filename, classes) <- (report \\ "class").groupBy(c => (c \ "@filename").text)
@@ -46,15 +39,15 @@ object CoberturaParser extends CoverageParser {
       lineCoverage(cleanFilename, classes)
     })(collection.breakOut)
 
-    Right(CoverageReport(total, fileReports))
+    CoverageReport(total, fileReports)
   }
 
   private def lineCoverage(sourceFilename: String, classes: NodeSeq): CoverageFileReport = {
-    val classHit = (classes \\ "@line-rate").map { total =>
+    val classHit = (classes \\ LineRateAttribute).map { total =>
       val totalValue = TextUtils.asFloat(total.text)
       (totalValue * 100).toInt
     }
-    val fileHit = if (classHit.length != 0) { classHit.sum / classHit.length } else 0
+    val fileHit = if (classHit.nonEmpty) { classHit.sum / classHit.length } else 0
 
     val lineHitMap: Map[Int, Int] =
       (for {
@@ -64,5 +57,4 @@ object CoberturaParser extends CoverageParser {
 
     CoverageFileReport(sourceFilename, fileHit, lineHitMap)
   }
-
 }

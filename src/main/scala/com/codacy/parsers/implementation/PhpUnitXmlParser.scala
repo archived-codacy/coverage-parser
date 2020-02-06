@@ -3,30 +3,28 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.CoverageParser
-import com.codacy.parsers.util.{TextUtils, XMLoader}
+import com.codacy.parsers.{CoverageParser, XmlReportParser}
+import com.codacy.parsers.util.TextUtils
 
-import scala.util.{Failure, Success, Try}
-import scala.xml.NodeSeq
+import scala.xml.{Elem, NodeSeq}
 
-object PhpUnitXmlParser extends CoverageParser {
+object PhpUnitXmlParser extends CoverageParser with XmlReportParser {
   override val name: String = "PHPUnit"
 
   private val PhpUnitTag = "phpunit"
   private val ProjectTag = "project"
   private val DirectoryTag = "directory"
   private val TotalsTag = "totals"
+  private val XmlParseErrorMessage = s"Could not find top level <$PhpUnitTag> tag";
 
-  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
-    val report = loadPhpUnitFile(reportFile)
-
-    report.flatMap { r =>
-      Try(parseReportNode(rootProject, r, reportFile.getParent)) match {
-        case Success(reportEither) => reportEither
-        case Failure(ex) => Left(s"Failed to parse the report: ${ex.getMessage}")
-      }
+  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
+    parseXmlReportWithEither(reportFile, XmlParseErrorMessage) {
+      parseReportNode(rootProject, _, reportFile.getParent)
     }
-  }
+
+  override def validateSchema(xml: Elem): Boolean = getRootNode(xml).nonEmpty
+
+  override def getRootNode(xml: Elem): NodeSeq = xml \\ PhpUnitTag
 
   private def parseReportNode(
       projectRoot: File,
@@ -62,22 +60,9 @@ object PhpUnitXmlParser extends CoverageParser {
     Right(builder.result())
   }
 
-  private def loadPhpUnitFile(reportFile: File) = {
-    Try(XMLoader.loadFile(reportFile)) match {
-      case Success(xml) if (xml \\ PhpUnitTag).nonEmpty =>
-        Right(xml \\ PhpUnitTag)
-
-      case Success(_) =>
-        Left(s"Invalid report. Could not find top level <$PhpUnitTag> tag.")
-
-      case Failure(ex) =>
-        Left(s"Unparseable report. ${ex.getMessage}")
-    }
-  }
-
   private def getLineCoverage(reportRootPath: String, filename: String) = {
     val coverageDetailFile = new File(reportRootPath, filename)
-    val phpUnitNode = loadPhpUnitFile(coverageDetailFile)
+    val phpUnitNode = loadXmlReport(coverageDetailFile, XmlParseErrorMessage)
 
     val lineCoverage: Either[String, Map[Int, Int]] = phpUnitNode.map { node =>
       (node \\ "coverage" \\ "line").map { line =>

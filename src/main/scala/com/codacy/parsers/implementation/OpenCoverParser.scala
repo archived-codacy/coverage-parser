@@ -3,13 +3,12 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.CoverageParser
-import com.codacy.parsers.util.{TextUtils, XMLoader}
+import com.codacy.parsers.util.TextUtils
+import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
-import scala.util.{Failure, Success, Try}
 import scala.xml.{Elem, NodeSeq}
 
-object OpenCoverParser extends CoverageParser {
+object OpenCoverParser extends CoverageParser with XmlReportParser {
   private val RootTag = "CoverageSession"
   private val IdAttribute = "uid"
   private val FileTag = "File"
@@ -23,14 +22,14 @@ object OpenCoverParser extends CoverageParser {
 
   override val name: String = "OpenCover"
 
-  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
-    loadXml(reportFile).flatMap { r =>
-      Try(parseReportNode(r, TextUtils.sanitiseFilename(rootProject.getAbsolutePath))) match {
-        case Success(coverageReport) => Right(coverageReport)
-        case Failure(ex) => Left(s"Failed to parse report with error: ${ex.getMessage}")
-      }
+  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
+    parseXmlReport(reportFile, s"Could not find tag <$RootTag>") {
+      parseReportNode(_, TextUtils.sanitiseFilename(rootProject.getAbsolutePath))
     }
-  }
+
+  override def validateSchema(xml: Elem): Boolean = getRootNode(xml).nonEmpty
+
+  override def getRootNode(xml: Elem): NodeSeq = xml \\ RootTag
 
   private def parseReportNode(rootNode: NodeSeq, projectRoot: String): CoverageReport = {
     val fileIndices: Map[Int, String] = (rootNode \\ FilesTag \ FileTag).map { n =>
@@ -76,22 +75,7 @@ object OpenCoverParser extends CoverageParser {
     computePercentage(coveredLines, totalLines)
   }
 
-  private def loadXml(reportFile: File) = {
-    Try(XMLoader.loadFile(reportFile)) match {
-      case Success(xml) if hasCorrectSchema(xml) =>
-        Right(xml \\ RootTag)
-
-      case Success(_) =>
-        Left(s"Invalid report. Could not find tag <$RootTag>.")
-
-      case Failure(ex) =>
-        Left(s"Unparseable report. ${ex.getMessage}")
-    }
-  }
-
-  private def hasCorrectSchema(elem: Elem) =
-    (elem \\ RootTag).nonEmpty
-
   private def computePercentage(covered: Int, total: Int) =
     if (total == 0) 0 else math.round((covered.toFloat / total) * 100)
+
 }

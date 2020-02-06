@@ -3,24 +3,28 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.CoverageParser
-import com.codacy.parsers.util.{TextUtils, XMLoader}
+import com.codacy.parsers.util.TextUtils
+import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
-import scala.util.{Failure, Success, Try}
 import scala.xml.{Elem, NodeSeq}
 
 case class StatementNode(fileIndex: Int, line: Int, covered: Boolean)
 
-object DotcoverParser extends CoverageParser {
+object DotcoverParser extends CoverageParser with XmlReportParser {
   override val name: String = "DotCover"
 
   private val RootTag = "Root"
   private val CoverageAttribute = "CoveragePercent"
   private val CoveredAttribute = "Covered"
 
-  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
-    loadXml(reportFile).map(parse(rootProject, _))
-  }
+  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
+    parseXmlReport(reportFile, s"Could not find tag <$RootTag $CoverageAttribute=...>") {
+      parse(rootProject, _)
+    }
+
+  override def validateSchema(xml: Elem): Boolean = (xml \\ RootTag \ s"@$CoverageAttribute").nonEmpty
+
+  override def getRootNode(xml: Elem): NodeSeq = xml \\ RootTag
 
   private def parse(rootProject: File, rootNode: NodeSeq): CoverageReport = {
     val projectRootStr: String = TextUtils.sanitiseFilename(rootProject.getAbsolutePath)
@@ -44,22 +48,6 @@ object DotcoverParser extends CoverageParser {
 
     CoverageReport(totalCoverage, fileReports.toSeq)
   }
-
-  private def loadXml(reportFile: File) = {
-    Try(XMLoader.loadFile(reportFile)) match {
-      case Success(xml) if hasCorrectSchema(xml) =>
-        Right(xml \\ RootTag)
-
-      case Success(_) =>
-        Left(s"Invalid report. Could not find tag <$RootTag $CoverageAttribute=...>.")
-
-      case Failure(ex) =>
-        Left(s"Unparseable report. ${ex.getMessage}")
-    }
-  }
-
-  private def hasCorrectSchema(elem: Elem) =
-    (elem \\ RootTag \ s"@$CoverageAttribute").nonEmpty
 
   private def getLineCoverage(statementNodes: NodeSeq) = {
     val lines = for {
