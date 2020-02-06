@@ -3,7 +3,7 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.util.TextUtils
+import com.codacy.parsers.util.{MathUtils, TextUtils}
 import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
 import scala.xml.{Elem, NodeSeq}
@@ -23,7 +23,7 @@ object OpenCoverParser extends CoverageParser with XmlReportParser {
   override val name: String = "OpenCover"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
-    parseXmlReport(reportFile, s"Could not find tag <$RootTag>") {
+    parseReport(reportFile, s"Could not find tag <$RootTag>") {
       parseReportNode(_, TextUtils.sanitiseFilename(rootProject.getAbsolutePath))
     }
 
@@ -46,7 +46,7 @@ object OpenCoverParser extends CoverageParser with XmlReportParser {
       lineCoverage = getLineCoverage(methods, sanitisedFileName)
       totalLines = lineCoverage.size
       coveredLines = lineCoverage.count { case (_, visitCount) => visitCount > 0 }
-      coverage = computePercentage(coveredLines, totalLines)
+      coverage = MathUtils.computePercentage(coveredLines, totalLines)
     } yield CoverageFileReport(sanitisedFileName, coverage, lineCoverage)).toSeq
 
     val totalCoverage = computeTotalCoverage(fileReports)
@@ -72,10 +72,6 @@ object OpenCoverParser extends CoverageParser with XmlReportParser {
           (total + totalLines, covered + coveredLines)
       }
 
-    computePercentage(coveredLines, totalLines)
+    MathUtils.computePercentage(coveredLines, totalLines)
   }
-
-  private def computePercentage(covered: Int, total: Int) =
-    if (total == 0) 0 else math.round((covered.toFloat / total) * 100)
-
 }

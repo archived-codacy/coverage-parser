@@ -53,22 +53,22 @@ object LCOVParser extends CoverageParser {
       val totalFileReport = fileReports.map { report =>
         CoverageFileReport(
           report.filename,
-          (if (report.coverage.size != 0)
-             (report.coverage.count { case (line, hit) => hit > 0 }.toFloat / report.coverage.size) * 100
-           else 0f).round.toInt,
+          (if (report.coverage.nonEmpty)
+             (report.coverage.count { case (_, hit) => hit > 0 }.toFloat / report.coverage.size) * 100
+           else 0f).round,
           report.coverage
         )
       }
 
       val (covered, total) = totalFileReport
         .map { f =>
-          (f.coverage.count { case (line, hit) => hit > 0 }, f.coverage.size)
+          (f.coverage.count { case (_, hit) => hit > 0 }, f.coverage.size)
         }
         .foldLeft(0 -> 0) {
           case ((accumCovered, accumTotal), (nextCovered, nextTotal)) =>
             (accumCovered + nextCovered, accumTotal + nextTotal)
         }
-      CoverageReport((if (total != 0) ((covered.toFloat / total) * 100) else 0f).round.toInt, totalFileReport)
+      CoverageReport((if (total != 0) ((covered.toFloat / total) * 100) else 0f).round, totalFileReport)
     }
   }
 }

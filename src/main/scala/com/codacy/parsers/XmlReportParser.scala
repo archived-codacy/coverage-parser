@@ -29,7 +29,7 @@ trait XmlReportParser {
   private def getFailedParseMessage(ex: Throwable) =
     s"Failed to parse report with error: ${ex.getMessage}"
 
-  def parseXmlReport(reportFile: File, schemaErrorMessage: String)(
+  def parseReport(reportFile: File, schemaErrorMessage: String)(
       parseReport: NodeSeq => CoverageReport
   ): Either[String, CoverageReport] = {
     loadXmlReport(reportFile, schemaErrorMessage)
@@ -41,7 +41,7 @@ trait XmlReportParser {
       }
   }
 
-  def parseXmlReportWithEither[A](reportFile: File, schemaErrorMessage: String)(
+  def parseReportWithEither[A](reportFile: File, schemaErrorMessage: String)(
       parseReport: NodeSeq => Either[String, CoverageReport]
   ): Either[String, CoverageReport] = {
     loadXmlReport(reportFile, schemaErrorMessage)

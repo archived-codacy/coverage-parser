@@ -3,7 +3,7 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.util.TextUtils
+import com.codacy.parsers.util.{MathUtils, TextUtils}
 import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
 import scala.xml.{Elem, NodeSeq}
@@ -18,7 +18,7 @@ object DotcoverParser extends CoverageParser with XmlReportParser {
   private val CoveredAttribute = "Covered"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
-    parseXmlReport(reportFile, s"Could not find tag <$RootTag $CoverageAttribute=...>") {
+    parseReport(reportFile, s"Could not find tag <$RootTag $CoverageAttribute=...>") {
       parse(rootProject, _)
     }
 
@@ -43,7 +43,7 @@ object DotcoverParser extends CoverageParser with XmlReportParser {
       lineCoverage = getLineCoverage(statements)
       totalLines = lineCoverage.keys.size
       coveredLines = lineCoverage.values.count(_ > 0)
-      total = if (totalLines == 0) 0 else math.round((coveredLines.toFloat / totalLines) * 100)
+      total = MathUtils.computePercentage(coveredLines, totalLines)
     } yield CoverageFileReport(filename, total, lineCoverage)
 
     CoverageReport(totalCoverage, fileReports.toSeq)

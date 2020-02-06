@@ -3,7 +3,7 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.util.TextUtils
+import com.codacy.parsers.util.{MathUtils, TextUtils}
 import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
 import scala.xml.{Elem, Node, NodeSeq}
@@ -16,7 +16,7 @@ object CloverParser extends CoverageParser with XmlReportParser {
   override val name: String = "Clover"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
-    parseXmlReport(reportFile, s"Could not find tag hierarchy <$CoverageTag> <$ProjectTag> <$MetricsTag> tags") {
+    parseReport(reportFile, s"Could not find tag hierarchy <$CoverageTag> <$ProjectTag> <$MetricsTag> tags") {
       parseReportNode(rootProject, _)
     }
 
@@ -38,10 +38,9 @@ object CloverParser extends CoverageParser with XmlReportParser {
   }
 
   private def getCoveragePercentage(metrics: NodeSeq) = {
-    val totalStatements = TextUtils.asFloat(metrics \@ "statements")
-    val coveredStatements = TextUtils.asFloat(metrics \@ "coveredstatements")
-    val totalCoverage = if (totalStatements != 0) (coveredStatements / totalStatements) * 100 else 0
-    scala.math.round(totalCoverage)
+    val totalStatements = (metrics \@ "statements").toInt
+    val coveredStatements = (metrics \@ "coveredstatements").toInt
+    MathUtils.computePercentage(coveredStatements, totalStatements)
   }
 
   private def getCoverageFileReport(rootPath: String, fileNode: Node) = {

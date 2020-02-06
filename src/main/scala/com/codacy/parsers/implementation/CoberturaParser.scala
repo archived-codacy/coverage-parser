@@ -16,7 +16,7 @@ object CoberturaParser extends CoverageParser with XmlReportParser {
   private val LineRateAttribute = "@line-rate"
 
   def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
-    parseXmlReport(reportFile, s"Could not find top level <$CoverageTag> tag") {
+    parseReport(reportFile, s"Could not find top level <$CoverageTag> tag") {
       parse(projectRoot, _)
     }
   }
@@ -30,7 +30,7 @@ object CoberturaParser extends CoverageParser with XmlReportParser {
   private def parse(projectRoot: File, report: NodeSeq) = {
     val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
 
-    val total = (TextUtils.asFloat((report \\ CoverageTag \ LineRateAttribute).text) * 100).toInt
+    val total = math.round(TextUtils.asFloat((report \\ CoverageTag \ LineRateAttribute).text) * 100)
 
     val fileReports: List[CoverageFileReport] = (for {
       (filename, classes) <- (report \\ "class").groupBy(c => (c \ "@filename").text)
@@ -45,7 +45,7 @@ object CoberturaParser extends CoverageParser with XmlReportParser {
   private def lineCoverage(sourceFilename: String, classes: NodeSeq): CoverageFileReport = {
     val classHit = (classes \\ LineRateAttribute).map { total =>
       val totalValue = TextUtils.asFloat(total.text)
-      (totalValue * 100).toInt
+      math.round(totalValue * 100)
     }
     val fileHit = if (classHit.nonEmpty) { classHit.sum / classHit.length } else 0
 
@@ -53,7 +53,7 @@ object CoberturaParser extends CoverageParser with XmlReportParser {
       (for {
         xClass <- classes
         line <- xClass \\ "line"
-      } yield (line \ "@number").text.toInt -> (line \ "@hits").text.toInt)(collection.breakOut)
+      } yield (line \ "@number").text.toInt -> (line \ "@hits").text.toInt).toMap
 
     CoverageFileReport(sourceFilename, fileHit, lineHitMap)
   }

@@ -18,7 +18,7 @@ object PhpUnitXmlParser extends CoverageParser with XmlReportParser {
   private val XmlParseErrorMessage = s"Could not find top level <$PhpUnitTag> tag";
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
-    parseXmlReportWithEither(reportFile, XmlParseErrorMessage) {
+    parseReportWithEither(reportFile, XmlParseErrorMessage) {
       parseReportNode(rootProject, _, reportFile.getParent)
     }
 

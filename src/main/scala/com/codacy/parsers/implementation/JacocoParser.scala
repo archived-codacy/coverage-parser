@@ -17,7 +17,7 @@ object JacocoParser extends CoverageParser with XmlReportParser {
   private val ReportTag = "report"
 
   def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] =
-    parseXmlReportWithEither(reportFile, s"Could not find top level <$ReportTag> tag") {
+    parseReportWithEither(reportFile, s"Could not find top level <$ReportTag> tag") {
       parse(projectRoot, _)
     }
 
