@@ -33,26 +33,33 @@ object PhpUnitXmlParser extends CoverageParser {
       report: NodeSeq,
       reportRootPath: String
   ): Either[String, CoverageReport] = {
-    val codeDirectory = report \ ProjectTag \ DirectoryTag \@ "name"
+    val fileNodes = report \ ProjectTag \ DirectoryTag \ "file"
     val projectRootPath = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
+    val codeDirectory = report \ ProjectTag \ DirectoryTag \@ "name"
+    val fileReports = makeFileReports(fileNodes, projectRootPath, codeDirectory, reportRootPath)
 
     val totalPercentage = getTotalsCoveragePercentage(report \ ProjectTag \ DirectoryTag \ TotalsTag)
-
-    val fileNodes = report \ ProjectTag \ DirectoryTag \ "file"
-    val fileReports: Either[String, Seq[CoverageFileReport]] =
-      fileNodes.foldLeft[Either[String, Seq[CoverageFileReport]]](Right(Seq.empty[CoverageFileReport])) { (accum, f) =>
-        accum.flatMap { reports =>
-          val reportFileName = f \@ "href"
-          val fileName = getSourceFileName(projectRootPath, codeDirectory, reportFileName)
-          val coveragePercentage = getTotalsCoveragePercentage(f \ TotalsTag)
-
-          val lineCoverage: Either[String, Map[Int, Int]] = getLineCoverage(reportRootPath, reportFileName)
-
-          lineCoverage.map(CoverageFileReport(fileName, coveragePercentage, _) +: reports)
-        }
-      }
-
     fileReports.map(CoverageReport(totalPercentage, _))
+  }
+
+  private def makeFileReports(
+      fileNodes: NodeSeq,
+      projectRootPath: String,
+      codeDirectory: String,
+      reportRootPath: String
+  ): Either[String, Seq[CoverageFileReport]] = {
+    val builder = Seq.newBuilder[CoverageFileReport]
+    for (f <- fileNodes) {
+      val reportFileName = f \@ "href"
+      val fileName = getSourceFileName(projectRootPath, codeDirectory, reportFileName)
+      val coveragePercentage = getTotalsCoveragePercentage(f \ TotalsTag)
+      getLineCoverage(reportRootPath, reportFileName) match {
+        case Right(lineCoverage) =>
+          builder += CoverageFileReport(fileName, coveragePercentage, lineCoverage)
+        case Left(message) => return Left(message)
+      }
+    }
+    Right(builder.result())
   }
 
   private def loadPhpUnitFile(reportFile: File) = {
