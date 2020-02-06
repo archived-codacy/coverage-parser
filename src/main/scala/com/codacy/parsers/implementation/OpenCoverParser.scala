@@ -24,7 +24,7 @@ object OpenCoverParser extends CoverageParser {
   override val name: String = "OpenCover"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
-    loadXml(reportFile).right.flatMap { r =>
+    loadXml(reportFile).flatMap { r =>
       Try(parseReportNode(r, TextUtils.sanitiseFilename(rootProject.getAbsolutePath))) match {
         case Success(coverageReport) => Right(coverageReport)
         case Failure(ex) => Left(s"Failed to parse report with error: ${ex.getMessage}")

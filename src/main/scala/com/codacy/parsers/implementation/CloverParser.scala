@@ -28,7 +28,7 @@ object CloverParser extends CoverageParser {
         Left(s"Unparseable report. ${ex.getMessage}")
     }
 
-    report.right.flatMap(
+    report.flatMap(
       r =>
         Try(parseReportNode(rootProject, r)) match {
           case Success(coverageReport) => Right(coverageReport)

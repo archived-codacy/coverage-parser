@@ -3,14 +3,7 @@ package com.codacy.parsers
 import java.io.File
 
 import com.codacy.api.CoverageReport
-import com.codacy.parsers.implementation.{
-  CloverParser,
-  CoberturaParser,
-  DotcoverParser,
-  JacocoParser,
-  LCOVParser,
-  OpenCoverParser
-}
+import com.codacy.parsers.implementation._
 
 import scala.util.Try
 
@@ -23,7 +16,7 @@ trait CoverageParser {
 object CoverageParser {
 
   val parsers: List[CoverageParser] =
-    List(CoberturaParser, JacocoParser, CloverParser, OpenCoverParser, DotcoverParser, LCOVParser)
+    List(CoberturaParser, JacocoParser, CloverParser, OpenCoverParser, DotcoverParser, PhpUnitXmlParser, LCOVParser)
 
   def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
     val isEmptyReport = {

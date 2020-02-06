@@ -27,12 +27,12 @@ object JacocoParser extends CoverageParser {
         Left(s"Unparseable report. ${ex.getMessage}")
     })
 
-    report.right.flatMap(parse(projectRoot, _))
+    report.flatMap(parse(projectRoot, _))
   }
 
   private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
     val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
-    totalPercentage(report).right.map { total =>
+    totalPercentage(report).map { total =>
       val filesCoverage = for {
         pkg <- report \\ "package"
         packageName = (pkg \ "@name").text
