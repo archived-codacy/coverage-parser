@@ -7,16 +7,32 @@
 
 Scala library for parsing coverage reports.
 
-Currently we support [Jacoco](http://eclemma.org/jacoco/), [Cobertura](http://cobertura.github.io/cobertura/) and
-[Clover](https://confluence.atlassian.com/clover/using-clover-for-php-420973033.html) reports.
+The parsers in this project receive as input two parameters, the project root folder, and the coverage report file.
+As a result of the parse operation, it will produce either a CoverageReport, a class that is compatible with the
+[Codacy coverage format](https://support.codacy.com/hc/en-us/articles/207279819-Coverage) or a string describing the
+error parsing the coverage report file.
 
-All parsers receive the project root and the file containing the coverage report, producing the
-[Codacy coverage format](https://support.codacy.com/hc/en-us/articles/207279819-Coverage) 
+## Supported formats
+
+Check the table for the formats we support and which coverage tools generate them:
+
+| Language   | Coverage tools (examples) | Formats   |
+| ---        | ---                       | ---       |
+| Java       | [JaCoCo](http://eclemma.org/jacoco/) <br> [Cobertura](http://cobertura.github.io/cobertura/) | JaCoCo <br> Cobertura |
+| Scala      | [sbt-jacoco](https://www.scala-sbt.org/sbt-jacoco/) <br> [scoverage](http://scoverage.org/) | JaCoCo <br> Cobertura |
+| Javascript | [Istanbul](https://github.com/gotwarlost/istanbul) <br> [Poncho](https://github.com/deepsweet/poncho) <br> [Mocha](http://mochajs.org/) + [Blanket.js](https://github.com/alex-seville/blanket) | LCOV |
+| Python     | [Coverage.py](https://coverage.readthedocs.io/en/coverage-5.0.3/) | Cobertura                 |
+| PHP        | [PHPUnit](https://phpunit.readthedocs.io/en/8.5/code-coverage-analysis.html) | PHPUnit XML <br> [Clover](https://confluence.atlassian.com/clover/using-clover-for-php-420973033.html) |
+| Ruby       | [SimpleCov](https://github.com/colszowka/simplecov) | [Cobertura](https://github.com/dashingrocket/simplecov-cobertura) <br> [LCOV](https://github.com/fortissimo1997/simplecov-lcov) |
+
+You can use this parser with any of the listed coverage formats, even if your language or coverage tool of choice is not in the table above.
+If your coverage reports are in a different format you can use a format converter, such as
+[ReportGenerator](https://danielpalme.github.io/ReportGenerator/), to generate a supported format.
 
 Usage:
 
 ```
-val reader = CoberturaParser.parse(rootProjectDir, coberturaFile)
+val reader: Either[String, CoverageReport] = CoverageParser.parse(rootProjectDir, coberturaFile)
 ```
 
 ## What is Codacy?
