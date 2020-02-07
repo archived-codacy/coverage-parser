@@ -15,9 +15,9 @@ object CoberturaParser extends CoverageParser with XmlReportParser {
   private val CoverageTag = "coverage"
   private val LineRateAttribute = "line-rate"
 
-  def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
-    parseReport(reportFile, s"Could not find top level <$CoverageTag> tag") {
-      parse(projectRoot, _)
+  override def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
+    parseReport(reportFile, s"Could not find top level <$CoverageTag> tag") { node =>
+      Right(parseReportNode(projectRoot, node))
     }
   }
 
@@ -27,7 +27,7 @@ object CoberturaParser extends CoverageParser with XmlReportParser {
 
   override def getRootNode(xml: Elem): NodeSeq = xml \\ CoverageTag
 
-  private def parse(projectRoot: File, report: NodeSeq) = {
+  private def parseReportNode(projectRoot: File, report: NodeSeq) = {
     val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
 
     val total = math.round(TextUtils.asFloat(report \\ CoverageTag \@ LineRateAttribute) * 100)

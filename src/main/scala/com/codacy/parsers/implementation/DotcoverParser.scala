@@ -18,15 +18,15 @@ object DotcoverParser extends CoverageParser with XmlReportParser {
   private val CoveredAttribute = "Covered"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
-    parseReport(reportFile, s"Could not find tag <$RootTag $CoverageAttribute=...>") {
-      parse(rootProject, _)
+    parseReport(reportFile, s"Could not find tag <$RootTag $CoverageAttribute=...>") { node =>
+      Right(parseReportNode(rootProject, node))
     }
 
   override def validateSchema(xml: Elem): Boolean = (xml \\ RootTag \ s"@$CoverageAttribute").nonEmpty
 
   override def getRootNode(xml: Elem): NodeSeq = xml \\ RootTag
 
-  private def parse(rootProject: File, rootNode: NodeSeq): CoverageReport = {
+  private def parseReportNode(rootProject: File, rootNode: NodeSeq): CoverageReport = {
     val projectRootStr: String = TextUtils.sanitiseFilename(rootProject.getAbsolutePath)
 
     val totalCoverage = (rootNode \@ CoverageAttribute).toInt

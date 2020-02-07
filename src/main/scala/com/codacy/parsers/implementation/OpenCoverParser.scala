@@ -23,8 +23,8 @@ object OpenCoverParser extends CoverageParser with XmlReportParser {
   override val name: String = "OpenCover"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
-    parseReport(reportFile, s"Could not find tag <$RootTag>") {
-      parseReportNode(_, TextUtils.sanitiseFilename(rootProject.getAbsolutePath))
+    parseReport(reportFile, s"Could not find tag <$RootTag>") { node =>
+      Right(parseReportNode(node, TextUtils.sanitiseFilename(rootProject.getAbsolutePath)))
     }
 
   override def validateSchema(xml: Elem): Boolean = getRootNode(xml).nonEmpty

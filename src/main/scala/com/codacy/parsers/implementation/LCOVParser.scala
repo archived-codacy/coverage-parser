@@ -15,7 +15,7 @@ object LCOVParser extends CoverageParser {
   final val SF = "SF:"
   final val DA = "DA:"
 
-  def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
+  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
     val report = Try(Source.fromFile(reportFile)) match {
       case Success(lines) =>
         Right(lines.getLines)
@@ -24,10 +24,10 @@ object LCOVParser extends CoverageParser {
         Left(s"Can't load report file. ${ex.getMessage}")
     }
 
-    report.flatMap(parse(reportFile, _))
+    report.flatMap(parseLines(reportFile, _))
   }
 
-  private def parse(reportFile: File, lines: Iterator[String]): Either[String, CoverageReport] = {
+  private def parseLines(reportFile: File, lines: Iterator[String]): Either[String, CoverageReport] = {
     val coverageFileReports =
       lines.foldLeft[Either[String, Seq[CoverageFileReport]]](Right(Seq.empty[CoverageFileReport]))(
         (accum, next) =>

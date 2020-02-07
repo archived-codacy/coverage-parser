@@ -16,16 +16,16 @@ object JacocoParser extends CoverageParser with XmlReportParser {
 
   private val ReportTag = "report"
 
-  def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] =
-    parseReportWithEither(reportFile, s"Could not find top level <$ReportTag> tag") {
-      parse(projectRoot, _)
+  override def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] =
+    parseReport(reportFile, s"Could not find top level <$ReportTag> tag") {
+      parseReportNode(projectRoot, _)
     }
 
   override def validateSchema(xml: Elem): Boolean = getRootNode(xml).nonEmpty
 
   override def getRootNode(xml: Elem): NodeSeq = xml \\ ReportTag
 
-  private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
+  private def parseReportNode(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
     val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
     totalPercentage(report).map { total =>
       val filesCoverage = for {

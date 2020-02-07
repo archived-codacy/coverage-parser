@@ -16,8 +16,8 @@ object CloverParser extends CoverageParser with XmlReportParser {
   override val name: String = "Clover"
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
-    parseReport(reportFile, s"Could not find tag hierarchy <$CoverageTag> <$ProjectTag> <$MetricsTag> tags") {
-      parseReportNode(rootProject, _)
+    parseReport(reportFile, s"Could not find tag hierarchy <$CoverageTag> <$ProjectTag> <$MetricsTag> tags") { node =>
+      Right(parseReportNode(rootProject, node))
     }
 
   override def validateSchema(xml: Elem): Boolean = (xml \\ CoverageTag \ ProjectTag \ MetricsTag).nonEmpty
