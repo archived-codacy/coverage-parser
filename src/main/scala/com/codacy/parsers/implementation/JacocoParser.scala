@@ -30,12 +30,12 @@ object JacocoParser extends CoverageParser with XmlReportParser {
     totalPercentage(report).map { total =>
       val filesCoverage = for {
         pkg <- report \\ "package"
-        packageName = (pkg \ "@name").text
+        packageName = (pkg \@ "name")
         sourceFile <- pkg \\ "sourcefile"
       } yield {
         val filename =
           TextUtils
-            .sanitiseFilename(s"$packageName/${(sourceFile \ "@name").text}")
+            .sanitiseFilename(s"$packageName/${(sourceFile \@ "name")}")
             .stripPrefix(projectRootStr)
             .stripPrefix("/")
         lineCoverage(filename, sourceFile)
@@ -48,9 +48,9 @@ object JacocoParser extends CoverageParser with XmlReportParser {
   private def totalPercentage(report: NodeSeq): Either[String, Int] = {
     (report \\ ReportTag \ "counter")
       .collectFirst {
-        case counter if (counter \ "@type").text == "LINE" =>
-          val covered = TextUtils.asFloat((counter \ "@covered").text)
-          val missed = TextUtils.asFloat((counter \ "@missed").text)
+        case counter if (counter \@ "type") == "LINE" =>
+          val covered = TextUtils.asFloat((counter \@ "covered"))
+          val missed = TextUtils.asFloat((counter \@ "missed"))
           Right(((covered / (covered + missed)) * 100).toInt)
       }
       .getOrElse {
@@ -60,9 +60,9 @@ object JacocoParser extends CoverageParser with XmlReportParser {
 
   private def lineCoverage(filename: String, fileNode: Node): CoverageFileReport = {
     val lineHit = (fileNode \ "counter").collect {
-      case counter if (counter \ "@type").text == "LINE" =>
-        val covered = TextUtils.asFloat((counter \ "@covered").text)
-        val missed = TextUtils.asFloat((counter \ "@missed").text)
+      case counter if (counter \@ "type") == "LINE" =>
+        val covered = TextUtils.asFloat((counter \@ "covered"))
+        val missed = TextUtils.asFloat((counter \@ "missed"))
         (if ((covered + missed) > 0) (covered / (covered + missed)) * 100 else 0f).toInt
     }
 
@@ -70,7 +70,7 @@ object JacocoParser extends CoverageParser with XmlReportParser {
 
     val lineHitMap: Map[Int, Int] = (fileNode \\ "line")
       .map { line =>
-        (line \ "@nr").text.toInt -> LineCoverage((line \ "@mi").text.toInt, (line \ "@ci").text.toInt)
+        (line \@ "nr").toInt -> LineCoverage((line \@ "mi").toInt, (line \@ "ci").toInt)
       }
       .collect {
         case (key, lineCoverage) if lineCoverage.missedInstructions + lineCoverage.coveredInstructions > 0 =>

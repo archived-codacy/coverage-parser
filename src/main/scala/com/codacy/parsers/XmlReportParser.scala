@@ -41,7 +41,7 @@ trait XmlReportParser {
       }
   }
 
-  def parseReportWithEither[A](reportFile: File, schemaErrorMessage: String)(
+  def parseReportWithEither(reportFile: File, schemaErrorMessage: String)(
       parseReport: NodeSeq => Either[String, CoverageReport]
   ): Either[String, CoverageReport] = {
     loadXmlReport(reportFile, schemaErrorMessage)

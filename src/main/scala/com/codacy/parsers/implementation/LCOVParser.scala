@@ -4,6 +4,8 @@ import com.codacy.parsers.CoverageParser
 import com.codacy.api.{CoverageFileReport, CoverageReport}
 import java.io.File
 
+import com.codacy.parsers.util.MathUtils
+
 import scala.io.Source
 import scala.util.{Failure, Success, Try}
 
@@ -41,8 +43,8 @@ object LCOVParser extends CoverageParser {
                     Right(
                       value.copy(coverage = value.coverage + (coverageValue(0) -> coverageValue(1))) +: reports.tail
                     )
-                  } else Left(s"Misformatting of file ${reportFile.toString()}")
-                case _ => Left(s"Fail to parse ${reportFile.toString()}")
+                  } else Left(s"Misformatting of file ${reportFile.toString}")
+                case _ => Left(s"Fail to parse ${reportFile.toString}")
               }
             case reports =>
               val res = Right(reports)
@@ -51,13 +53,12 @@ object LCOVParser extends CoverageParser {
       )
     coverageFileReports.map { fileReports =>
       val totalFileReport = fileReports.map { report =>
-        CoverageFileReport(
-          report.filename,
-          (if (report.coverage.nonEmpty)
-             (report.coverage.count { case (_, hit) => hit > 0 }.toFloat / report.coverage.size) * 100
-           else 0f).round,
-          report.coverage
-        )
+        val coveredLines = report.coverage.count { case (_, hit) => hit > 0 }
+        val totalLines = report.coverage.size
+        val fileCoverage =
+          MathUtils.computePercentage(coveredLines, totalLines)
+
+        CoverageFileReport(report.filename, fileCoverage, report.coverage)
       }
 
       val (covered, total) = totalFileReport
@@ -68,7 +69,9 @@ object LCOVParser extends CoverageParser {
           case ((accumCovered, accumTotal), (nextCovered, nextTotal)) =>
             (accumCovered + nextCovered, accumTotal + nextTotal)
         }
-      CoverageReport((if (total != 0) ((covered.toFloat / total) * 100) else 0f).round, totalFileReport)
+
+      val totalCoverage = MathUtils.computePercentage(covered, total)
+      CoverageReport(totalCoverage, totalFileReport)
     }
   }
 }
