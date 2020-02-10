@@ -3,47 +3,42 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api._
-import com.codacy.parsers.CoverageParser
-import com.codacy.parsers.util.{TextUtils, XMLoader}
+import com.codacy.parsers.util.TextUtils
+import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
-import scala.util.{Failure, Success, Try}
-import scala.xml.{Node, NodeSeq}
+import scala.xml.{Elem, Node, NodeSeq}
 
 private case class LineCoverage(missedInstructions: Int, coveredInstructions: Int)
 
-object JacocoParser extends CoverageParser {
+object JacocoParser extends CoverageParser with XmlReportParser {
 
   override val name: String = "Jacoco"
 
-  def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] = {
-    val report = (Try(XMLoader.loadFile(reportFile)) match {
-      case Success(xml) if (xml \\ "report").nonEmpty =>
-        Right(xml \\ "report")
+  private val ReportTag = "report"
 
-      case Success(_) =>
-        Left("Invalid report. Could not find top level <report> tag.")
+  override def parse(projectRoot: File, reportFile: File): Either[String, CoverageReport] =
+    parseReport(reportFile, s"Could not find top level <$ReportTag> tag") {
+      parseReportNode(projectRoot, _)
+    }
 
-      case Failure(ex) =>
-        Left(s"Unparseable report. ${ex.getMessage}")
-    })
+  override def validateSchema(xml: Elem): Boolean = getRootNode(xml).nonEmpty
 
-    report.flatMap(parse(projectRoot, _))
-  }
+  override def getRootNode(xml: Elem): NodeSeq = xml \\ ReportTag
 
-  private def parse(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
+  private def parseReportNode(projectRoot: File, report: NodeSeq): Either[String, CoverageReport] = {
     val projectRootStr: String = TextUtils.sanitiseFilename(projectRoot.getAbsolutePath)
     totalPercentage(report).map { total =>
       val filesCoverage = for {
         pkg <- report \\ "package"
-        packageName = (pkg \ "@name").text
-        sourcefile <- pkg \\ "sourcefile"
+        packageName = (pkg \@ "name")
+        sourceFile <- pkg \\ "sourcefile"
       } yield {
         val filename =
           TextUtils
-            .sanitiseFilename(s"$packageName/${(sourcefile \ "@name").text}")
+            .sanitiseFilename(s"$packageName/${(sourceFile \@ "name")}")
             .stripPrefix(projectRootStr)
             .stripPrefix("/")
-        lineCoverage(filename, sourcefile)
+        lineCoverage(filename, sourceFile)
       }
 
       CoverageReport(total, filesCoverage)
@@ -51,11 +46,11 @@ object JacocoParser extends CoverageParser {
   }
 
   private def totalPercentage(report: NodeSeq): Either[String, Int] = {
-    (report \\ "report" \ "counter")
+    (report \\ ReportTag \ "counter")
       .collectFirst {
-        case counter if (counter \ "@type").text == "LINE" =>
-          val covered = TextUtils.asFloat((counter \ "@covered").text)
-          val missed = TextUtils.asFloat((counter \ "@missed").text)
+        case counter if (counter \@ "type") == "LINE" =>
+          val covered = TextUtils.asFloat((counter \@ "covered"))
+          val missed = TextUtils.asFloat((counter \@ "missed"))
           Right(((covered / (covered + missed)) * 100).toInt)
       }
       .getOrElse {
@@ -65,9 +60,9 @@ object JacocoParser extends CoverageParser {
 
   private def lineCoverage(filename: String, fileNode: Node): CoverageFileReport = {
     val lineHit = (fileNode \ "counter").collect {
-      case counter if (counter \ "@type").text == "LINE" =>
-        val covered = TextUtils.asFloat((counter \ "@covered").text)
-        val missed = TextUtils.asFloat((counter \ "@missed").text)
+      case counter if (counter \@ "type") == "LINE" =>
+        val covered = TextUtils.asFloat((counter \@ "covered"))
+        val missed = TextUtils.asFloat((counter \@ "missed"))
         (if ((covered + missed) > 0) (covered / (covered + missed)) * 100 else 0f).toInt
     }
 
@@ -75,7 +70,7 @@ object JacocoParser extends CoverageParser {
 
     val lineHitMap: Map[Int, Int] = (fileNode \\ "line")
       .map { line =>
-        (line \ "@nr").text.toInt -> LineCoverage((line \ "@mi").text.toInt, (line \ "@ci").text.toInt)
+        (line \@ "nr").toInt -> LineCoverage((line \@ "mi").toInt, (line \@ "ci").toInt)
       }
       .collect {
         case (key, lineCoverage) if lineCoverage.missedInstructions + lineCoverage.coveredInstructions > 0 =>
@@ -84,5 +79,4 @@ object JacocoParser extends CoverageParser {
 
     CoverageFileReport(filename, fileHit, lineHitMap)
   }
-
 }

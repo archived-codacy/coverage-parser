@@ -3,42 +3,26 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
-import com.codacy.parsers.CoverageParser
-import com.codacy.parsers.util.{TextUtils, XMLoader}
+import com.codacy.parsers.util.{MathUtils, TextUtils}
+import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
-import scala.util.{Failure, Success, Try}
 import scala.xml.{Elem, Node, NodeSeq}
 
-object CloverParser extends CoverageParser {
+object CloverParser extends CoverageParser with XmlReportParser {
   private val CoverageTag = "coverage"
   private val ProjectTag = "project"
   private val MetricsTag = "metrics"
 
   override val name: String = "Clover"
 
-  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
-    val report = Try(XMLoader.loadFile(reportFile)) match {
-      case Success(xml) if hasCorrectSchema(xml) =>
-        Right(xml \\ CoverageTag)
-
-      case Success(_) =>
-        Left(s"Invalid report. Could not find tag hierarchy <$CoverageTag> <$ProjectTag> <$MetricsTag> tags.")
-
-      case Failure(ex) =>
-        Left(s"Unparseable report. ${ex.getMessage}")
+  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
+    parseReport(reportFile, s"Could not find tag hierarchy <$CoverageTag> <$ProjectTag> <$MetricsTag> tags") { node =>
+      Right(parseReportNode(rootProject, node))
     }
 
-    report.flatMap(
-      r =>
-        Try(parseReportNode(rootProject, r)) match {
-          case Success(coverageReport) => Right(coverageReport)
-          case Failure(ex) => Left(s"Failed to parse the report: ${ex.getMessage}")
-      }
-    )
-  }
+  override def validateSchema(xml: Elem): Boolean = (xml \\ CoverageTag \ ProjectTag \ MetricsTag).nonEmpty
 
-  private def hasCorrectSchema(xml: Elem) =
-    (xml \\ CoverageTag \ ProjectTag \ MetricsTag).nonEmpty
+  override def getRootNode(xml: Elem): NodeSeq = xml \\ CoverageTag
 
   private def parseReportNode(rootProject: File, report: NodeSeq): CoverageReport = {
     // global metrics
@@ -54,10 +38,9 @@ object CloverParser extends CoverageParser {
   }
 
   private def getCoveragePercentage(metrics: NodeSeq) = {
-    val totalStatements = TextUtils.asFloat(metrics \@ "statements")
-    val coveredStatements = TextUtils.asFloat(metrics \@ "coveredstatements")
-    val totalCoverage = if (totalStatements != 0) (coveredStatements / totalStatements) * 100 else 0
-    scala.math.round(totalCoverage)
+    val totalStatements = (metrics \@ "statements").toInt
+    val coveredStatements = (metrics \@ "coveredstatements").toInt
+    MathUtils.computePercentage(coveredStatements, totalStatements)
   }
 
   private def getCoverageFileReport(rootPath: String, fileNode: Node) = {
