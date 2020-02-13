@@ -3,7 +3,7 @@ import sbt._
 object Dependencies {
 
   object Codacy {
-    val scalaApi = "com.codacy" %% "codacy-api-scala" % "4.0.1"
+    val scalaApi = "com.codacy" %% "codacy-api-scala" % "4.1.0"
     val pluginsApi = "com.codacy" %% "codacy-plugins-api" % "3.0.293"
   }
 
