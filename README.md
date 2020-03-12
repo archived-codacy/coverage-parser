@@ -1,8 +1,8 @@
 # coverage-parser
 
 [![Circle CI](https://circleci.com/gh/codacy/coverage-parser/tree/master.svg?style=shield)](https://circleci.com/gh/codacy/coverage-parser/tree/master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cba8fd0874ac4f569f4f880e473cbac9)](https://www.codacy.com/app/Codacy/coverage-parser?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/coverage-parser&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/cba8fd0874ac4f569f4f880e473cbac9)](https://www.codacy.com/app/Codacy/coverage-parser?utm_source=github.com&utm_medium=referral&utm_content=codacy/coverage-parser&utm_campaign=Badge_Coverage)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cba8fd0874ac4f569f4f880e473cbac9)](https://www.codacy.com/gh/codacy/coverage-parser?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/coverage-parser&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/cba8fd0874ac4f569f4f880e473cbac9)](https://www.codacy.com/gh/codacy/coverage-parser?utm_source=github.com&utm_medium=referral&utm_content=codacy/coverage-parser&utm_campaign=Badge_Coverage)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codacy/coverage-parser_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.codacy/coverage-parser_2.11)
 
 Scala library for parsing coverage reports.
