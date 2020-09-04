@@ -15,6 +15,16 @@ class LCOVParserTest extends WordSpec with BeforeAndAfterAll with Matchers with 
       reader.isLeft shouldBe true
     }
 
+    "identify if report is invalid beacuse is cobertura format" in {
+      val reader = LCOVParser.parse(new File("."), new File("src/test/resources/test_cobertura.xml"))
+      reader.isLeft shouldBe true
+    }
+
+    "identify if report is invalid beacuse is clover format" in {
+      val reader = LCOVParser.parse(new File("."), new File("src/test/resources/test_clover.xml"))
+      reader.isLeft shouldBe true
+    }
+
     "identify if report is valid" in {
       val reader = LCOVParser.parse(new File("."), new File("src/test/resources/test_lcov.lcov"))
       reader.isRight shouldBe true
