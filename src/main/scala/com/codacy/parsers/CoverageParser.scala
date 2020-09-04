@@ -35,8 +35,8 @@ object CoverageParser {
 
     object ParsedCoverage {
       def unapply(parser: CoverageParser): Option[CoverageReport] = {
-        parser.parse(projectRoot, reportFile)
-      }.toOption
+        parser.parse(projectRoot, reportFile).toOption
+      }
     }
 
     if (isEmptyReport) {
