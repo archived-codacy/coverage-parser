@@ -17,6 +17,7 @@ object LCOVParser extends CoverageParser {
 
   override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
     val report = Try(Source.fromFile(reportFile)) match {
+      // most reports are XML, and we want to ensure the LCOV parser won't mishandle it and return an empty result
       case Success(lines) if Try(XMLoader.loadFile(reportFile)).isSuccess =>
         Left(s"The file is not in the lcov format but is an xml.")
       case Success(lines) =>
