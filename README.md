@@ -14,21 +14,9 @@ error parsing the coverage report file.
 
 ## Supported formats
 
-Check the table for the formats we support and which coverage tools generate them:
+Check the formats we support [on the documentation](https://docs.codacy.com/coverage-reporter/adding-coverage-to-your-repository/). You can use this parser with any of the listed coverage formats, independently of your language or coverage tool of choice.
 
-| Language   | Coverage tools (examples) | Formats   |
-| ---        | ---                       | ---       |
-| Java       | [JaCoCo](http://eclemma.org/jacoco/) <br> [Cobertura](http://cobertura.github.io/cobertura/) | JaCoCo <br> Cobertura |
-| Scala      | [sbt-jacoco](https://www.scala-sbt.org/sbt-jacoco/) <br> [scoverage](http://scoverage.org/) | JaCoCo <br> Cobertura |
-| Javascript | [Istanbul](https://github.com/gotwarlost/istanbul) <br> [Poncho](https://github.com/deepsweet/poncho) <br> [Mocha](http://mochajs.org/) + [Blanket.js](https://github.com/alex-seville/blanket) | LCOV |
-| Python     | [Coverage.py](https://coverage.readthedocs.io/en/coverage-5.0.3/) | Cobertura                 |
-| PHP        | [PHPUnit](https://phpunit.readthedocs.io/en/8.5/code-coverage-analysis.html) | PHPUnit XML <br> [Clover](https://confluence.atlassian.com/clover/using-clover-for-php-420973033.html) |
-| Ruby       | [SimpleCov](https://github.com/colszowka/simplecov) | [Cobertura](https://github.com/dashingrocket/simplecov-cobertura) <br> [LCOV](https://github.com/fortissimo1997/simplecov-lcov) |
-| C#         | [OpenCover](https://github.com/OpenCover/opencover) <br> [DotCover CLI](https://www.jetbrains.com/dotcover/) | OpenCover <br> DotCover-DetailedXML |
-
-You can use this parser with any of the listed coverage formats, even if your language or coverage tool of choice is not in the table above.
-If your coverage reports are in a different format you can use a format converter, such as
-[ReportGenerator](https://danielpalme.github.io/ReportGenerator/), to generate a supported format.
+If your coverage reports are in a different format you can [use a format converter to generate a supported format](https://docs.codacy.com/coverage-reporter/troubleshooting-common-issues/#unsupported-report-formats).
 
 Usage:
 
