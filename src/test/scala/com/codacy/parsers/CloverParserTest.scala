@@ -3,100 +3,159 @@ package com.codacy.parsers
 import java.io.File
 
 import com.codacy.parsers.implementation.CloverParser
-import org.scalatest.{BeforeAndAfterAll, EitherValues, Matchers, WordSpec}
+import org.scalatest.{EitherValues, Matchers, WordSpec}
 
-class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers with EitherValues {
-  private val coberturaReportPath = "src/test/resources/test_cobertura.xml"
-  private val cloverReportPath = "src/test/resources/test_clover.xml"
-  private val cloverWithoutPackagesFilePath = "src/test/resources/test_clover_without_packages.xml"
-  private val nonExistentReportPath = "src/test/resources/non-existent.xml"
-  private val invalidCloverReportPath = "src/test/resources/test_invalid_clover.xml"
+class CloverParserTest extends WordSpec with Matchers with EitherValues {
 
   "parse" should {
-    "identify report as invalid" when {
-      "file does not follow the Cobertura format" in {
-        // use some coverage file that does not follow the Clover format
-        val reader = CloverParser.parse(new File("."), new File(coberturaReportPath))
 
-        reader shouldBe 'left
+    "fail to parse an invalid report" when {
+
+      "the report file does not exist" in {
+        // Arrange
+        val nonExistentReportPath = "src/test/resources/non-existent.xml"
+
+        // Act
+        val parseResult = CloverParser.parse(new File("."), new File(nonExistentReportPath))
+
+        // Assert
+        parseResult shouldBe 'left
       }
 
-      "file does not exist" in {
-        val reader = CloverParser.parse(new File("."), new File(nonExistentReportPath))
+      "the report is not in the Clover format" in {
+        // Arrange
+        val reportNotInCloverFormat = "src/test/resources/test_cobertura.xml"
 
-        reader shouldBe 'left
+        // Act
+        val parseResult = CloverParser.parse(new File("."), new File(reportNotInCloverFormat))
+
+        // Assert
+        parseResult shouldBe 'left
       }
 
-      "file does not follow the Clover schema" in {
-        val reader = CloverParser.parse(new File("."), new File(invalidCloverReportPath))
-        reader shouldBe 'left
+      "the report is missing the statements attribute in the file metrics element" in {
+        // Arrange
+        val invalidCloverReportPath = "src/test/resources/test_invalid_clover.xml"
+
+        // Act
+        val parseResult = CloverParser.parse(new File("."), new File(invalidCloverReportPath))
+
+        // Assert
+        parseResult shouldBe 'left
       }
+
     }
 
-    "identify the report as valid" when {
-      "report has packages" in {
-        val reader = CloverParser.parse(new File("."), new File(cloverReportPath))
-        reader shouldBe 'right
+    val cloverReportPath = "src/test/resources/test_clover.xml"
+    val cloverWithoutPackagesFilePath = "src/test/resources/test_clover_without_packages.xml"
+
+    "succeed to parse a valid report" when {
+
+      "the report has packages" in {
+        // Act
+        val parseResult = CloverParser.parse(new File("."), new File(cloverReportPath))
+
+        // Assert
+        parseResult shouldBe 'right
       }
 
-      "report does not have packages" in {
-        val readerWithoutPackages = CloverParser
+      "the report does not have packages" in {
+        // Act
+        val parseResult = CloverParser
           .parse(new File("/home/codacy-php/"), new File(cloverWithoutPackagesFilePath))
 
-        readerWithoutPackages shouldBe 'right
+        // Assert
+        parseResult shouldBe 'right
       }
+
     }
 
     "parse correct file paths" when {
+
       "reports contain both name and path attributes in file elements" in {
+        // Arrange
         val cloverWithPaths = new File("src/test/resources/test_clover_with_paths.xml")
 
-        val readerWithoutPackages =
-          CloverParser.parse(new File("/Users/username/workspace/repository"), cloverWithPaths)
+        // Act
+        val parsedReportFilePaths =
+          CloverParser
+            .parse(new File("/Users/username/workspace/repository"), cloverWithPaths)
+            .right
+            .value
+            .fileReports
+            .map(_.filename)
 
-        readerWithoutPackages shouldBe 'right
-        readerWithoutPackages.right.value.fileReports.head.filename shouldEqual "src/app/file.js"
+        // Assert
+        parsedReportFilePaths should contain("src/app/file.js")
       }
+
     }
 
     "return the same report with or without packages" in {
-      val readerWithoutPackages = CloverParser
+      // Act
+      val parseResultWithoutPackages = CloverParser
         .parse(new File("/home/codacy-php/"), new File(cloverWithoutPackagesFilePath))
-
-      val readerWithPackages =
+      val parseResultWithPackages =
         CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath))
 
-      readerWithoutPackages shouldBe readerWithPackages
+      // Assert
+      parseResultWithoutPackages shouldBe parseResultWithPackages
     }
 
     "return a report with the expected number of files" in {
-      val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
-      report.fileReports should have length 5
+      // Arrange
+      val expectedNumberOfFiles = 5
+
+      // Act
+      val fileReports =
+        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value.fileReports
+
+      // Assert
+      fileReports should have length expectedNumberOfFiles
     }
 
     "return a report with the expected total coverage" in {
-      val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
-      report.total shouldBe 38
+      // Arrange
+      val expectedTotalCoverage = 38
+
+      // Act
+      val coverageTotal =
+        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value.total
+
+      // Assert
+      coverageTotal shouldBe expectedTotalCoverage
     }
 
-    "return a report with the expected file names" in {
-      val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
-      report.fileReports.map(_.filename).sorted shouldBe Seq(
+    "return a report with the expected relative file paths" in {
+      // Arrange
+      val expectedFilePaths = Seq(
         "src/Codacy/Coverage/Parser/Parser.php",
         "src/Codacy/Coverage/Report/CoverageReport.php",
         "vendor/sebastian/global-state/src/Blacklist.php",
         "vendor/sebastian/global-state/src/Restorer.php",
         "vendor/sebastian/global-state/src/Snapshot.php"
-      ).sorted
+      )
+
+      // Act
+      val parsedReportFilePaths =
+        CloverParser
+          .parse(new File("/home/codacy-php/"), new File(cloverReportPath))
+          .right
+          .value
+          .fileReports
+          .map(_.filename)
+
+      // Assert
+      parsedReportFilePaths should contain theSameElementsAs expectedFilePaths
     }
 
     "return a report with the expected file coverage" in {
+      // Arrange
       val filePath = "src/Codacy/Coverage/Parser/Parser.php"
+      val expectedFileCoverage = 33
 
-      val fileReport =
+      // Act
+      val fileTotalCoverage =
         CloverParser
           .parse(new File("/home/codacy-php/"), new File(cloverReportPath))
           .right
@@ -104,14 +163,18 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
           .fileReports
           .find(_.filename == filePath)
           .getOrElse(fail(s"Could not find report for file:$filePath"))
+          .total
 
-      fileReport.total shouldBe 33
+      // Assert
+      fileTotalCoverage shouldBe expectedFileCoverage
     }
 
     "return a report with the expected file line coverage" in {
+      // Arrange
       val filePath = "src/Codacy/Coverage/Report/CoverageReport.php"
 
-      val fileReport =
+      // Act
+      val fileLineCoverage =
         CloverParser
           .parse(new File("/home/codacy-php/"), new File(cloverReportPath))
           .right
@@ -119,8 +182,10 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
           .fileReports
           .find(_.filename == filePath)
           .getOrElse(fail(s"Could not find report for file:$filePath"))
+          .coverage
 
-      fileReport.coverage shouldBe Map(
+      // Assert
+      fileLineCoverage shouldBe Map(
         11 -> 1,
         12 -> 1,
         13 -> 1,
@@ -135,5 +200,7 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
         42 -> 0
       )
     }
+
   }
+
 }
