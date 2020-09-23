@@ -47,6 +47,18 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
       }
     }
 
+    "parse correct file paths" when {
+      "reports contain both name and path attributes in file elements" in {
+        val cloverWithPaths = new File("src/test/resources/test_clover_with_paths.xml")
+
+        val readerWithoutPackages =
+          CloverParser.parse(new File("/Users/username/workspace/repository"), cloverWithPaths)
+
+        readerWithoutPackages shouldBe 'right
+        readerWithoutPackages.right.value.fileReports.head.filename shouldEqual "src/app/file.js"
+      }
+    }
+
     "return the same report with or without packages" in {
       val readerWithoutPackages = CloverParser
         .parse(new File("/home/codacy-php/"), new File(cloverWithoutPackagesFilePath))

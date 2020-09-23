@@ -1,6 +1,7 @@
 package com.codacy.parsers.implementation
 
 import java.io.File
+import java.nio.file.Paths
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
 import com.codacy.parsers.util.{MathUtils, TextUtils}
@@ -43,9 +44,23 @@ object CloverParser extends CoverageParser with XmlReportParser {
     MathUtils.computePercentage(coveredStatements, totalStatements)
   }
 
-  private def getCoverageFileReport(rootPath: String, fileNode: Node) = {
-    val filename = fileNode \@ "name"
-    val cleanFileName = TextUtils.sanitiseFilename(filename).stripPrefix(rootPath).stripPrefix("/")
+  private def getCoverageFileReport(rootPath: String, fileNode: Node): CoverageFileReport = {
+    val filePath = fileNode.attribute("path").flatMap(_.headOption.map(_.text)).map(TextUtils.sanitiseFilename)
+    val filename = fileNode.attribute("name").flatMap(_.headOption.map(_.text)).map(TextUtils.sanitiseFilename)
+
+    val relativeFilePath = filePath
+      .orElse(filename)
+      .fold[String] {
+        throw new Exception(
+          "Could not read file path due to missing 'path' and 'name' attributes in the report file element."
+        )
+      } {
+        case path if Paths.get(path).isAbsolute =>
+          path.stripPrefix(rootPath).stripPrefix("/")
+
+        case path =>
+          path
+      }
 
     val metrics = fileNode \ MetricsTag
     val fileCoverage = getCoveragePercentage(metrics)
@@ -55,6 +70,6 @@ object CloverParser extends CoverageParser with XmlReportParser {
       if (line \@ "type") == "stmt"
     } yield (line \@ "num").toInt -> (line \@ "count").toInt).toMap
 
-    CoverageFileReport(cleanFileName, fileCoverage, lineCoverage)
+    CoverageFileReport(relativeFilePath, fileCoverage, lineCoverage)
   }
 }
