@@ -94,21 +94,33 @@ class CloverParserTest extends WordSpec with BeforeAndAfterAll with Matchers wit
     }
 
     "return a report with the expected file coverage" in {
-      val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
-      // coverage percentage for file Parser.php
-      val firstFileReport = report.fileReports.headOption.getOrElse(fail("file reports list is empty"))
-      firstFileReport.total shouldBe 33
+      val filePath = "src/Codacy/Coverage/Parser/Parser.php"
 
-      // coverage percentage for file Parser.php
-      val secondFileReport = report.fileReports(1)
-      secondFileReport.total shouldBe 33
+      val fileReport =
+        CloverParser
+          .parse(new File("/home/codacy-php/"), new File(cloverReportPath))
+          .right
+          .value
+          .fileReports
+          .find(_.filename == filePath)
+          .getOrElse(fail(s"Could not find report for file:$filePath"))
+
+      fileReport.total shouldBe 33
     }
 
     "return a report with the expected file line coverage" in {
-      val report =
-        CloverParser.parse(new File("/home/codacy-php/"), new File(cloverReportPath)).right.value
-      report.fileReports(1).coverage shouldBe Map(
+      val filePath = "src/Codacy/Coverage/Report/CoverageReport.php"
+
+      val fileReport =
+        CloverParser
+          .parse(new File("/home/codacy-php/"), new File(cloverReportPath))
+          .right
+          .value
+          .fileReports
+          .find(_.filename == filePath)
+          .getOrElse(fail(s"Could not find report for file:$filePath"))
+
+      fileReport.coverage shouldBe Map(
         11 -> 1,
         12 -> 1,
         13 -> 1,

@@ -16,60 +16,77 @@ object CloverParser extends CoverageParser with XmlReportParser {
 
   override val name: String = "Clover"
 
-  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] =
+  override def parse(rootProject: File, reportFile: File): Either[String, CoverageReport] = {
     parseReport(reportFile, s"Could not find tag hierarchy <$CoverageTag> <$ProjectTag> <$MetricsTag> tags") { node =>
-      Right(parseReportNode(rootProject, node))
+      parseReportNode(rootProject, node)
     }
+  }
 
   override def validateSchema(xml: Elem): Boolean = (xml \\ CoverageTag \ ProjectTag \ MetricsTag).nonEmpty
 
   override def getRootNode(xml: Elem): NodeSeq = xml \\ CoverageTag
 
-  private def parseReportNode(rootProject: File, report: NodeSeq): CoverageReport = {
-    // global metrics
-    val metrics = report \ ProjectTag \ MetricsTag
-    val totalCoverage = getCoveragePercentage(metrics)
+  private def parseReportNode(rootProject: File, report: NodeSeq): Either[String, CoverageReport] = {
+    val metricsNode = report \ ProjectTag \ MetricsTag
+    val totalCoverage = getCoveragePercentage(metricsNode)
 
     val rootPath = TextUtils.sanitiseFilename(rootProject.getAbsolutePath)
-    val coverageFiles = (report \\ "file").map { f =>
-      getCoverageFileReport(rootPath, f)
+
+    val coverageFiles = (report \\ "file").foldLeft[Either[String, Seq[CoverageFileReport]]](Right(List())) {
+      case (Right(accomulatedFileReports), fileElement) =>
+        getCoverageFileReport(rootPath, fileElement).fold(Left(_), { fileReport =>
+          Right(fileReport +: accomulatedFileReports)
+        })
+
+      case (Left(errorMessage), _) => Left(errorMessage)
     }
 
-    CoverageReport(totalCoverage, coverageFiles)
+    coverageFiles.right.map(CoverageReport(totalCoverage, _))
   }
 
-  private def getCoveragePercentage(metrics: NodeSeq) = {
+  private def getCoveragePercentage(metrics: NodeSeq): Int = {
     val totalStatements = (metrics \@ "statements").toInt
     val coveredStatements = (metrics \@ "coveredstatements").toInt
     MathUtils.computePercentage(coveredStatements, totalStatements)
   }
 
-  private def getCoverageFileReport(rootPath: String, fileNode: Node): CoverageFileReport = {
-    val filePath = fileNode.attribute("path").flatMap(_.headOption.map(_.text)).map(TextUtils.sanitiseFilename)
-    val filename = fileNode.attribute("name").flatMap(_.headOption.map(_.text)).map(TextUtils.sanitiseFilename)
+  private def getCoverageFileReport(rootPath: String, fileNode: Node): Either[String, CoverageFileReport] = {
+    val filePath = getUnixPathAttribute(fileNode, "path")
+    val filename = getUnixPathAttribute(fileNode, "name")
 
-    val relativeFilePath = filePath
+    filePath
       .orElse(filename)
-      .fold[String] {
-        throw new Exception(
-          "Could not read file path due to missing 'path' and 'name' attributes in the report file element."
-        )
+      .fold[Either[String, String]] {
+        Left("Could not read file path due to missing 'path' and 'name' attributes in the report file element.")
       } {
         case path if Paths.get(path).isAbsolute =>
-          path.stripPrefix(rootPath).stripPrefix("/")
+          Right(path.stripPrefix(rootPath).stripPrefix("/"))
 
         case path =>
-          path
+          Right(path)
       }
+      .right
+      .map { relativeFilePath =>
+        val metricsNode = fileNode \ MetricsTag
+        val fileCoverage = getCoveragePercentage(metricsNode)
 
-    val metrics = fileNode \ MetricsTag
-    val fileCoverage = getCoveragePercentage(metrics)
+        val lineCoverage: Map[Int, Int] = (fileNode \ "line").collect {
+          case line if (line \@ "type") == "stmt" =>
+            val lineNumber = (line \@ "num").toInt
+            val countOfExecutions = (line \@ "count").toInt
 
-    val lineCoverage = (for {
-      line <- fileNode \ "line"
-      if (line \@ "type") == "stmt"
-    } yield (line \@ "num").toInt -> (line \@ "count").toInt).toMap
+            (lineNumber, countOfExecutions)
+        }(collection.breakOut)
 
-    CoverageFileReport(relativeFilePath, fileCoverage, lineCoverage)
+        CoverageFileReport(relativeFilePath, fileCoverage, lineCoverage)
+      }
   }
+
+  /* Retrieves the attribute with name @attributeName from @node,
+   * converts the contents to string and converts path to unix style
+   */
+  private def getUnixPathAttribute(node: Node, attributeName: String): Option[String] = {
+    node.attribute(attributeName).flatMap(_.headOption.map(_.text)).map(TextUtils.sanitiseFilename)
+  }
+
 }
