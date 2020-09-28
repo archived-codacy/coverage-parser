@@ -19,7 +19,7 @@ class CloverParserTest extends WordSpec with Matchers with EitherValues {
         val parseResult = CloverParser.parse(new File("."), new File(nonExistentReportPath))
 
         // Assert
-        parseResult shouldBe 'left
+        parseResult shouldBe Left("Unparseable report. src/test/resources/non-existent.xml (No such file or directory)")
       }
 
       "the report is not in the Clover format" in {
@@ -30,10 +30,10 @@ class CloverParserTest extends WordSpec with Matchers with EitherValues {
         val parseResult = CloverParser.parse(new File("."), new File(reportNotInCloverFormat))
 
         // Assert
-        parseResult shouldBe 'left
+        parseResult shouldBe Left("Invalid report. Could not find tag hierarchy <coverage> <project> <metrics> tags.")
       }
 
-      "the report is missing the statements attribute in the file metrics element" in {
+      "the report is missing the statements attribute in the file metrics tag" in {
         // Arrange
         val invalidCloverReportPath = "src/test/resources/test_invalid_clover.xml"
 
@@ -41,7 +41,9 @@ class CloverParserTest extends WordSpec with Matchers with EitherValues {
         val parseResult = CloverParser.parse(new File("."), new File(invalidCloverReportPath))
 
         // Assert
-        parseResult shouldBe 'left
+        parseResult shouldBe Left(
+          "Could not retrieve file coverage from metrics tag for file 'home/codacy-php/src/Codacy/Coverage/Parser/Parser.php': Could not find attribute with name 'statements'"
+        )
       }
 
     }
@@ -72,7 +74,7 @@ class CloverParserTest extends WordSpec with Matchers with EitherValues {
 
     "parse correct file paths" when {
 
-      "reports contain both name and path attributes in file elements" in {
+      "reports contain both name and path attributes in file tags" in {
         // Arrange
         val cloverWithPaths = new File("src/test/resources/test_clover_with_paths.xml")
 
