@@ -1,6 +1,7 @@
 package com.codacy.parsers.implementation
 
 import com.codacy.parsers.CoverageParser
+import com.codacy.parsers.util.MathUtils._
 import com.codacy.api.{CoverageFileReport, CoverageReport}
 import java.io.File
 
@@ -41,7 +42,7 @@ object LCOVParser extends CoverageParser {
                 case Some(value) =>
                   val coverage = next.stripPrefix(DA).split(",")
                   if (coverage.length >= 2 && coverage.forall(_ forall Character.isDigit)) {
-                    val coverageValue = coverage.map(_.toInt)
+                    val coverageValue = coverage.map(_.toIntOrMaxValue)
                     Right(
                       value.copy(coverage = value.coverage + (coverageValue(0) -> coverageValue(1))) +: reports.tail
                     )

@@ -3,6 +3,7 @@ package com.codacy.parsers.implementation
 import java.io.File
 
 import com.codacy.api.{CoverageFileReport, CoverageReport}
+import com.codacy.parsers.util.MathUtils._
 import com.codacy.parsers.util.TextUtils
 import com.codacy.parsers.{CoverageParser, XmlReportParser}
 
@@ -53,7 +54,7 @@ object CoberturaParser extends CoverageParser with XmlReportParser {
       (for {
         xClass <- classes
         line <- xClass \\ "line"
-      } yield (line \@ "number").toInt -> (line \@ "hits").toInt).toMap
+      } yield (line \@ "number").toInt -> (line \@ "hits").toIntOrMaxValue).toMap
 
     CoverageFileReport(sourceFilename, fileHit, lineHitMap)
   }
